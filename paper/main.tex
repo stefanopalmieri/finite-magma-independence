@@ -68,7 +68,7 @@ We identify three properties of finite extensional 2-pointed magmas: self-repres
 \label{sec:introduction}
 % ══════════════════════════════════════════════════════════════
 
-Nontrivial combinatory algebras with $\mathbf{s}$ and $\mathbf{k}$ are necessarily infinite (Theorem~\ref{thm:k-infinity}). Associativity is incompatible with combining a classifier and a retraction pair in a finite extensional magma (Theorem~\ref{thm:no-assoc}). These two obstructions carve out a specific algebraic landscape: finite, non-associative, total. They rule out the most immediate finite instantiations of PCA~\cite{vanoosten08,longley15}, TCA~\cite{bethke88}, and Turing-object~\cite{cockett08} universality (by cardinality), and they exclude associative settings such as semigroups, monoids, groups, and rings from supporting the R+D pattern considered here. What algebraic structure exists in the remaining landscape?
+Nontrivial combinatory algebras with $\mathbf{s}$ and $\mathbf{k}$ are necessarily infinite (Theorem~\ref{thm:k-infinity}). Associativity is incompatible with combining a classifier and a retraction pair in a finite extensional magma (Theorem~\ref{thm:no-assoc}). These two obstructions carve out a specific algebraic landscape: finite, non-associative, total. They rule out the most direct finite analogues of PCA/TCA-style~\cite{vanoosten08,longley15,bethke88} and Turing-object-style~\cite{cockett08} universality, and they exclude associative settings such as semigroups, monoids, groups, and rings from supporting the R+D pattern considered here. What algebraic structure exists in the remaining landscape?
 
 We work in the setting of finite extensional 2-pointed magmas (a finite set with a binary operation, exactly two left-absorbers, and extensionality; the framework follows universal algebra~\cite{burris81}). We identify three algebraic properties: self-representation~(R), the existence of a section-retraction pair on the non-absorber elements (the \emph{core}); the classifier dichotomy~(D), a clean partition of core elements into those whose action on core lands entirely in the absorbers and those whose action avoids them entirely; and the Internal Composition Property~(H), the existence of a non-trivial factorization in the left-regular representation restricted to core.
 
@@ -654,7 +654,7 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
 4 & 0 & 1 & 1 & 0 & 0 \\
 \end{tabular}}
 
-\paragraph{$N\!=\!5$: R+D+H Optimal Coexistence ($s = r$, self-simulates).}
+\paragraph{$N\!=\!5$: R+D+H Optimal Coexistence ($s = r$, minimal coexistence witness).}
 Roles: $0 = z_1$, $1 = z_2$, $2 = s = r$ (identity on core, ICP $b$), $3 = \tau$ (classifier, ICP $a$, self-sim term), $4 = \tau_2$ (classifier, ICP $c$). \quad Lean: \texttt{Witness5.lean}, \texttt{SelfSim5.lean}.
 
 \medskip
