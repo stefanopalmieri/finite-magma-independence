@@ -8,6 +8,7 @@ import Magma.CatKripkeWallMinimal
 import Magma.NoCommutativity
 import Magma.Functoriality
 import Magma.SelfSimulation  -- supplementary: not referenced by paper
+import Magma.CapabilityInvariance
 
 -- Independence counterexamples
 import Magma.Countermodel
