@@ -72,7 +72,7 @@ Nontrivial combinatory algebras with $\mathbf{s}$ and $\mathbf{k}$ are necessari
 
 We work in the setting of finite extensional 2-pointed magmas (a finite set with a binary operation, exactly two left-absorbers, and extensionality; the framework follows universal algebra~\cite{burris81}). We identify three algebraic properties: self-representation~(R), the existence of a section-retraction pair on the non-absorber elements (the \emph{core}); the classifier dichotomy~(D), a clean partition of core elements into those whose action on core lands entirely in the absorbers and those whose action avoids them entirely; and the Internal Composition Property~(H), the existence of a non-trivial factorization in the left-regular representation restricted to core.
 
-Our main result is that R, D, and H are pairwise independent: no one implies any other. Six Lean-verified finite counterexamples of sizes $N\!=\!5, 6, 8,$ and $10$ establish all six non-implications; coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ show all three can hold simultaneously. The $N\!=\!5$ bound is optimal: ICP requires 3 pairwise distinct core elements, forcing $|S| \geq 5$. Each counterexample is a concrete Cayley table found by SAT search and independently verified in Lean~4~\cite{moura21}, zero \texttt{sorry}.
+Our main result is that R, D, and H are pairwise independent: no one implies any other. Lean-verified finite counterexamples at sizes $N\!=\!4, 5, 6, 8,$ and $10$ establish all six non-implications; coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ show all three can hold simultaneously. The $N\!=\!5$ bound is optimal: ICP requires 3 pairwise distinct core elements, forcing $|S| \geq 5$. Each counterexample is a concrete Cayley table found by SAT search and independently verified in Lean~4~\cite{moura21}, zero \texttt{sorry}.
 
 Informally, R, D, and H correspond to the three components of self-simulation: encoding, classification, and internal composition. Reflective systems in practice combine all three: Smith's 3-Lisp~\cite{smith84}, Friedman and Wand's reification~\cite{friedman84}, Amin and Rompf's collapsed towers~\cite{amin18}, and Brown and Palsberg's typed self-interpreters~\cite{brown16} all bundle representation, classification, and composition without separating them. In the finite algebraic setting, we show that this bundling is not structurally forced; whether the independence extends to $\lambda$-calculus or typed settings is an open question (Section~\ref{sec:discussion}).
 
@@ -849,7 +849,7 @@ CapabilityInvariance &  4 & Algebraic & R, D, H each invariant \\
 ICP                  & 20 & Alg.+decide & ICP $\Leftrightarrow$ Compose+Inert \\
 Countermodel         &  5 & decide & $R \not\Rightarrow D$ ($N\!=\!8$) \\
 Countermodels10      &  9 & native\_dec. & $D \not\Rightarrow H$, $H \not\Rightarrow D$ \\
-E2PM                 & 19 & decide & $D \not\Rightarrow R$, $H \not\Rightarrow R$, $R \not\Rightarrow H$ + tight bounds \\
+E2PM                 & 19 & decide & $D \not\Rightarrow R$, $H \not\Rightarrow R$, $H \not\Rightarrow D$, $R \not\Rightarrow H$ (tight) \\
 Witness10            &  6 & native\_dec. & R+D+H at $N\!=\!10$ \\
 Witness5             &  3 & decide & R+D+H at $N\!=\!5$, no ICP at $N\!=\!4$ \\
 Witness6             &  3 & decide & R+D+H at $N\!=\!6$ \\
