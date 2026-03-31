@@ -58,7 +58,7 @@
 \begin{abstract}
 Nontrivial combinatory algebras with S and K must be infinite. Associativity is incompatible with combining a classifier and a retraction pair in a finite extensional magma. These obstructions exclude several standard settings from the finite extensional framework studied here, most notably nontrivial finite S+K-style combinatory algebras and associative structures (semigroups, monoids, groups, rings) carrying both a classifier and a retraction pair. What algebraic structure exists in the remaining landscape: finite, non-associative, total?
 
-We identify three properties of finite extensional 2-pointed magmas: self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H). We prove they are pairwise independent. Six Lean-verified finite counterexamples at sizes $5$ through $10$ establish all six non-implications. The minimum coexistence witness has $N\!=\!5$, which is optimal: ICP requires 3 pairwise distinct core elements, so $N \geq 5$. The three-category decomposition induced by D is an isomorphism invariant, and the ICP is logically equivalent to the standard Compose+Inert axioms. All results are formalized in Lean~4 with zero \texttt{sorry}.
+We identify three properties of finite extensional 2-pointed magmas: self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H). We prove they are pairwise independent. Lean-verified finite counterexamples at sizes $4$ through $10$ establish all six non-implications, four with provably tight bounds. The minimum coexistence witness has $N\!=\!5$, which is optimal: ICP requires 3 pairwise distinct core elements, so $N \geq 5$. The three-category decomposition induced by D is an isomorphism invariant, and the ICP is logically equivalent to the standard Compose+Inert axioms. All results are formalized in Lean~4 with zero \texttt{sorry}.
 \end{abstract}
 
 \maketitle
@@ -363,11 +363,11 @@ Two additional axioms connect the capabilities and are used in the accompanying 
   % D <-> H (top edge): upper arc and lower arc
   \draw[arr] (D.20) to[bend left=18] coordinate[midway] (DH) (H.160);
   \node[cross] at (DH) {$\times$};
-  \node[lbl, above=1pt of DH] {$N\!=\!10$};
+  \node[lbl, above=1pt of DH] {$N\!=\!4$};
 
   \draw[arr] (H.200) to[bend left=18] coordinate[midway] (HD) (D.-20);
   \node[cross] at (HD) {$\times$};
-  \node[lbl, below=1pt of HD] {$N\!=\!10$};
+  \node[lbl, below=1pt of HD] {$N\!=\!5$};
 
   % D <-> R (left edge): both bend left — outer arc goes left, inner goes right
   \draw[arr] (R.140) to[bend left=18] coordinate[midway] (RD) (D.280);
@@ -376,7 +376,7 @@ Two additional axioms connect the capabilities and are used in the accompanying 
 
   \draw[arr] (D.310) to[bend left=18] coordinate[midway] (DR) (R.110);
   \node[cross] at (DR) {$\times$};
-  \node[lbl, right=1pt of DR] {$N\!=\!5$};
+  \node[lbl, right=1pt of DR] {$N\!=\!4$};
 
   % H <-> R (right edge): mirror of left — both bend right
   \draw[arr] (R.40) to[bend right=18] coordinate[midway] (RH) (H.260);
@@ -385,7 +385,7 @@ Two additional axioms connect the capabilities and are used in the accompanying 
 
   \draw[arr] (H.230) to[bend right=18] coordinate[midway] (HR) (R.70);
   \node[cross] at (HR) {$\times$};
-  \node[lbl, left=1pt of HR] {$N\!=\!6$};
+  \node[lbl, left=1pt of HR] {$N\!=\!5$};
 \end{tikzpicture}
 \caption{Full independence structure. All six pairwise non-implications are proved by Lean-verified finite counterexamples at the indicated sizes. No capability implies any other.}
 \label{fig:independence}
@@ -525,13 +525,7 @@ The independence of R from D and H plausibly extends beyond finite magmas. A fai
 R, D, and H can be viewed as algebraically separable ingredients in one natural architecture for self-simulation (computing an algebra's own operation table from within): R provides encoding, D provides classification, and H provides internal composition. Formalizing non-trivial self-simulation in finite total magmas is an open problem. Non-trivial self-simulation in the PCA~\cite{vanoosten08} or Turing category~\cite{cockett08} sense requires a fixed evaluation mechanism and universality over an open-ended domain~\cite{brown16}. Finite total magmas lack both: the evaluator is the magma operation itself, the domain is the $n^2$ table entries (closed and finite), and the undecidability that prevents triviality in infinite settings is absent. This is the same structural feature that produces the K-infinity and no-associativity obstructions. A companion artifact demonstrates a reflective tower built on a 16-element algebra satisfying R, D, H with additional computational axioms (Branch, Y-combinator); the full computational system is described elsewhere.
 
 \paragraph{Scope and limitations.}
-Whether the three-capability separation appears in other settings ($\lambda$-calculus, typed systems, infinite algebras) is the primary open question. Theorem~\ref{thm:no-assoc} constrains the target: any such translation must work without associativity or identity. A categorical characterization of H as a universal property (stronger than the analogy above) is also open. Two further directions connect to the frameworks discussed in Section~\ref{sec:related}: (1)~the \emph{extraction theorem}: do the emergent behavioral roles (absorbers, classifiers, non-classifiers) formally yield a Turing category when used as objects, with role-respecting elements as morphisms? (2)~the \emph{realizability connection}: does the classifier dichotomy, viewed as a property of an underlying PCA, predict specific logical principles in the associated realizability topos?
-
-\paragraph{The cost of legibility.}
-Additional organizational axioms push the minimum coexistence size to $N\!=\!12$ (SAT-verified) and produce interpretable role structure; these are explored in a companion paper.
-
-\paragraph{Realization freedom.}
-Each capability admits multiple axiom forms; the independence result holds for all variants.
+Whether the three-capability separation appears in other settings ($\lambda$-calculus, typed systems, infinite algebras) is the primary open question. Theorem~\ref{thm:no-assoc} constrains the target: any such translation must work without associativity or identity. Each capability admits multiple axiom forms; the independence result holds for all variants. Additional organizational axioms push the minimum coexistence size to $N\!=\!12$ (SAT-verified) and produce interpretable role structure; these are explored in a companion paper.
 
 % ══════════════════════════════════════════════════════════════
 \section{Conclusion}
@@ -778,8 +772,21 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\\hline
 9 & 2 & 2 & 2 & 2 & 4 & 7 & 6 & 7 & 2 & 0 \\
 \end{tabular}}
 
-\paragraph{$N\!=\!5$: $D \not\Rightarrow R$ Counterexample.}
-No retraction pair exists. Element~2 is a classifier: row on core is $(1,0,0) \subseteq \{z_1, z_2\}$. Elements~3 and 4 are non-classifiers: all core outputs $\geq 2$. Dichotomy holds; no pair of core elements forms a retraction pair. \quad Lean: \texttt{E2PM.lean} (\texttt{dNoS\_e2pm}).
+\paragraph{$N\!=\!4$: $D \not\Rightarrow R$ Counterexample (tight).}
+Element~2 is a classifier: row on core is $(1,1) \subseteq \{z_1, z_2\}$. Element~3 is a non-classifier: row on core is $(2,2) \subseteq \core$. No retraction pair exists among the 4 candidate $(s,r)$ assignments. Tight: D requires $N \geq 4$. \quad Lean: \texttt{E2PM.lean} (\texttt{d\_not\_implies\_s\_tight}).
+
+\medskip
+{\small
+\begin{tabular}{c|cccc}
+$\dotop$ & 0 & 1 & 2 & 3 \\\hline
+0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 1 & 1 & 1 \\
+3 & 2 & 3 & 2 & 2 \\
+\end{tabular}}
+
+\paragraph{$N\!=\!5$: $H \not\Rightarrow R$ Counterexample (tight).}
+$\ICP$ holds but no retraction pair exists. Tight: $\ICP$ requires $N \geq 5$. \quad Lean: \texttt{E2PM.lean} (\texttt{h\_not\_implies\_s\_tight}).
 
 \medskip
 {\small
@@ -787,24 +794,23 @@ No retraction pair exists. Element~2 is a classifier: row on core is $(1,0,0) \s
 $\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
 0 & 0 & 0 & 0 & 0 & 0 \\
 1 & 1 & 1 & 1 & 1 & 1 \\
-2 & 0 & 0 & 1 & 0 & 0 \\
-3 & 4 & 2 & 4 & 2 & 4 \\
-4 & 2 & 2 & 3 & 3 & 3 \\
+2 & 3 & 1 & 0 & 3 & 1 \\
+3 & 2 & 4 & 3 & 4 & 2 \\
+4 & 2 & 2 & 1 & 0 & 3 \\
 \end{tabular}}
 
-\paragraph{$N\!=\!6$: $H \not\Rightarrow R$ Counterexample.}
-No retraction pair exists. $\ICP$ holds: $a\!=\!2, b\!=\!4, c\!=\!5$ with $b$ core-preserving and $2 \dotop x = 5 \dotop (4 \dotop x)$ on core. \quad Lean: \texttt{E2PM.lean} (\texttt{hNoS\_e2pm}).
+\paragraph{$N\!=\!5$: $H \not\Rightarrow D$ Counterexample (tight).}
+$\ICP$ holds but the dichotomy fails: no element maps core entirely to $\{z_1, z_2\}$ (no classifier exists). Tight: $\ICP$ requires $N \geq 5$. \quad Lean: \texttt{E2PM.lean} (\texttt{h\_not\_implies\_d\_tight}).
 
 \medskip
 {\small
-\begin{tabular}{c|cccccc}
-$\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 \\\hline
-0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-1 & 1 & 1 & 1 & 1 & 1 & 1 \\
-2 & 3 & 3 & 2 & 2 & 2 & 4 \\
-3 & 0 & 2 & 2 & 2 & 4 & 0 \\
-4 & 4 & 3 & 2 & 2 & 4 & 5 \\
-5 & 0 & 0 & 2 & 2 & 2 & 4 \\
+\begin{tabular}{c|ccccc}
+$\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
+0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 3 & 3 & 4 & 3 & 3 \\
+3 & 2 & 4 & 4 & 4 & 3 \\
+4 & 2 & 2 & 2 & 4 & 4 \\
 \end{tabular}}
 
 \paragraph{$N\!=\!10$: R+D+H Coexistence Witness (all roles distinct).}
