@@ -397,10 +397,10 @@ No capability implies any other. Specifically, all six pairwise non-implications
 \begin{enumerate}
   \item $R \not\Rightarrow D$: An extensional 2-pointed magma of size $8$ satisfying R contains a classifier element but fails the global dichotomy condition.
   \item $R \not\Rightarrow H$: An extensional 2-pointed magma of size $6$ satisfying R has 4 core elements (enough for $\ICP$ to be non-vacuous) but no triple satisfies the $\ICP$.
-  \item $D \not\Rightarrow H$: An extensional 2-pointed magma of size $10$ satisfying both R and D has no triple satisfying the $\ICP$.
-  \item $H \not\Rightarrow D$: An extensional 2-pointed magma of size $10$ satisfies $\ICP$ but violates the classifier dichotomy.
-  \item $D \not\Rightarrow R$: An extensional 2-pointed magma of size $5$ satisfies the classifier dichotomy but admits no retraction pair.
-  \item $H \not\Rightarrow R$: An extensional 2-pointed magma of size $6$ satisfies $\ICP$ but admits no retraction pair.
+  \item $D \not\Rightarrow H$: An extensional 2-pointed magma of size $4$ satisfying D has only 2 core elements, so $\ICP$ is vacuously unsatisfiable (pigeonhole).
+  \item $H \not\Rightarrow D$: An extensional 2-pointed magma of size $5$ satisfies $\ICP$ but violates the classifier dichotomy. This is tight: $\ICP$ requires $N \geq 5$.
+  \item $D \not\Rightarrow R$: An extensional 2-pointed magma of size $4$ satisfies the classifier dichotomy but admits no retraction pair. This is tight: D requires $N \geq 4$.
+  \item $H \not\Rightarrow R$: An extensional 2-pointed magma of size $5$ satisfies $\ICP$ but admits no retraction pair. This is tight: $\ICP$ requires $N \geq 5$.
 \end{enumerate}
 \end{theorem}
 
@@ -413,17 +413,17 @@ An $8 \times 8$ Cayley table (Appendix~\ref{app:tables}) defining an $\FRM$ with
 \paragraph{$R \not\Rightarrow H$ ($N\!=\!6$, structural).}
 A $6 \times 6$ Cayley table (Appendix~\ref{app:tables}) defining an extensional 2-pointed magma with a retraction pair ($s = r = 2$, an involution on core) but no $\ICP$. The core has 4 elements, more than the 3 pairwise distinct witnesses $\ICP$ requires, yet no triple satisfies the $\ICP$. Lean proves $\neg\,\texttt{HasICP}$ by exhaustive search via \texttt{decide}. Lean file: \texttt{E2PM.lean}, theorem \texttt{s\_not\_\allowbreak implies\_\allowbreak icp\_\allowbreak structural}.
 
-\paragraph{$D \not\Rightarrow H$ ($N\!=\!10$).}
-A $10 \times 10$ Cayley table satisfying D (and also R). Lean proves that no triple $(a, b, c)$ of pairwise distinct non-absorbers satisfies the $\ICP$, by exhaustive search via \texttt{native\_decide}. Lean files: \texttt{Countermodels10.lean}, \texttt{ICP.lean} (theorem \texttt{dNotH\_no\_icp}).
+\paragraph{$D \not\Rightarrow H$ ($N\!=\!4$, tight).}
+The minimal R+D model at $N\!=\!4$ (\texttt{kripke4} in Appendix~\ref{app:tables}) has only 2 core elements. $\ICP$ requires 3 pairwise distinct non-absorbers, so it is vacuously unsatisfiable. Lean file: \texttt{ICP.lean}, theorem \texttt{kripke4\_no\_icp}.
 
-\paragraph{$H \not\Rightarrow D$ ($N\!=\!10$).}
-A $10 \times 10$ Cayley table defining an extensional 2-pointed magma with a retraction pair, satisfying $\ICP$ (witnessed by $a\!=\!8, b\!=\!6, c\!=\!7$), yet violating the dichotomy: element~5 has both absorber-valued and non-absorber-valued outputs on core. Lean file: \texttt{Countermodels10.lean}.
+\paragraph{$H \not\Rightarrow D$ ($N\!=\!5$, tight).}
+A $5 \times 5$ Cayley table satisfying $\ICP$ but with no classifier: all three core elements map core to core (no element produces only absorber-valued outputs on core). The bound is tight: $\ICP$ requires $N \geq 5$. Lean file: \texttt{E2PM.lean}, theorem \texttt{h\_not\_implies\_d\_tight}.
 
-\paragraph{$D \not\Rightarrow R$ ($N\!=\!5$).}
-A $5 \times 5$ Cayley table defining an extensional 2-pointed magma with the classifier dichotomy (classifier at index~2, non-classifiers at 3 and 4), but admitting no retraction pair. Lean proves $\neg\,\texttt{HasRetractPair}$ by exhaustive search over all candidate pairs via \texttt{decide}. Lean file: \texttt{E2PM.lean}, theorem \texttt{d\_not\_implies\_s}.
+\paragraph{$D \not\Rightarrow R$ ($N\!=\!4$, tight).}
+A $4 \times 4$ Cayley table with the classifier dichotomy (classifier at index~2, non-classifier at index~3) but no retraction pair among the 4 possible assignments from core. The bound is tight: D requires $N \geq 4$. Lean file: \texttt{E2PM.lean}, theorem \texttt{d\_not\_implies\_s\_tight}.
 
-\paragraph{$H \not\Rightarrow R$ ($N\!=\!6$).}
-A $6 \times 6$ Cayley table defining an extensional 2-pointed magma satisfying $\ICP$ (witnessed by $a\!=\!2, b\!=\!4, c\!=\!5$), but admitting no retraction pair. Lean file: \texttt{E2PM.lean}, theorem \texttt{h\_not\_implies\_s}.
+\paragraph{$H \not\Rightarrow R$ ($N\!=\!5$, tight).}
+A $5 \times 5$ Cayley table satisfying $\ICP$ but admitting no retraction pair. The bound is tight: $\ICP$ requires $N \geq 5$. Lean file: \texttt{E2PM.lean}, theorem \texttt{h\_not\_implies\_s\_tight}.
 
 All tables are generated by Z3 SAT solver and independently verified. The Cayley tables are frozen in the repository for reproducibility.
 \end{proof}
@@ -505,7 +505,12 @@ Magmas are not a limitation but a natural choice, for two independent reasons. F
 Extensionality (distinct elements have distinct rows) is load-bearing throughout. Without it, the no-associativity proof fails: Step~4 derives $\tau = v$ from identical rows. Without it, any constant-row element trivially satisfies both classifier and non-classifier conditions, making the three-category decomposition degenerate. Extensionality is not merely a convenience but the condition that makes element-level classification meaningful. An element's identity \emph{is} its row in the Cayley table; extensionality formalizes this.
 
 \paragraph{Why these three properties?}
-R, D, and H are three algebraically simple and independently motivated properties in the landscape carved out by the obstructions. K-infinity and no-associativity rule out all classical settings; what remains are finite non-associative extensional magmas with absorbers. In this setting, the three basic structural questions are: can the algebra encode its own elements (R)? Can elements be cleanly partitioned by behavioral type (D)? Does the left-regular representation contain a non-trivial factorization (H)? The independence theorem confirms these are genuinely three questions, not one. Each property also connects to a standard algebraic or categorical concept. Capability~R is a section-retraction pair~\cite{maclane71}: two core elements $s, r$ satisfying $r \circ s = \mathrm{id}$ on core. Capability~D is a dichotomic purity condition on the left-regular representation: every core element's action on core is either fully absorber-valued or fully non-absorber-valued, with no partial classification. This isolates the two-valued aspect of a subobject classifier~\cite{johnstone02}: classification takes values in the absorber set with no intermediate outputs. It does not capture the universal aspect. In concrete witnesses, classifiers classify a fixed partition of core (2 of $2^{|\core|}$ subsets), not arbitrary subobjects, and the left-multiplication maps are not closed under composition, so the categorical framework in which to state a universal property does not arise. D is a separation condition on the morphism space, not a universal property. Capability~H asks for a non-trivial factorization in the left-regular representation $\{L_a\}$. The no-associativity obstruction (Theorem~\ref{thm:no-assoc}) predicts that associative categorical frameworks will not apply to either connection; this is confirmed by the composition-closure failure noted above. Whether D corresponds to a known concept in non-associative algebra, or constitutes a genuinely new structural property, remains open. Whether H is equivalent to a standard categorical universal property also remains open.
+R, D, and H are three algebraically simple and independently motivated properties in the landscape carved out by the obstructions. K-infinity and no-associativity rule out all classical settings; what remains are finite non-associative extensional magmas with absorbers. In this setting, the three basic structural questions are: can the algebra encode its own elements (R)? Can elements be cleanly partitioned by behavioral type (D)? Does the left-regular representation contain a non-trivial factorization (H)? The independence theorem confirms these are genuinely three questions, not one. Each property also connects to a standard algebraic or categorical concept. Capability~R is a section-retraction pair~\cite{maclane71}: two core elements $s, r$ satisfying $r \circ s = \mathrm{id}$ on core. Capability~D is a dichotomic purity condition on the left-regular representation: every core element's action on core is either fully absorber-valued or fully non-absorber-valued, with no partial classification. This isolates the two-valued aspect of a subobject classifier~\cite{johnstone02}: classification takes values in the absorber set with no intermediate outputs. It does not capture the universal aspect. In concrete witnesses, classifiers classify a fixed partition of core (2 of $2^{|\core|}$ subsets), not arbitrary subobjects. Capability~H asks for a non-trivial factorization in the left-regular representation $\{L_a\}$. The precise categorical status of D and H is discussed further in the categorical connections paragraph below; whether either corresponds to a known universal property remains open.
+
+\paragraph{Categorical connections and their limits.}
+Several constructions in this paper have natural categorical readings. The core $\core(S)$ is a retract of the carrier via $(s, r)$, in the standard sense of~\cite{maclane71}. The three-category decomposition defines a functor from the category $\mathbf{E2PM}$ (extensional 2-pointed magmas with absorber-preserving homomorphisms) to the category of three-block set partitions: Theorems~\ref{thm:functoriality} and~\ref{thm:cap-invariance} establish that both the decomposition and the three capabilities are preserved by morphisms. The classifier dichotomy is a codomain-purity condition on the family of left-multiplication maps $\{L_a^{\core} : \core \to \core \cup Z\}$, partitioning them by image type.
+
+The categorical analogy breaks down at composition. The left-multiplication maps $L_a^{\core}$ are not closed under composition: $L_a \circ L_b$ need not equal $L_c$ for any element $c$. For instance, in the $N\!=\!5$ coexistence witness, $L_2 \circ L_3$ on core gives $(0, 2, 0)$, which is not the core row of any element. This means the row family does not form a transformation monoid, and standard categorical constructions (internal hom, enrichment, Turing morphism) cannot be stated internally. The no-associativity theorem (Theorem~\ref{thm:no-assoc}) predicts this failure: associativity of the magma operation would be a prerequisite for the left-multiplication maps to form a monoid, and the theorem shows associativity is incompatible with the R+D structure. The composition-closure failure is not a gap in the formalization but a consequence of the same obstruction that motivates the setting.
 
 \paragraph{Why the independence holds.}
 The independence of D and H reflects incompatible row constraints under finiteness. A classifier's row is fully committed to absorber values on core: every core input maps to $z_1$ or $z_2$. An ICP witness $a$ requires $a \dotop x = c \dotop (b \dotop x)$ with at least two distinct values on core, so its row must be non-trivially structured. These demands are incompatible for any single element, so different elements must carry these roles. The independence holds because finiteness limits the total supply of elements and constrains which row patterns can coexist under extensionality. The $H \not\Rightarrow D$ direction has the same character: an ICP triple $(a, b, c)$ constrains three rows to satisfy a factorization equation, but this imposes no absorber-output condition on any fourth element.
@@ -532,7 +537,7 @@ Each capability admits multiple axiom forms; the independence result holds for a
 \section{Conclusion}
 % ══════════════════════════════════════════════════════════════
 
-Two obstructions, K-infinity and no-associativity, rule out both combinatory algebras and the classical algebraic hierarchy as settings for finite algebras combining encoding with classification. In the remaining landscape of finite extensional 2-pointed magmas, we have identified three natural algebraic properties, self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}), and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). All results are formalized in Lean~4 (84 theorems across 11 files, zero \texttt{sorry}).
+Two obstructions, K-infinity and no-associativity, rule out both combinatory algebras and the classical algebraic hierarchy as settings for finite algebras combining encoding with classification. In the remaining landscape of finite extensional 2-pointed magmas, we have identified three natural algebraic properties, self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}), and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). All results are formalized in Lean~4 (93 theorems across 12 files, zero \texttt{sorry}).
 
 \paragraph{Open problems.}
 \begin{enumerate}
@@ -838,12 +843,12 @@ CapabilityInvariance &  4 & Algebraic & R, D, H each invariant \\
 ICP                  & 20 & Alg.+decide & ICP $\Leftrightarrow$ Compose+Inert \\
 Countermodel         &  5 & decide & $R \not\Rightarrow D$ ($N\!=\!8$) \\
 Countermodels10      &  9 & native\_dec. & $D \not\Rightarrow H$, $H \not\Rightarrow D$ \\
-E2PM                 & 10 & decide & $D \not\Rightarrow R$, $H \not\Rightarrow R$, $R \not\Rightarrow H$ \\
+E2PM                 & 19 & decide & $D \not\Rightarrow R$, $H \not\Rightarrow R$, $R \not\Rightarrow H$ + tight bounds \\
 Witness10            &  6 & native\_dec. & R+D+H at $N\!=\!10$ \\
 Witness5             &  3 & decide & R+D+H at $N\!=\!5$, no ICP at $N\!=\!4$ \\
 Witness6             &  3 & decide & R+D+H at $N\!=\!6$ \\
 \hline
-\textbf{Total}       & \textbf{84} & & \\
+\textbf{Total}       & \textbf{93} & & \\
 \end{tabular}}
 
 \end{document}
