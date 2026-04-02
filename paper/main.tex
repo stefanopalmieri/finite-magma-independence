@@ -74,7 +74,7 @@ We work in the setting of finite extensional 2-pointed magmas (a finite set with
 
 Our main result is that R, D, and H are pairwise independent: no one implies any other. Lean-verified finite counterexamples at sizes $N\!=\!4, 5, 6, 8,$ and $10$ establish all six non-implications; coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ show all three can hold simultaneously. The $N\!=\!5$ bound is optimal: ICP requires 3 pairwise distinct core elements, forcing $|S| \geq 5$. Each counterexample is a concrete Cayley table found by SAT search and independently verified in Lean~4~\cite{moura21}, zero \texttt{sorry}.
 
-The three properties arise naturally in reflective computation. Smith's 3-Lisp~\cite{smith84}, Friedman and Wand's reification~\cite{friedman84}, Amin and Rompf's collapsed towers~\cite{amin18}, and Brown and Palsberg's typed self-interpreters~\cite{brown16} all combine representation, classification, and composition without separating them. In the finite algebraic setting, we show that this bundling is not structurally forced; whether the independence extends to $\lambda$-calculus or typed settings is an open question (Section~\ref{sec:discussion}).
+Reflective systems in practice combine all three properties without separating them~\cite{smith84,brown16}. In the finite algebraic setting, we show that this bundling is not structurally forced; whether the independence extends to $\lambda$-calculus or typed settings is an open question (Section~\ref{sec:discussion}).
 
 Beyond independence, we prove several additional structural results. The no-associativity theorem (Theorem~\ref{thm:no-assoc}) rules out the classical algebraic hierarchy: no extensional 2-pointed magma carrying both a classifier and a retraction pair has a right identity or is associative. The three-category decomposition induced by~D is an algebraic invariant (Theorem~\ref{thm:functoriality}), and the ICP is equivalent to the standard Compose+Inert axioms (Theorem~\ref{thm:icp-equiv}).
 
@@ -556,16 +556,6 @@ All Lean files, counterexample tables, and SAT reproduction scripts are availabl
 Brian Cantwell Smith.
 \newblock Reflection and semantics in {Lisp}.
 \newblock In \emph{POPL}, pages 23--35, 1984.
-
-\bibitem{friedman84}
-Daniel P. Friedman and Mitchell Wand.
-\newblock Reification: Reflection without metaphysics.
-\newblock In \emph{LFP}, pages 348--355, 1984.
-
-\bibitem{amin18}
-Nada Amin and Tiark Rompf.
-\newblock Collapsing towers of interpreters.
-\newblock In \emph{POPL}, Article 52, pages 1--33, 2018.
 
 \bibitem{mogensen92}
 Torben Mogensen.
