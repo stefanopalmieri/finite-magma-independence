@@ -74,7 +74,7 @@ We work in the setting of finite extensional 2-pointed magmas (a finite set with
 
 Our main result is that R, D, and H are pairwise independent: no one implies any other. Lean-verified finite counterexamples at sizes $N\!=\!4, 5, 6, 8,$ and $10$ establish all six non-implications; coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ show all three can hold simultaneously. The $N\!=\!5$ bound is optimal: ICP requires 3 pairwise distinct core elements, forcing $|S| \geq 5$. Each counterexample is a concrete Cayley table found by SAT search and independently verified in Lean~4~\cite{moura21}, zero \texttt{sorry}.
 
-Informally, R, D, and H correspond to the three components of self-simulation: encoding, classification, and internal composition. Reflective systems in practice combine all three: Smith's 3-Lisp~\cite{smith84}, Friedman and Wand's reification~\cite{friedman84}, Amin and Rompf's collapsed towers~\cite{amin18}, and Brown and Palsberg's typed self-interpreters~\cite{brown16} all bundle representation, classification, and composition without separating them. In the finite algebraic setting, we show that this bundling is not structurally forced; whether the independence extends to $\lambda$-calculus or typed settings is an open question (Section~\ref{sec:discussion}).
+The three properties arise naturally in reflective computation. Smith's 3-Lisp~\cite{smith84}, Friedman and Wand's reification~\cite{friedman84}, Amin and Rompf's collapsed towers~\cite{amin18}, and Brown and Palsberg's typed self-interpreters~\cite{brown16} all combine representation, classification, and composition without separating them. In the finite algebraic setting, we show that this bundling is not structurally forced; whether the independence extends to $\lambda$-calculus or typed settings is an open question (Section~\ref{sec:discussion}).
 
 Beyond independence, we prove several additional structural results. The no-associativity theorem (Theorem~\ref{thm:no-assoc}) rules out the classical algebraic hierarchy: no extensional 2-pointed magma carrying both a classifier and a retraction pair has a right identity or is associative. The three-category decomposition induced by~D is an algebraic invariant (Theorem~\ref{thm:functoriality}), and the ICP is equivalent to the standard Compose+Inert axioms (Theorem~\ref{thm:icp-equiv}).
 
@@ -524,9 +524,6 @@ In infinite carriers where the set of left-multiplication maps is unconstrained,
 \paragraph{R as a separate design choice.}
 The independence of R from D and H plausibly extends beyond finite magmas. A faithful internal encoding, a section-retraction pair on the carrier, is a separate design choice from classification or composition. Mogensen's self-interpreter for the $\lambda$-calculus~\cite{mogensen92} requires an explicit quoting convention; without it, the calculus is computationally universal but lacks internal self-representation. This suggests that the R independence is not an artifact of finiteness but reflects a genuine structural distinction between having computational capabilities and having a faithful encoding of one's own elements as data.
 
-\paragraph{Self-simulation.}
-R, D, and H can be viewed as algebraically separable ingredients in one natural architecture for self-simulation (computing an algebra's own operation table from within): R provides encoding, D provides classification, and H provides internal composition. Formalizing non-trivial self-simulation in finite total magmas is an open problem. Non-trivial self-simulation in the PCA~\cite{vanoosten08} or Turing category~\cite{cockett08} sense requires a fixed evaluation mechanism and universality over an open-ended domain~\cite{brown16}. Finite total magmas lack both: the evaluator is the magma operation itself, the domain is the $n^2$ table entries (closed and finite), and the undecidability that prevents triviality in infinite settings is absent. This is the same structural feature that produces the K-infinity and no-associativity obstructions. A companion artifact demonstrates a reflective tower built on a 16-element algebra satisfying R, D, H with additional computational axioms (Branch, Y-combinator); the full computational system is described elsewhere.
-
 \paragraph{Scope and limitations.}
 Whether the three-capability separation appears in other settings ($\lambda$-calculus, typed systems, infinite algebras) is the primary open question. Theorem~\ref{thm:no-assoc} constrains the target: any such translation must work without associativity or identity. Each capability admits multiple axiom forms; the independence result holds for all variants. Additional organizational axioms push the minimum coexistence size to $N\!=\!12$ (SAT-verified) and produce interpretable role structure; these are explored in a companion paper.
 
@@ -541,11 +538,10 @@ Two obstructions, K-infinity and no-associativity, rule out both combinatory alg
   \item \emph{Cross-formalism universality}: Does the three-capability separation appear in the $\lambda$-calculus, typed settings, or infinite algebras? The no-associativity obstruction (Theorem~\ref{thm:no-assoc}) constrains the target setting.
   \item \emph{Categorical characterization of H}: Is the ICP equivalent to a standard universal property (e.g., existence of a partial internal hom)?
   \item \emph{Categorical characterization of D}: The classifier dichotomy isolates the two-valued aspect of a subobject classifier (purity of classification, no intermediate outputs) but not the universality aspect (unique characteristic morphism for every subobject). The left-multiplication maps lack composition closure, precluding standard categorical formulations. Does D correspond to a known concept in non-associative categorical algebra, or does it constitute a new structural property?
-  \item \emph{Internal self-simulation}: Does there exist a finite extensional 2-pointed magma satisfying R, D, and H (with the Branch and fixed-point enrichments) that supports non-trivial self-simulation: an internal evaluator that computes its own Cayley table, or a non-trivial fragment thereof, entirely from within the magma? Non-trivial self-simulation in the PCA or Turing category sense requires a fixed evaluation mechanism and universality over an open-ended domain, both absent in the finite total setting. Whether a meaningful intermediate definition exists is open.
 \end{enumerate}
 
 \paragraph{Artifact.}
-All Lean files, counterexample tables, SAT reproduction scripts, and the 16-element reflective tower artifact are available at \url{https://github.com/stefanopalmieri/finite-magma-independence}.
+All Lean files, counterexample tables, and SAT reproduction scripts are available at \url{https://github.com/stefanopalmieri/finite-magma-independence}.
 
 % ══════════════════════════════════════════════════════════════
 % References
@@ -677,7 +673,7 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
 \end{tabular}}
 
 \paragraph{$N\!=\!5$: R+D+H Optimal Coexistence ($s = r$, minimal coexistence witness).}
-Roles: $0 = z_1$, $1 = z_2$, $2 = s = r$ (identity on core, ICP $b$), $3 = \tau$ (classifier, ICP $a$, self-sim term), $4 = \tau_2$ (classifier, ICP $c$). \quad Lean: \texttt{Witness5.lean}, \texttt{SelfSim5.lean}.
+Roles: $0 = z_1$, $1 = z_2$, $2 = s = r$ (identity on core, ICP $b$), $3 = \tau$ (classifier, ICP $a$), $4 = \tau_2$ (classifier, ICP $c$). \quad Lean: \texttt{Witness5.lean}.
 
 \medskip
 {\small
