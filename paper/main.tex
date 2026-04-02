@@ -481,9 +481,6 @@ PCAs~\cite{vanoosten08,longley15} and TCAs~\cite{bethke88} provide the standard 
 \paragraph{Turing categories.}
 Cockett and Hofstra~\cite{cockett08} define a Turing category as a cartesian restriction category with a Turing object~$A$ and a Turing morphism $\bullet : A \times A \to A$ that universally simulates all morphisms in the category. The Structure Theorem establishes that PCAs and Turing categories are two views of the same concept. Turing objects have cardinality ``one or infinite''~\cite{cockett08}, ruling out nontrivial finite Turing objects. The Turing morphism is described as ``the heart of the whole structure'' but its algebraic properties (row structure, element classification, associativity constraints) are not studied. Where Turing categories distribute computational roles across distinct objects (programs, data, evaluators), our finite algebras develop the same roles internally as emergent behavioral regions within a single carrier set: absorbers encode failure, classifiers provide absorber-valued judgment, and the retraction pair provides encoding.
 
-\paragraph{Reflective towers.}
-Smith's 3-Lisp~\cite{smith84} introduced the reflective tower, an infinite chain of meta-interpreters. Subsequent work~\cite{friedman84,danvy88} explored reification, intensions, and live meta-modification in reflective towers. Amin and Rompf~\cite{amin18} showed how to compile through the tower via stage polymorphism. All of these systems combine self-representation, self-description, and self-execution without separating them. Our contribution is to show that in finite extensional 2-pointed magmas, the three capabilities are separable: no capability implies any other.
-
 \paragraph{Self-interpretation.}
 Mogensen~\cite{mogensen92} constructs self-interpreters for the $\lambda$-calculus. Brown and Palsberg~\cite{brown16} show that self-interpretation is possible in strongly-normalizing typed languages, contradicting earlier impossibility results. These works study self-interpretation (our R) but do not address the independence of R from D or H.
 
@@ -531,7 +528,7 @@ In infinite carriers where the set of left-multiplication maps is unconstrained,
 The independence of R from D and H plausibly extends beyond finite magmas. A faithful internal encoding, a section-retraction pair on the carrier, is a separate design choice from classification or composition. Mogensen's self-interpreter for the $\lambda$-calculus~\cite{mogensen92} requires an explicit quoting convention; without it, the calculus is computationally universal but lacks internal self-representation. This suggests that the R independence is not an artifact of finiteness but reflects a genuine structural distinction between having computational capabilities and having a faithful encoding of one's own elements as data.
 
 \paragraph{Scope and limitations.}
-Whether the three-capability separation appears in other settings ($\lambda$-calculus, typed systems, infinite algebras) is the primary open question. Theorem~\ref{thm:no-assoc} constrains the target: any such translation must work without associativity or identity. Each capability admits multiple axiom forms; the independence result holds for all variants. Additional organizational axioms push the minimum coexistence size to $N\!=\!12$ (SAT-verified) and produce interpretable role structure; these are explored in a companion paper.
+Whether the three-capability separation appears in other settings ($\lambda$-calculus, typed systems, infinite algebras) is the primary open question. Theorem~\ref{thm:no-assoc} constrains the target: any such translation must work without associativity or identity. Each capability admits multiple axiom forms; the independence result holds for all variants.
 
 % ══════════════════════════════════════════════════════════════
 \section{Conclusion}
@@ -564,11 +561,6 @@ Brian Cantwell Smith.
 Daniel P. Friedman and Mitchell Wand.
 \newblock Reification: Reflection without metaphysics.
 \newblock In \emph{LFP}, pages 348--355, 1984.
-
-\bibitem{danvy88}
-Olivier Danvy and Karoline Malmkj{\ae}r.
-\newblock Intensions and extensions in a reflective tower.
-\newblock In \emph{LFP}, pages 28--39, 1988.
 
 \bibitem{amin18}
 Nada Amin and Tiark Rompf.
