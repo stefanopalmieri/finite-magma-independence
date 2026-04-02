@@ -337,9 +337,6 @@ The proof is pure equational logic, with no \texttt{decide}, no case analysis on
 
 This equivalence gives H a single-concept definition: the left-regular representation contains a non-trivially composed element. The operational axioms (Compose, Inert) and the $\ICP$ are the same property under variable renaming. Additionally, $\ICP$ is invariant under $\FRM$ isomorphisms (algebraic proof, no \texttt{decide}; \texttt{ICP.lean}, theorem \texttt{FRMIso.preserves\_icp}).
 
-\paragraph{Enrichments (not used in this paper).}
-Two additional axioms connect the capabilities and are used in the accompanying artifact: \emph{Branch} ($\rho \dotop x = f \dotop x$ when $\tau \dotop x = z_1$, else $\rho \dotop x = g \dotop x$, for distinguished $f, \rho \in \core(S)$), which bridges D and H by making the classifier's judgment control evaluation dispatch; and a \emph{fixed-point axiom} ($Y \dotop \rho = \rho \dotop (Y \dotop \rho)$ with $Y \dotop \rho \in \core(S)$), which extends H across the decidability boundary. Neither is required for the independence, invariance, or obstruction results of this paper.
-
 % ══════════════════════════════════════════════════════════════
 \section{Independence}
 \label{sec:independence}
@@ -456,11 +453,11 @@ A concrete $5 \times 5$ Cayley table is exhibited with $s\!=\!r\!=\!2$ (identity
 
 \begin{proposition}[Separated-Role Witness]
 \label{thm:separated}
-There is a witness at $N\!=\!10$ in which the principal R+D+H roles (2 absorbers, 2 retraction pair, 1 classifier, 3 $\ICP$ witnesses) occupy 8 distinct elements, with 2 additional elements serving the enrichment axioms (Branch and Y, defined in Section~\ref{sec:icp}).
+There is a witness at $N\!=\!10$ in which the principal R+D+H roles (2 absorbers, 2 retraction pair, 1 classifier, 3 $\ICP$ witnesses) occupy 8 distinct elements.
 \end{proposition}
 
 \begin{proof}
-A concrete $10 \times 10$ Cayley table (Appendix~\ref{app:tables}) satisfies all three capabilities with 10 distinct role assignments. Additionally, the enrichments Branch and Y hold. Lean file: \texttt{Witness10.lean}.
+A concrete $10 \times 10$ Cayley table (Appendix~\ref{app:tables}) satisfies all three capabilities with distinct role assignments. Lean file: \texttt{Witness10.lean}.
 \end{proof}
 
 \paragraph{Minimum cardinality.}
@@ -799,7 +796,7 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
 \end{tabular}}
 
 \paragraph{$N\!=\!10$: R+D+H Coexistence Witness (all roles distinct).}
-R+D+H roles: $0 = z_1$, $1 = z_2$, $2 = s$, $3 = r$, $4 = \tau$, $8 = \eta$ (ICP $a$), $6 = g$ (ICP $b$, core-preserving), $7 = \rho$ (ICP $c$). Enrichment roles (not used in this paper's theorems): $5 = f$, $7 = \rho$ (Branch dispatch), $9 = Y$ (fixed point). \quad Lean: \texttt{Witness10.lean}.
+R+D+H roles: $0 = z_1$, $1 = z_2$, $2 = s$, $3 = r$, $4 = \tau$, $8 = \eta$ (ICP $a$), $6 = g$ (ICP $b$, core-preserving), $7 = \rho$ (ICP $c$). \quad Lean: \texttt{Witness10.lean}.
 
 \medskip
 {\footnotesize
