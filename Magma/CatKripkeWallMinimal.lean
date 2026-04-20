@@ -491,6 +491,157 @@ theorem no_associativity :
     exact M.cls_ne_zero₂ this
 
 -- ─────────────────────────────────────────────────────────────────────
+-- Theorems 4c–4e: Classical identities incompatible with D (and R+D)
+--
+-- The no-associativity argument is one instance of a unifying pattern:
+-- any identity that forces `cls` to have a constant row contradicts
+-- extensionality (cls would equal an absorber). The three theorems below
+-- establish the same contradiction for mediality, right self-distributivity
+-- (both from D alone), and left self-distributivity (R+D, via the same
+-- retraction-pair step as no_associativity).
+-- ─────────────────────────────────────────────────────────────────────
+
+/-- If `cls·x` is constant at an absorber value, extensionality forces
+    `cls` to equal that absorber — contradicting `cls_ne_zero₁` / `cls_ne_zero₂`.
+    Extracted finale shared by `no_associativity`, `no_mediality`,
+    `no_right_self_distributivity`, and `no_left_self_distributivity`. -/
+private theorem cls_const_row_absurd (v : Fin n)
+    (hv : v = M.zero₁ ∨ v = M.zero₂)
+    (hconst : ∀ x : Fin n, M.dot M.cls x = v) : False := by
+  rcases hv with rfl | rfl
+  · exact M.cls_ne_zero₁ (M.extensional _ _
+      (fun x => (hconst x).trans (M.zero₁_left x).symm))
+  · exact M.cls_ne_zero₂ (M.extensional _ _
+      (fun x => (hconst x).trans (M.zero₂_left x).symm))
+
+/-- **No DRM is medial.** Mediality is incompatible with the classifier.
+
+    Proof: setting `a = c = cls` and `b = d` in `(a·b)·(c·d) = (a·c)·(b·d)`
+    yields `(cls·b)·(cls·b) = (cls·cls)·(b·b)`. Since `cls·b ∈ {z₁, z₂}`
+    is a left-absorber, LHS collapses to `cls·b`; similarly RHS collapses
+    to `cls·cls`. So `cls·b = cls·cls` for all b, giving `cls` a constant
+    row. Extensionality then forces `cls ∈ {z₁, z₂}`, contradicting
+    `cls_ne_zero₁ / cls_ne_zero₂`.
+
+    Uses: cls_boolean, zero₁_left, zero₂_left, extensional, cls_ne_zero₁,
+    cls_ne_zero₂. Does NOT use: retraction pair, dichotomy, has_non_classifier. -/
+theorem no_mediality :
+    ¬ (∀ a b c d : Fin n,
+        M.dot (M.dot a b) (M.dot c d) = M.dot (M.dot a c) (M.dot b d)) := by
+  intro hmed
+  have cls_const : ∀ b : Fin n, M.dot M.cls b = M.dot M.cls M.cls := by
+    intro b
+    have hm := hmed M.cls b M.cls b
+    -- hm : (cls·b)·(cls·b) = (cls·cls)·(b·b)
+    have hLHS : M.dot (M.dot M.cls b) (M.dot M.cls b) = M.dot M.cls b := by
+      rcases M.cls_boolean b with h | h
+      · rw [h]; exact M.zero₁_left _
+      · rw [h]; exact M.zero₂_left _
+    have hRHS : M.dot (M.dot M.cls M.cls) (M.dot b b) = M.dot M.cls M.cls := by
+      rcases M.cls_boolean M.cls with h | h
+      · rw [h]; exact M.zero₁_left _
+      · rw [h]; exact M.zero₂_left _
+    exact hLHS.symm.trans (hm.trans hRHS)
+  exact cls_const_row_absurd M _ (M.cls_boolean M.cls) cls_const
+
+/-- **No DRM satisfies right self-distributivity.** The identity
+    `(a·b)·c = (a·c)·(b·c)` is incompatible with the classifier.
+
+    Proof: setting `a = cls` and `c = cls` yields
+    `(cls·b)·cls = (cls·cls)·(b·cls)`. Both sides collapse via
+    `cls_boolean` and `zero_left`: LHS = `cls·b`, RHS = `cls·cls`.
+    So `cls·b = cls·cls` for all b, and extensionality gives the
+    contradiction as in `no_mediality`. -/
+theorem no_right_self_distributivity :
+    ¬ (∀ a b c : Fin n, M.dot (M.dot a b) c = M.dot (M.dot a c) (M.dot b c)) := by
+  intro hrsd
+  have cls_const : ∀ b : Fin n, M.dot M.cls b = M.dot M.cls M.cls := by
+    intro b
+    have hr := hrsd M.cls b M.cls
+    -- hr : (cls·b)·cls = (cls·cls)·(b·cls)
+    have hLHS : M.dot (M.dot M.cls b) M.cls = M.dot M.cls b := by
+      rcases M.cls_boolean b with h | h
+      · rw [h]; exact M.zero₁_left _
+      · rw [h]; exact M.zero₂_left _
+    have hRHS : M.dot (M.dot M.cls M.cls) (M.dot b M.cls) = M.dot M.cls M.cls := by
+      rcases M.cls_boolean M.cls with h | h
+      · rw [h]; exact M.zero₁_left _
+      · rw [h]; exact M.zero₂_left _
+    exact hLHS.symm.trans (hr.trans hRHS)
+  exact cls_const_row_absurd M _ (M.cls_boolean M.cls) cls_const
+
+/-- **No DRM satisfies left self-distributivity.** The identity
+    `a·(b·c) = (a·b)·(a·c)` is incompatible with the classifier together
+    with a retraction pair.
+
+    Proof: setting `a = cls` yields `cls·(b·c) = (cls·b)·(cls·c) = cls·b`
+    (the RHS collapses because `cls·b ∈ {z₁, z₂}` is a left-absorber).
+    So `cls·(b·c) = cls·b` for all b, c. The retraction pair
+    (`ret_sec`) then gives `cls·x = cls·ret` on core, and the standard
+    classifier-hits-both-absorbers argument extends constancy to absorbers.
+    Extensionality gives the contradiction. This is the same structural
+    argument as `no_associativity`, obtained from a different identity. -/
+theorem no_left_self_distributivity :
+    ¬ (∀ a b c : Fin n, M.dot a (M.dot b c) = M.dot (M.dot a b) (M.dot a c)) := by
+  intro hlsd
+  -- Step 1: cls·(b·c) = cls·b for all b, c.
+  have cls_factored : ∀ b c : Fin n,
+      M.dot M.cls (M.dot b c) = M.dot M.cls b := by
+    intro b c
+    have hl := hlsd M.cls b c
+    have hRHS : M.dot (M.dot M.cls b) (M.dot M.cls c) = M.dot M.cls b := by
+      rcases M.cls_boolean b with h | h
+      · rw [h]; exact M.zero₁_left _
+      · rw [h]; exact M.zero₂_left _
+    exact hl.trans hRHS
+  -- Step 2: cls·x = cls·ret for core x (via retraction pair).
+  have cls_core : ∀ x : Fin n, x ≠ M.zero₁ → x ≠ M.zero₂ →
+      M.dot M.cls x = M.dot M.cls M.ret := by
+    intro x hx1 hx2
+    have := cls_factored M.ret (M.dot M.sec x)
+    rw [M.ret_sec x hx1 hx2] at this
+    exact this
+  have cls_cls_eq : M.dot M.cls M.cls = M.dot M.cls M.ret :=
+    cls_core M.cls M.cls_ne_zero₁ M.cls_ne_zero₂
+  -- Step 3: cls hits both z₁ and z₂.
+  have cls_hits_z1 : ∃ b : Fin n, M.dot M.cls b = M.zero₁ := by
+    by_contra h
+    push_neg at h
+    have : M.cls = M.zero₂ := M.extensional M.cls M.zero₂ (fun x => by
+      rcases M.cls_boolean x with hx | hx
+      · exact absurd hx (h x)
+      · rw [hx, M.zero₂_left])
+    exact M.cls_ne_zero₂ this
+  have cls_hits_z2 : ∃ b : Fin n, M.dot M.cls b = M.zero₂ := by
+    by_contra h
+    push_neg at h
+    have : M.cls = M.zero₁ := M.extensional M.cls M.zero₁ (fun x => by
+      rcases M.cls_boolean x with hx | hx
+      · rw [hx, M.zero₁_left]
+      · exact absurd hx (h x))
+    exact M.cls_ne_zero₁ this
+  obtain ⟨b₁, hb₁⟩ := cls_hits_z1
+  obtain ⟨b₂, hb₂⟩ := cls_hits_z2
+  -- cls·z_i = cls·cls (apply Step 1 with b=cls, c=b_i, then use hb_i).
+  have cls_z1 : M.dot M.cls M.zero₁ = M.dot M.cls M.ret := by
+    have := cls_factored M.cls b₁
+    rw [hb₁] at this
+    exact this.trans cls_cls_eq
+  have cls_z2 : M.dot M.cls M.zero₂ = M.dot M.cls M.ret := by
+    have := cls_factored M.cls b₂
+    rw [hb₂] at this
+    exact this.trans cls_cls_eq
+  -- Step 4: cls·x = cls·ret for all x. Extensionality gives contradiction.
+  have cls_const : ∀ x : Fin n, M.dot M.cls x = M.dot M.cls M.ret := by
+    intro x
+    by_cases hx1 : x = M.zero₁
+    · rw [hx1]; exact cls_z1
+    · by_cases hx2 : x = M.zero₂
+      · rw [hx2]; exact cls_z2
+      · exact cls_core x hx1 hx2
+  exact cls_const_row_absurd M _ (M.cls_boolean M.ret) cls_const
+
+-- ─────────────────────────────────────────────────────────────────────
 -- Theorem 5: Minimum cardinality ≥ 4
 -- ─────────────────────────────────────────────────────────────────────
 

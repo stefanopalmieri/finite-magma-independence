@@ -20,3 +20,6 @@ import Magma.ICP
 import Magma.Witness5
 import Magma.Witness6
 import Magma.Witness10
+
+-- Joint irredundance (R×D×H Boolean cube)
+import Magma.BooleanCube

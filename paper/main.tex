@@ -58,7 +58,7 @@
 \begin{abstract}
 Nontrivial combinatory algebras with S and K must be infinite. Associativity is incompatible with combining a classifier and a retraction pair in a finite extensional magma. These obstructions exclude several standard settings from the finite extensional framework studied here, most notably nontrivial finite S+K-style combinatory algebras and associative structures (semigroups, monoids, groups, rings) carrying both a classifier and a retraction pair. What algebraic structure exists in the remaining landscape: finite, non-associative, total?
 
-We identify three properties of finite extensional 2-pointed magmas: self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H). We prove they are pairwise independent. Lean-verified finite counterexamples at sizes $4$ through $10$ establish all six non-implications, four with provably tight bounds. The minimum coexistence witness has $N\!=\!5$, which is optimal: ICP requires 3 pairwise distinct core elements, so $N \geq 5$. The three-category decomposition induced by D is an isomorphism invariant, and the ICP is logically equivalent to the standard Compose+Inert axioms. All results are formalized in Lean~4 with zero \texttt{sorry}.
+We identify three properties of finite extensional 2-pointed magmas: self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H). We prove they are pairwise independent. Lean-verified finite counterexamples at sizes $4$ through $10$ establish all six non-implications, four with provably tight bounds. A joint irredundance result strengthens this: all eight Boolean combinations of $(R, D, H)$ are realized, so no capability is reducible to a Boolean function of the other two. The minimum coexistence witness has $N\!=\!5$, which is optimal: ICP requires 3 pairwise distinct core elements, so $N \geq 5$. The three-category decomposition induced by D is an isomorphism invariant, and the ICP is logically equivalent to the standard Compose+Inert axioms. All results are formalized in Lean~4 with zero \texttt{sorry}.
 \end{abstract}
 
 \maketitle
@@ -78,11 +78,12 @@ Beyond independence, we prove several additional structural results. The no-asso
 
 \paragraph{Contributions.}
 \begin{enumerate}
-  \item Universal algebraic obstructions that motivate the setting: K-infinity rules out finite combinatory algebras; no-associativity rules out the classical algebraic hierarchy (Section~\ref{sec:universal}).
+  \item Universal algebraic obstructions that motivate the setting: K-infinity rules out finite combinatory algebras; a schematic classifier-constancy obstruction rules out a family of classical identities under D or R+D (depending on the identity), including associativity, mediality, and left/right self-distributivity (Section~\ref{sec:universal}).
   \item An independence theorem: R, D, and H are pairwise independent, with Lean-verified counterexamples in all six directions at $N\!=\!4$ through $N\!=\!10$ (Section~\ref{sec:independence}), and coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ (Section~\ref{sec:bound}).
   \item An optimal bound: $N\!=\!5$ is the minimum carrier size for R+D+H coexistence. ICP is impossible at $N\!=\!4$ by pigeonhole (Theorem~\ref{thm:no-icp-4}).
   \item Decomposition invariance: the three-category partition is preserved by isomorphisms (Section~\ref{sec:invariance}).
   \item A characterization of H confirming the ICP is not ad hoc: it is logically equivalent to Compose+Inert under variable renaming, with necessity of the non-degeneracy conditions demonstrated by Lean-verified witnesses (Section~\ref{sec:icp}).
+  \item Joint irredundance: all eight cells of the $(R, D, H)$ Boolean cube are inhabited by Lean-verified witnesses (Section~\ref{sec:boolean-cube}), so no capability is a Boolean function of the other two.
 \end{enumerate}
 
 % ══════════════════════════════════════════════════════════════
@@ -103,15 +104,18 @@ An \emph{extensional 2-pointed magma} is a tuple $(S, \dotop, z_1, z_2)$ where:
 We write $\core(S) := S \setminus \{z_1, z_2\}$ for the non-absorber elements.
 \end{definition}
 
+Extensionality is the framework's central commitment: an element's identity is exhausted by its row in the Cayley table, so two elements that act identically under the operation are the same element. Every subsequent result in this paper depends on this.
+
+The two-absorber requirement is not a parameter choice but a minimality claim. Two is the minimum for the operation to internally register a binary outcome: with a single absorber, there is nowhere for a complementary outcome to land, and the classifier dichotomy (Definition~\ref{def:cd}) cannot be formulated. The axioms fix the count at exactly two so that internal classification is forced without adding extraneous constant rows. The axioms do \emph{not}, however, commit to a stronger reading of the two absorbers as ``opposites'' in any structural sense: the theorems are compatible both with a symmetric reading (two indistinguishable ways the operation fails to discriminate) and a polar reading (two poles of a polarity). This is a genuine freedom in the theory.
+
 \begin{definition}[Faithful Retract Magma]
 \label{def:frm}
 A \emph{Faithful Retract Magma} $(\FRM)$ extends an extensional 2-pointed magma with a \emph{retraction pair} $s, r \in \core(S)$ satisfying $r \dotop (s \dotop x) = x$ for all $x \in \core(S)$, with $r \dotop z_1 = z_1$ (anchoring). The remaining absorber outputs of $s$ and $r$ are unconstrained.
 \end{definition}
 
-\begin{remark}[Retraction pair convention]
+\paragraph{Retraction pair convention.}
 \label{rem:mutual}
-Throughout this paper, the retraction pair $(s, r)$ satisfies mutual inverse on core: $r \dotop (s \dotop x) = x$ and $s \dotop (r \dotop x) = x$ for all $x \in \core(S)$. This matches the Lean formalization. Most theorems (9 of 11) require only the one-sided condition $r \dotop (s \dotop x) = x$; two results, retraction pair placement (both $s, r \in N$; Theorem~\ref{thm:placement}) and the tight bound $|S| \geq 5$ when $s \neq r$ (Theorem~\ref{thm:card}), use the full mutual inverse. We adopt the stronger convention for uniformity and note the weaker hypotheses where relevant.
-\end{remark}
+Throughout this paper, the retraction pair $(s, r)$ satisfies the mutual-inverse condition on core: $r \dotop (s \dotop x) = x$ and $s \dotop (r \dotop x) = x$ for all $x \in \core(S)$. This matches the Lean formalization. The choice is load-bearing, not stylistic. One-sided retraction ($r \dotop (s \dotop x) = x$) is a decodable-encoding condition: $s$ produces codes that $r$ can recover. Mutual inverse is the stronger, faithful-representation condition: $s$ and $r$ invert each other in both directions on core, so the encoding neither invents nor loses information. Most theorems (9 of 11) go through under the one-sided hypothesis, and we note this where relevant; two results, retraction pair placement (Theorem~\ref{thm:placement}) and the tight bound $|S| \geq 5$ when $s \neq r$ (Theorem~\ref{thm:card}), genuinely require the full mutual inverse.
 
 The retraction pair provides a section/retraction structure on core: $s$ acts as a section and $r$ as a retraction. In finite witnesses this can be used to organize elements into coding schemes, but we do not assume a canonical global encoding.
 
@@ -144,7 +148,7 @@ A magma $(S, \dotop, z_1, z_2)$ satisfies the \emph{Internal Composition Propert
 \end{enumerate}
 \end{definition}
 
-ICP says: the left-regular representation admits a non-trivial factorization on core. One core action factors through two others, one of them core-preserving: a single fragment of internal composition. In Section~\ref{sec:icp} we prove that $\ICP$ is equivalent to the standard operational axioms Compose+Inert (Theorem~\ref{thm:icp-equiv}).
+ICP says: the left-regular representation admits a non-trivial factorization on core. One core action factors through two others, one of them core-preserving: a single fragment of internal composition. Equivalently, the ICP is the point at which the operation contains a pattern of its own use as a resource, with some element's row visibly the result of composing the operation with itself through another element. In Section~\ref{sec:icp} we prove that $\ICP$ is equivalent to the standard operational axioms Compose+Inert (Theorem~\ref{thm:icp-equiv}).
 
 \begin{definition}[Capability R]
 An extensional 2-pointed magma has capability $R$ (self-representation) if it admits a retraction pair.
@@ -177,6 +181,16 @@ In any extensional 2-pointed magma satisfying D, every element is a zero, a clas
 \begin{theorem}[Asymmetry]
 \label{thm:asymmetry}
 No extensional magma with two distinct left-absorbers is commutative.
+\end{theorem}
+
+\begin{theorem}[No Mediality]
+\label{thm:no-mediality}
+No extensional 2-pointed magma carrying a classifier is medial: the identity $(a \dotop b) \dotop (c \dotop d) = (a \dotop c) \dotop (b \dotop d)$ cannot hold universally. Setting $a = c = \tau$ and $b = d$ collapses both sides via the classifier-plus-absorber identity, yielding $\tau \dotop b = \tau \dotop \tau$ for all $b$; extensionality then forces $\tau \in \{z_1, z_2\}$. Lean: \texttt{no\_mediality}.
+\end{theorem}
+
+\begin{theorem}[No Right Self-Distributivity]
+\label{thm:no-rsd}
+No extensional 2-pointed magma carrying a classifier satisfies right self-distributivity: the identity $(a \dotop b) \dotop c = (a \dotop c) \dotop (b \dotop c)$ cannot hold universally. The proof instantiates the same pattern as Theorem~\ref{thm:no-mediality}: with $a = \tau$, both sides reduce to absorber values under $\tau$'s classifier property, forcing $\tau$'s row constant. Lean: \texttt{no\_right\_self\_distributivity}.
 \end{theorem}
 
 \subsection{Theorems from R+D}
@@ -234,6 +248,14 @@ The middle equalities use Step~1; $\tau \dotop \tau = v$ because $\tau$ is core 
 \begin{remark}
 The retraction pair is essential in Step~2: the identity $\tau \dotop x = \tau \dotop (r \dotop (s \dotop x)) = \tau \dotop r$ uses $r \dotop (s \dotop x) = x$ to show $\tau$ is constant on core. Without a retraction pair, the proof breaks, and the theorem does not extend to ``no extensional 2-pointed magma with a classifier is associative.''
 \end{remark}
+
+\begin{theorem}[No Left Self-Distributivity]
+\label{thm:no-lsd}
+No extensional 2-pointed magma satisfying both R and D satisfies left self-distributivity: the identity $a \dotop (b \dotop c) = (a \dotop b) \dotop (a \dotop c)$ cannot hold universally. The specialization $a = \tau$ yields $\tau \dotop (b \dotop c) = \tau \dotop b$ (Step~1 of the no-associativity proof); the retraction-pair argument (Steps 2--4) then proceeds identically. Lean: \texttt{no\_left\_self\_distributivity}.
+\end{theorem}
+
+\paragraph{A single obstruction, not a list of coincidences.}
+Theorems~\ref{thm:asymmetry}, \ref{thm:no-mediality}, \ref{thm:no-rsd}, \ref{thm:no-assoc}, and~\ref{thm:no-lsd} share a proof schema: any classical identity whose specialization at $a = \tau$ (or $a = c = \tau$) forces $\tau$'s row to be constant collides with extensionality, which would then equate $\tau$ with an absorber. Commutativity, mediality, and right self-distributivity instantiate the obstruction from D alone; associativity and left self-distributivity use R+D, with the retraction pair extending classifier-constancy from core to absorbers. The classical identities ruled out by R+D are not a list of coincidences but instances of one structural incompatibility: R+D inhabits a specific region of magma space, not merely the complement of associativity.
 
 \subsection{The K-infinity obstruction}
 
@@ -432,6 +454,39 @@ The independence is not a small-size artifact. SAT search confirms that all six 
 \paragraph{Interpretation.}
 The independence result shows that R, D, and H are genuinely three things, not one. An algebra can encode and decode without classifying (R without D). An algebra can classify without encoding (D without R). An algebra can internally compose without classifying or encoding (H without R or D). No capability algebraically forces any other. In particular, the $H \not\Rightarrow D$ direction shows that an algebra can internalize a non-trivial composition pattern without satisfying the classifier dichotomy: internal composition does not force organizational separation.
 
+\subsection{Joint irredundance: the Boolean cube}
+\label{sec:boolean-cube}
+
+Pairwise independence shows no capability implies any other. A stronger form of irredundance asks whether some capability is a \emph{Boolean function} of the other two: if $R$ were equivalent to $D \land \neg H$, say, the triple $(R, D, H)$ would collapse to the pair $(D, H)$. We rule this out by exhibiting a witness in each of the eight cells of the $(R, D, H)$ Boolean cube.
+
+\begin{theorem}[Joint irredundance]
+\label{thm:cube}
+Each of the eight Boolean combinations of $(R, D, H)$ is realized by a Lean-verified finite extensional 2-pointed magma.
+\end{theorem}
+
+\begin{center}
+\small
+\begin{tabular}{clcl}
+\textbf{Cell} & \textbf{Profile} & \textbf{N} & \textbf{Witness} \\
+\hline
+1 & $R \land D \land H$             & 5  & \texttt{witness5} \\
+2 & $R \land D \land \neg H$        & 4  & \texttt{kripke4} \\
+3 & $R \land \neg D \land H$        & 10 & \texttt{hNotD} \\
+4 & $R \land \neg D \land \neg H$   & 3  & \texttt{frm3} (new) \\
+5 & $\neg R \land D \land H$        & 5  & \texttt{cell5} (new) \\
+6 & $\neg R \land D \land \neg H$   & 4  & \texttt{dNoS4} \\
+7 & $\neg R \land \neg D \land H$   & 5  & \texttt{hNoD5} \\
+8 & $\neg R \land \neg D \land \neg H$ & 3 & \texttt{cell8} (new) \\
+\end{tabular}
+\end{center}
+
+Five cells are populated by witnesses that already appear in the pairwise-independence proof, after adding the missing capability annotations. Three required fresh constructions: cell~4 and cell~8 are minimal ($N\!=\!3$) FRM and E2PM witnessing ``R alone'' and ``no capability'' respectively; cell~5 (D and H without R) is the cube's most structurally constrained corner, an $N\!=\!5$ magma with two classifiers, one core-preserving non-classifier serving as the ICP's $b$, and no retraction pair. All verifications are machine-checked by \texttt{decide} or \texttt{native\_decide} in \texttt{BooleanCube.lean}.
+
+The cell sizes reveal an asymmetry: every cell containing H requires $N \geq 5$, while cells with only R and/or D are realized at $N = 3$ or $4$. H carries strictly more structural weight than R or D, consistent with the row-scarcity argument in Section~\ref{sec:discussion}: ICP's factorization demand $a \dotop x = c \dotop (b \dotop x)$ constrains three rows simultaneously and requires three pairwise-distinct core elements, which R and D do not.
+
+\paragraph{Consequence.}
+If any capability were Boolean-equivalent to a combination of the other two, some cell would be empty. All cells are inhabited: no reduction of three predicates to two exists. R, D, and H therefore carry mutually irreducible information — jointly irredundant, not merely pairwise independent.
+
 % ══════════════════════════════════════════════════════════════
 \section{Coexistence}
 \label{sec:bound}
@@ -496,6 +551,9 @@ D organizes elements into coherent categories: classifiers that test and non-cla
 \paragraph{Why magmas?}
 Magmas are not a limitation but a natural choice, for two independent reasons. First, the K-infinity theorem (Theorem~\ref{thm:k-infinity}) shows that nontrivial combinatory algebras with $\mathbf{s}$ and $\mathbf{k}$ must be infinite: the $\mathbf{k}$ combinator is a non-surjective injection on any finite set with $\geq 2$ elements. Finite self-description requires a different combinator basis, one without a K-like projector, and our extensional 2-pointed magmas provide exactly this. Second, Theorem~\ref{thm:no-assoc} shows that associativity forces any classifier to have a constant row, collapsing it to an absorber. Combined with the no-right-identity result (Theorem~\ref{thm:no-rid}), this independently rules out the entire classical algebraic hierarchy: no semigroup, monoid, group, or ring can support the classifier dichotomy alongside a retraction pair. Self-description lives outside both the PCA/TCA framework (by cardinality) and the classical algebraic hierarchy (by associativity). This connects to the broader observation that reflective systems are inherently non-associative: $\lambda$-calculus application is non-associative ($(f\,g)\,x \neq f\,(g\,x)$ in general). The no-associativity theorem shows this is algebraically forced, not a design accident.
 
+\paragraph{Finiteness is essential, not merely technical.}
+Finiteness plays two roles in this paper. Technically, it makes \texttt{decide} and \texttt{native\_decide} applicable to the counterexamples. Substantively, it underwrites the K-infinity obstruction (Theorem~\ref{thm:k-infinity}) and the row-scarcity argument behind the independence of D and H (below): the structures studied here are those whose self-description is of a completed totality, with a bounded supply of rows. On infinite carriers that constraint dissolves and the independence need not transfer; extending it beyond the finite setting is a separate question about a structurally different phenomenon.
+
 \paragraph{The role of extensionality.}
 Extensionality (distinct elements have distinct rows) is load-bearing throughout. Without it, the no-associativity proof fails: Step~4 derives $\tau = v$ from identical rows. Without it, any constant-row element trivially satisfies both classifier and non-classifier conditions, making the three-category decomposition degenerate. Extensionality is not merely a convenience but the condition that makes element-level classification meaningful. An element's identity \emph{is} its row in the Cayley table; extensionality formalizes this.
 
@@ -506,7 +564,10 @@ Extensionality identifies each element with its row in the Cayley table. The ele
   \item \emph{Codomain purity} (D): does each map hit $\core$ or $Z$, never both? This is the unique coarsest non-trivial isomorphism-invariant partition of core (Corollary~\ref{cor:canonicity}).
   \item \emph{Factorization} (H): does the family contain a non-trivial composition, $L_a = L_c \circ L_b$ with $L_b$ core-preserving and $L_a$ non-constant? This is the weakest factorization condition that is not vacuously satisfiable: weakening either the pairwise-distinctness or the non-triviality requirement makes every retraction-equipped magma satisfy it trivially (Lean-verified separations in \texttt{ICP.lean}).
 \end{itemize}
-Each property is minimal in its own sense. R is the standard notion of splitting. D is the coarsest invariant partition. H is the weakest non-degenerate factorization. The independence theorem confirms these are genuinely three questions, not one. The precise categorical status of D and H is discussed further in the categorical connections paragraph below; whether either corresponds to a known universal property remains open.
+Each property is minimal in its own sense. R is the standard notion of splitting. D is the coarsest invariant partition. H is the weakest non-degenerate factorization. The independence and joint-irredundance results (Theorems~\ref{thm:independence},~\ref{thm:cube}) confirm these are three questions jointly irredundant, not reducible to two. The precise categorical status of D and H is discussed further in the categorical connections paragraph below; whether either corresponds to a known universal property remains open.
+
+\paragraph{Minimality of the kernel.}
+We conjecture, but do not prove, that R, D, and H constitute a minimal kernel for self-description in finite extensional 2-pointed magmas: no weaker combination captures internal encoding, classification, and a non-trivial composition fragment jointly. Theorem~\ref{thm:cube} establishes a weak form of this conjecture: no capability is a Boolean function of the other two, so the triple cannot be compressed to a pair under any Boolean reduction. The stronger claim — that no genuinely weaker notion (Boolean or otherwise) captures the same territory — remains open. Supporting evidence includes the independence theorem (none of the three is derivable from the others) and the no-associativity obstruction (Theorem~\ref{thm:no-assoc}, which shows that collapsing composition into classification destroys the classifier). A proof of the stronger form, or a counterexample exhibiting a strictly smaller sufficient kernel, is open.
 
 \paragraph{Categorical connections and their limits.}
 Several constructions in this paper have natural categorical readings. The core $\core(S)$ is a retract of the carrier via $(s, r)$, in the standard sense of~\cite{maclane71}. The three-category decomposition defines a functor from the category $\mathbf{E2PM}$ (extensional 2-pointed magmas with absorber-preserving homomorphisms) to the category of three-block set partitions: Theorems~\ref{thm:functoriality} and~\ref{thm:cap-invariance} establish that both the decomposition and the three capabilities are preserved by morphisms. The classifier dichotomy is a codomain-purity condition on the family of left-multiplication maps $\{L_a^{\core} : \core \to \core \cup Z\}$, partitioning them by image type.
@@ -529,7 +590,7 @@ Whether the three-capability separation appears in other settings ($\lambda$-cal
 \section{Conclusion}
 % ══════════════════════════════════════════════════════════════
 
-Two obstructions, K-infinity and no-associativity, rule out both combinatory algebras and the classical algebraic hierarchy as settings for finite algebras combining encoding with classification. In the remaining landscape of finite extensional 2-pointed magmas, we have identified three natural algebraic properties, self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}), and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). All results are formalized in Lean~4 (93 theorems across 12 files, zero \texttt{sorry}).
+Two obstructions, K-infinity and no-associativity, rule out both combinatory algebras and the classical algebraic hierarchy as settings for finite algebras combining encoding with classification. In the remaining landscape of finite extensional 2-pointed magmas, we have identified three natural algebraic properties, self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. Joint irredundance strengthens this: all eight Boolean combinations of $(R, D, H)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}), and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). All results are formalized in Lean~4 (121 theorems across 13 files, zero \texttt{sorry}).
 
 \paragraph{Open problems.}
 \begin{enumerate}
@@ -824,7 +885,7 @@ All Lean files compile with \texttt{lake build}, zero \texttt{sorry}. Proof styl
 \begin{tabular}{lrcl}
 \textbf{File} & \textbf{Thms} & \textbf{Style} & \textbf{Content} \\
 \hline
-CatKripkeWallMinimal & 17 & Algebraic & Decomposition, bounds, wall \\
+CatKripkeWallMinimal & 20 & Algebraic & Decomposition, bounds, wall \\
 NoCommutativity      &  3 & Algebraic & Asymmetry \\
 Functoriality        &  4 & Algebraic & Decomposition invariance \\
 CapabilityInvariance &  4 & Algebraic & R, D, H each invariant \\
@@ -835,8 +896,9 @@ E2PM                 & 19 & decide & $D \not\Rightarrow R$, $H \not\Rightarrow R
 Witness10            &  6 & native\_dec. & R+D+H at $N\!=\!10$ \\
 Witness5             &  3 & decide & R+D+H at $N\!=\!5$, no ICP at $N\!=\!4$ \\
 Witness6             &  3 & decide & R+D+H at $N\!=\!6$ \\
+BooleanCube          & 25 & decide+nat. & Joint irredundance: all 8 cells of $(R,D,H)$ \\
 \hline
-\textbf{Total}       & \textbf{93} & & \\
+\textbf{Total}       & \textbf{121} & & \\
 \end{tabular}}
 
 \end{document}
