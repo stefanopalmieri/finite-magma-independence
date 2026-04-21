@@ -22,5 +22,8 @@ import Magma.Witness5
 import Magma.Witness6
 import Magma.Witness10
 
+-- Role rigidity (individual-role canonicity beyond the Z/C/N class decomposition)
+import Magma.Rigidity
+
 -- Joint irredundance (R×D×H Boolean cube)
 import Magma.BooleanCube

@@ -56,9 +56,9 @@
 \keywords{finite extensional magma, pairwise independence, classifier dichotomy, internal composition, Lean~4, machine-checked proofs}
 
 \begin{abstract}
-Nontrivial combinatory algebras with S and K must be infinite. Associativity is incompatible with combining a classifier and a retraction pair in a finite extensional magma. These obstructions exclude several standard settings from the finite extensional framework studied here, most notably nontrivial finite S+K-style combinatory algebras and associative structures (semigroups, monoids, groups, rings) carrying both a classifier and a retraction pair. What algebraic structure exists in the remaining landscape: finite, non-associative, total?
+Four obstructions jointly narrow the class of finite magmas that can simultaneously represent, classify, and compose with their own operation: nontrivial combinatory algebras with S and K must be infinite; associativity is incompatible with combining a classifier and a retraction pair; commutativity is incompatible with two distinct left-absorbers; and a single left-absorber collapses any classifier. The setting that survives these narrowings is finite, non-associative, non-commutative, extensional 2-pointed magmas.
 
-We identify three properties of finite extensional 2-pointed magmas: self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H). We prove they are pairwise independent. Lean-verified finite counterexamples at sizes $4$ through $10$ establish all six non-implications, four with provably tight bounds. A joint irredundance result strengthens this: all eight Boolean combinations of $(R, D, H)$ are realized, so no capability is reducible to a Boolean function of the other two. The minimum coexistence witness has $N\!=\!5$, which is optimal: ICP requires 3 pairwise distinct core elements, so $N \geq 5$. The three-category decomposition induced by D is an isomorphism invariant, and the ICP is logically equivalent to the standard Compose+Inert axioms. All results are formalized in Lean~4 with zero \texttt{sorry}.
+We identify three operational capabilities of such magmas: self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H). We prove they are pairwise independent. Lean-verified finite counterexamples at sizes $4$ through $10$ establish all six non-implications, four with provably tight bounds. A joint irredundance result strengthens this: all eight Boolean combinations of $(R, D, H)$ are realized, so no capability is reducible to a Boolean function of the other two. The minimum coexistence witness has $N\!=\!5$, which is optimal: ICP requires 3 pairwise distinct core elements, so $N \geq 5$. The three-category decomposition induced by D is an isomorphism invariant; principal coexistence witnesses are role-rigid (trivial automorphism group); and the ICP is logically equivalent to the standard Compose+Inert axioms. All results are formalized in Lean~4 with zero \texttt{sorry}.
 \end{abstract}
 
 \maketitle
@@ -68,20 +68,20 @@ We identify three properties of finite extensional 2-pointed magmas: self-repres
 \label{sec:introduction}
 % ══════════════════════════════════════════════════════════════
 
-A finite magma is the Cayley table of a binary operation, stripped of syntax and types. Reflective systems combine encoding, classification, and composition~\cite{smith84,brown16}. Are these algebraically independent, or does one force another? We study this question in finite extensional 2-pointed magmas (a finite set with a binary operation, exactly two left-absorbers, and extensionality; the framework follows universal algebra~\cite{burris81}).
+A finite magma is the Cayley table of a binary operation, stripped of syntax and types. We study three operational capabilities of such a magma --- the operation \emph{representing}, \emph{classifying}, and \emph{composing with} its own structure --- and ask whether they are algebraically independent or whether one forces another. These capabilities have been studied abstractly in the reflection literature~\cite{smith84,brown16}; our contribution is to pin them down as independent algebraic properties in the finite setting. The formal framework is finite extensional 2-pointed magmas: a finite set with a binary operation, exactly two left-absorbers, and row-extensionality~\cite{burris81}.
 
-Two obstructions confirm this is the right setting. Nontrivial combinatory algebras with $\mathbf{s}$ and $\mathbf{k}$ are necessarily infinite (Theorem~\ref{thm:k-infinity}), ruling out the most direct finite analogues of PCA/TCA-style~\cite{vanoosten08,longley15,bethke88} and Turing-object-style~\cite{cockett08} universality. Associativity is incompatible with combining a classifier and a retraction pair (Theorem~\ref{thm:no-assoc}), excluding semigroups, monoids, groups, and rings. Finite extensional 2-pointed magmas are what remains. We identify three algebraic properties corresponding to these components: self-representation~(R), the existence of a section-retraction pair on the non-absorber elements (the \emph{core}); the classifier dichotomy~(D), a clean partition of core elements into those whose action on core lands entirely in the absorbers and those whose action avoids them entirely; and the Internal Composition Property~(H), the existence of a non-trivial factorization in the left-regular representation restricted to core.
+Four obstructions jointly narrow the candidate class of finite magmas in which all three capabilities can coexist. \emph{(i)} Nontrivial combinatory algebras with $\mathbf{s}$ and $\mathbf{k}$ are necessarily infinite (Theorem~\ref{thm:k-infinity}), ruling out the most direct finite analogues of PCA/TCA-style~\cite{vanoosten08,longley15,bethke88} and Turing-object-style~\cite{cockett08} universality. \emph{(ii)} Associativity is incompatible with combining a classifier and a retraction pair (Theorem~\ref{thm:no-assoc}), excluding semigroups, monoids, groups, and rings. \emph{(iii)} Commutativity is incompatible with two distinct left-absorbers (Theorem~\ref{thm:asymmetry}), forcing the operation to be directed. \emph{(iv)} A single left-absorber collapses any classifier into itself (Proposition~\ref{prop:single-absorber}), forcing at least two absorbers. The setting of this paper --- finite, non-associative, non-commutative, extensional 2-pointed magmas --- is what survives the four narrowings. Within it, we identify three algebraic properties: self-representation~(R), a section-retraction pair on the non-absorber \emph{core}; the classifier dichotomy~(D), a clean partition of core elements into those whose action on core lands entirely in the absorbers and those whose action avoids them entirely; and the Internal Composition Property~(H), a non-trivial factorization in the left-regular representation restricted to core.
 
 Our main result is that R, D, and H are pairwise independent: no one implies any other. Lean-verified finite counterexamples at sizes $N\!=\!4, 5, 6, 8,$ and $10$ establish all six non-implications; coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ show all three can hold simultaneously. The $N\!=\!5$ bound is optimal: ICP requires 3 pairwise distinct core elements, forcing $|S| \geq 5$. Each counterexample is a concrete Cayley table found by SAT search and independently verified in Lean~4~\cite{moura21}, zero \texttt{sorry}. Whether the independence extends to $\lambda$-calculus or typed settings is an open question (Section~\ref{sec:discussion}).
 
-Beyond independence, we prove several additional structural results. The no-associativity theorem (Theorem~\ref{thm:no-assoc}) rules out the classical algebraic hierarchy: no extensional 2-pointed magma carrying both a classifier and a retraction pair has a right identity or is associative. The three-category decomposition induced by~D is an algebraic invariant (Theorem~\ref{thm:functoriality}), and the ICP is equivalent to the standard Compose+Inert axioms (Theorem~\ref{thm:icp-equiv}).
+Beyond independence, we prove several additional structural results. The no-associativity theorem (Theorem~\ref{thm:no-assoc}) rules out the classical algebraic hierarchy: no extensional 2-pointed magma carrying both a classifier and a retraction pair has a right identity or is associative. The three-category decomposition induced by~D is an algebraic invariant (Theorem~\ref{thm:functoriality}); the principal coexistence witnesses are \emph{role-rigid} --- their individual role assignments (which absorber is $z_1$, which core element is the section $s$ versus the retraction $r$, which classifier is $\tau$) are fixed by the Cayley table alone, with trivial automorphism group (Proposition~\ref{prop:witness-rigid}). The ICP is equivalent to the standard Compose+Inert axioms (Theorem~\ref{thm:icp-equiv}).
 
 \paragraph{Contributions.}
 \begin{enumerate}
-  \item Universal algebraic obstructions that motivate the setting: K-infinity rules out finite combinatory algebras; a schematic classifier-constancy obstruction rules out a family of classical identities under D or R+D (depending on the identity), including associativity, mediality, and left/right self-distributivity (Section~\ref{sec:universal}).
+  \item Four universal algebraic obstructions that jointly narrow the candidate class to the setting: K-infinity (combinatory algebras must be infinite), no-associativity (the classical algebraic hierarchy is excluded), asymmetry (commutativity incompatible with two absorbers), and single-absorber collapse (one absorber collapses any classifier). A schematic classifier-constancy argument further rules out mediality, left/right self-distributivity, and right identity under D or R+D (Section~\ref{sec:universal}, Proposition~\ref{prop:single-absorber}).
   \item An independence theorem: R, D, and H are pairwise independent, with Lean-verified counterexamples in all six directions at $N\!=\!4$ through $N\!=\!10$ (Section~\ref{sec:independence}), and coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ (Section~\ref{sec:bound}).
   \item An optimal bound: $N\!=\!5$ is the minimum carrier size for R+D+H coexistence. ICP is impossible at $N\!=\!4$ by pigeonhole (Theorem~\ref{thm:no-icp-4}).
-  \item Decomposition invariance: the three-category partition is preserved by isomorphisms (Section~\ref{sec:invariance}).
+  \item Decomposition invariance and role rigidity: the three-category partition is preserved by isomorphisms (Section~\ref{sec:invariance}); the principal coexistence witnesses have trivial automorphism group, so individual role assignments are fixed by the Cayley table alone (Proposition~\ref{prop:witness-rigid}).
   \item A characterization of H confirming the ICP is not ad hoc: it is logically equivalent to Compose+Inert under variable renaming, with necessity of the non-degeneracy conditions demonstrated by Lean-verified witnesses (Section~\ref{sec:icp}).
   \item Joint irredundance: all eight cells of the $(R, D, H)$ Boolean cube are inhabited by Lean-verified witnesses (Section~\ref{sec:boolean-cube}), so no capability is a Boolean function of the other two.
 \end{enumerate}
@@ -355,6 +355,40 @@ H: the ICP triple $(\varphi(a), \varphi(b), \varphi(c))$ satisfies the factoriza
 Algebraic proofs (no \texttt{decide}); Lean file: \texttt{CapabilityInvariance.lean}.
 \end{proof}
 
+\subsection{Role Rigidity}
+\label{subsec:rigidity}
+
+Corollary~\ref{cor:canonicity} fixes \emph{role classes}: $Z$, $C$, and $N$ are intrinsic invariants of the Cayley table. Individual role assignments within each class --- which absorber is $z_1$, which classifier is $\tau$, which core element is the section $s$ versus the retraction $r$ --- remain, in general, determined only up to $\mathrm{Aut}(M)$.
+
+\begin{definition}[Role-Rigid Magma]
+\label{def:role-rigid}
+A magma $(S, \dotop)$ is \emph{role-rigid} if the only operation-preserving bijection $\sigma : S \to S$ is the identity --- equivalently, $\mathrm{Aut}(M)$ is trivial. In a role-rigid magma every element is fixed by every automorphism, so individual role assignments are $\mathrm{Aut}(M)$-invariants of the Cayley table, not artifacts of presentation.
+\end{definition}
+
+\begin{proposition}[Rigidity of principal witnesses]
+\label{prop:witness-rigid}
+The following paper witnesses are role-rigid:
+\begin{itemize}
+  \item the $N\!=\!5$ R+D+H coexistence witness (\texttt{dotW5});
+  \item the $N\!=\!6$ R+D+H coexistence witness (\texttt{dotW6});
+  \item the $N\!=\!4$ R+D witness (\texttt{dotK4});
+  \item the $N\!=\!5$ R+D witness with $s \neq r$ (\texttt{dotK5});
+  \item the $N\!=\!4$ one-sided separator of Proposition~\ref{prop:one-sided-sep} (\texttt{dotOSS}).
+\end{itemize}
+Each is discharged by \texttt{native\_decide} over $\mathrm{Equiv.Perm}(\Fin(n))$ in \texttt{Rigidity.lean}.
+\end{proposition}
+
+\begin{corollary}[Polar absorbers in role-rigid magmas]
+\label{cor:polar-absorbers}
+In a role-rigid magma, no automorphism exchanges the two absorbers: $z_1$ and $z_2$ lie in distinct $\mathrm{Aut}(M)$-orbits. The polar reading of the absorber pair (two distinguishable outcomes) is therefore forced; the symmetric reading (an involution swapping the pair) is incompatible with role rigidity. Lean: \texttt{role\_rigid\_polar\_absorbers}.
+\end{corollary}
+
+\paragraph{Syntax into semantics.}
+Role rigidity extends the reach of extensionality. Extensionality already collapses identity-level syntax into semantics: two elements with equal rows are the same element. Role rigidity collapses role-level syntax: each label assignment (which element plays $z_1$, which plays $\tau$, which plays $s$ versus $r$) is forced by algebraic invariants computable from the Cayley table, not supplied by external choice. In a role-rigid magma, every presentation commitment is an algebraic consequence of the operation.
+
+\paragraph{Scope of the computational evidence.}
+A brute-force automorphism computation on all witnesses referenced in this paper finds $|\mathrm{Aut}(M)| = 1$ in every case at $N \geq 4$, across all capability profiles tested (R+D+H, R+D, D, D+H, H, R, and one-sided separation). The two $N\!=\!3$ witnesses \texttt{frm3} (R only) and \texttt{cell8} (no capability) from \texttt{BooleanCube.lean} admit a non-trivial absorber-swapping involution; at $N\!=\!3$ the core is too thin to break the swap. Whether role rigidity is \emph{forced} by any capability combination at $N \geq 4$, or whether a non-rigid R+D+H magma exists at some size, is open (see Section~\ref{sec:discussion}).
+
 % ══════════════════════════════════════════════════════════════
 \section{ICP Characterization}
 \label{sec:icp}
@@ -618,13 +652,14 @@ Whether the three-capability separation appears in other settings ($\lambda$-cal
 \section{Conclusion}
 % ══════════════════════════════════════════════════════════════
 
-Two obstructions, K-infinity and no-associativity, rule out both combinatory algebras and the classical algebraic hierarchy as settings for finite algebras combining encoding with classification. In the remaining landscape of finite extensional 2-pointed magmas, we have identified three natural algebraic properties, self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. Joint irredundance strengthens this: all eight Boolean combinations of $(R, D, H)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}), and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). All results are formalized in Lean~4 (121 theorems across 13 files, zero \texttt{sorry}).
+Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorber collapse --- jointly narrow the candidate class of finite magmas that can carry the operational capabilities of representation, classification, and composition down to the setting of this paper: finite, non-associative, non-commutative, extensional 2-pointed magmas. Within it, we have identified three natural algebraic properties, self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. Joint irredundance strengthens this: all eight Boolean combinations of $(R, D, H)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}); the principal coexistence witnesses are role-rigid, with trivial automorphism group (Proposition~\ref{prop:witness-rigid}); and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). All results are formalized in Lean~4 (zero \texttt{sorry}).
 
 \paragraph{Open problems.}
 \begin{enumerate}
   \item \emph{Cross-formalism universality}: Does the three-capability separation appear in the $\lambda$-calculus, typed settings, or infinite algebras? The no-associativity obstruction (Theorem~\ref{thm:no-assoc}) constrains the target setting.
   \item \emph{Categorical characterization of H}: The ICP is the weakest non-degenerate factorization property of the left-regular representation (weakening either pairwise-distinctness or non-triviality makes it vacuous). Is it equivalent to a standard universal property (e.g., existence of a partial internal hom)?
   \item \emph{Categorical characterization of D}: D is the unique coarsest non-trivial isomorphism-invariant partition of core (Corollary~\ref{cor:canonicity}), isolating the two-valued aspect of a subobject classifier without the universality aspect. The left-multiplication maps lack composition closure, precluding standard categorical formulations. Does D correspond to a known concept in non-associative categorical algebra, or does it constitute a new structural property?
+  \item \emph{Role rigidity}: Every paper witness at $N \geq 4$ has trivial automorphism group (Proposition~\ref{prop:witness-rigid}). Is role rigidity \emph{forced} in the R+D+H class --- must every coexistence witness be rigid --- or does a non-rigid R+D+H magma exist at some $N \geq 4$? The former would make individual role assignments an intrinsic property of any capability-carrying magma; the latter would isolate a further structural constraint beyond the three capabilities. An analogous question is open for subclasses defined by any one or two of R, D, H.
 \end{enumerate}
 
 \paragraph{Artifact.}
