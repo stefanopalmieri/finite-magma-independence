@@ -1,0 +1,2 @@
+UNSAT at N=5 under strong R (s != r)
+(z3 runtime: 0.60s)
