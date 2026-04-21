@@ -106,7 +106,16 @@ We write $\core(S) := S \setminus \{z_1, z_2\}$ for the non-absorber elements.
 
 Extensionality is the framework's central commitment: an element's identity is exhausted by its row in the Cayley table, so two elements that act identically under the operation are the same element. Every subsequent result in this paper depends on this.
 
-The two-absorber requirement is not a parameter choice but a minimality claim. Two is the minimum for the operation to internally register a binary outcome: with a single absorber, there is nowhere for a complementary outcome to land, and the classifier dichotomy (Definition~\ref{def:cd}) cannot be formulated. The axioms fix the count at exactly two so that internal classification is forced without adding extraneous constant rows. The axioms do \emph{not}, however, commit to a stronger reading of the two absorbers as ``opposites'' in any structural sense: the theorems are compatible both with a symmetric reading (two indistinguishable ways the operation fails to discriminate) and a polar reading (two poles of a polarity). This is a genuine freedom in the theory.
+The two-absorber requirement is not a parameter choice but a minimality claim. Two is the minimum for the operation to internally register a binary outcome: with a single absorber, there is nowhere for a complementary outcome to land, and the classifier dichotomy (Definition~\ref{def:cd}) cannot be formulated. Proposition~\ref{prop:single-absorber} below makes this precise: extensionality collapses any would-be classifier into the absorber itself. The axioms fix the count at exactly two so that internal classification is forced without adding extraneous constant rows. The axioms do \emph{not}, however, commit to a stronger reading of the two absorbers as ``opposites'' in any structural sense: the theorems are compatible both with a symmetric reading (two indistinguishable ways the operation fails to discriminate) and a polar reading (two poles of a polarity). This is a genuine freedom in the theory.
+
+\begin{proposition}[Single-Absorber Collapse]
+\label{prop:single-absorber}
+In any extensional magma $(S, \dotop)$ with a left-absorber $z \in S$, if $\tau \in S$ satisfies $\tau \dotop x = z$ for all $x \in S$, then $\tau = z$. Consequently, reading Definition~\ref{def:cd} with $\{z_1, z_2\}$ replaced by a singleton $\{z\}$ makes the classifier condition unsatisfiable: the requirement $\tau \neq z$ together with $\tau \dotop x \in \{z\}$ for all $x$ has no solution. Two distinct absorbers is the smallest count at which a non-degenerate classifier dichotomy can be formulated.
+\end{proposition}
+
+\begin{proof}
+The rows $x \mapsto \tau \dotop x$ and $x \mapsto z \dotop x$ are both constantly $z$, so extensionality gives $\tau = z$. The corollary is immediate. Lean: \texttt{single\_absorber\_collapse}.
+\end{proof}
 
 \begin{definition}[Faithful Retract Magma]
 \label{def:frm}

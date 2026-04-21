@@ -1,25 +1,36 @@
-/- # NoCommutativity — Self-Description Requires Asymmetry
+/- # NoCommutativity — Self-Description Requires Asymmetry (and Two Absorbers)
 
-   ## Statement
+   ## Statements
 
-   No commutative magma can have two distinct left-absorbers.
+   1. No commutative magma can have two distinct left-absorbers.
+   2. In an extensional magma with a left-absorber `z`, any element whose row
+      is constantly `z` must equal `z` itself.
 
-   In particular, no commutative magma satisfies the axioms of
-   `FaithfulRetractMagma` or `DichotomicRetractMagma` from `CatKripkeWallMinimal.lean`.
+   The first result tells us that to admit two absorbers at all, the operation
+   must be asymmetric. The second tells us why there must be two in the first
+   place: with a single absorber, extensionality collapses any would-be
+   classifier into the absorber, so the classifier dichotomy is unsatisfiable.
+   Together these are the minimal-axiom obstructions that pin down the
+   "extensional, 2-pointed" setting.
 
-   ## Proof
+   In particular, neither the `FaithfulRetractMagma` nor `DichotomicRetractMagma`
+   setups from `CatKripkeWallMinimal.lean` can be weakened to a commutative or
+   single-absorber variant without collapse.
 
-   If zero₁ and zero₂ are distinct left-absorbers:
+   ## Proofs
+
+   **No-commutativity.** If `zero₁` and `zero₂` are distinct left-absorbers:
    - `dot zero₁ zero₂ = zero₁`  (zero₁ absorbs)
    - `dot zero₂ zero₁ = zero₂`  (zero₂ absorbs)
    - Commutativity: `dot zero₁ zero₂ = dot zero₂ zero₁`
    - Therefore `zero₁ = zero₂`, contradiction.
 
-   This is the simplest possible impossibility: no Kripke wall, no
-   retraction pair, no extensionality. Just two distinct absorbers
-   and commutativity.
+   **Single-absorber collapse.** The rows `x ↦ dot τ x` and `x ↦ dot z x`
+   are both constantly `z`, so extensionality identifies `τ` and `z`.
 
-   Self-description requires asymmetry at the most fundamental level.
+   These are the simplest possible impossibilities: no Kripke wall, no
+   retraction pair, no dichotomy. Just the absorber axioms — paired with
+   commutativity in one case, extensionality in the other.
 -/
 
 import Magma.CatKripkeWallMinimal
@@ -70,5 +81,40 @@ theorem DichotomicRetractMagma.no_commutativity (M : DichotomicRetractMagma n)
   M.toFaithfulRetractMagma.no_commutativity h_comm
 
 end NoCommutativity
+
+-- ══════════════════════════════════════════════════════════════════════
+-- Single-Absorber Collapse
+-- ══════════════════════════════════════════════════════════════════════
+
+section SingleAbsorberCollapse
+
+variable {n : Nat}
+
+/-- **Single-absorber collapse**: in any extensional magma with a left-absorber
+    `z`, any element whose row is constantly `z` equals `z`.
+
+    This formalizes the minimality of the two-absorber axiom. The classifier
+    condition in the dichotomy requires an element `τ` distinct from every
+    absorber whose row lands in the absorber set. With a single absorber `z`,
+    the condition `∀ x, dot τ x = z` makes `τ`'s row identical to `z`'s row,
+    and extensionality forces `τ = z` — so no such `τ` exists. Two distinct
+    absorbers is therefore the smallest count at which the dichotomy can be
+    non-degenerately formulated.
+
+    This uses only extensionality and one absorber — no retraction pair, no
+    dichotomy, no commutativity hypothesis. It is the companion to
+    `no_comm_two_absorbers`: one result says two absorbers force asymmetry,
+    the other says one absorber forces classifier collapse. -/
+theorem single_absorber_collapse
+    (dot : Fin n → Fin n → Fin n)
+    (z : Fin n)
+    (h_abs : ∀ x, dot z x = z)
+    (h_ext : ∀ a b : Fin n, (∀ x, dot a x = dot b x) → a = b)
+    (τ : Fin n)
+    (h_row : ∀ x, dot τ x = z) :
+    τ = z :=
+  h_ext τ z (fun x => (h_row x).trans (h_abs x).symm)
+
+end SingleAbsorberCollapse
 
 end KripkeWall
