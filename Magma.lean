@@ -6,6 +6,7 @@
 -- Foundation
 import Magma.CatKripkeWallMinimal
 import Magma.NoCommutativity
+import Magma.OneSidedSeparation
 import Magma.Functoriality
 import Magma.SelfSimulation  -- supplementary: not referenced by paper
 import Magma.CapabilityInvariance

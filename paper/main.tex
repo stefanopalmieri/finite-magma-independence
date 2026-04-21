@@ -124,7 +124,26 @@ A \emph{Faithful Retract Magma} $(\FRM)$ extends an extensional 2-pointed magma 
 
 \paragraph{Retraction pair convention.}
 \label{rem:mutual}
-Throughout this paper, the retraction pair $(s, r)$ satisfies the mutual-inverse condition on core: $r \dotop (s \dotop x) = x$ and $s \dotop (r \dotop x) = x$ for all $x \in \core(S)$. This matches the Lean formalization. The choice is load-bearing, not stylistic. One-sided retraction ($r \dotop (s \dotop x) = x$) is a decodable-encoding condition: $s$ produces codes that $r$ can recover. Mutual inverse is the stronger, faithful-representation condition: $s$ and $r$ invert each other in both directions on core, so the encoding neither invents nor loses information. Most theorems (9 of 11) go through under the one-sided hypothesis, and we note this where relevant; two results, retraction pair placement (Theorem~\ref{thm:placement}) and the tight bound $|S| \geq 5$ when $s \neq r$ (Theorem~\ref{thm:card}), genuinely require the full mutual inverse.
+Throughout this paper, the retraction pair $(s, r)$ satisfies the mutual-inverse condition on core: $r \dotop (s \dotop x) = x$ and $s \dotop (r \dotop x) = x$ for all $x \in \core(S)$. This matches the Lean formalization. The choice is load-bearing, not stylistic. One-sided retraction ($r \dotop (s \dotop x) = x$) is a decodable-encoding condition: $s$ produces codes that $r$ can recover. Mutual inverse is the stronger, faithful-representation condition: $s$ and $r$ invert each other in both directions on core, so the encoding neither invents nor loses information. Most theorems (9 of 11) go through under the one-sided hypothesis, and we note this where relevant; two results, retraction pair placement (Theorem~\ref{thm:placement}) and the tight bound $|S| \geq 5$ when $s \neq r$ (Theorem~\ref{thm:card}), genuinely require the full mutual inverse. Proposition~\ref{prop:one-sided-sep} below shows this distinction is non-vacuous: at $N = 4$ there is a concrete one-sided retraction pair with $s \neq r$ that fails mutual inverse, simultaneously confirming that the mutual-inverse hypothesis in Theorem~\ref{thm:card} cannot be weakened.
+
+\begin{proposition}[One-Sided / Mutual-Inverse Separation]
+\label{prop:one-sided-sep}
+There is an extensional 2-pointed magma on $\Fin(4)$ admitting a one-sided retraction pair $(s, r)$ with $s \neq r$, $s, r \in \core$, $r \dotop z_1 = z_1$, and $r \dotop (s \dotop x) = x$ for all $x \in \core$, but no mutual-inverse pair $(s', r')$ with $s' \neq r'$. The explicit Cayley table (rows indexed by the left operand) is:
+\[
+\begin{array}{c|cccc}
+\dotop & 0 & 1 & 2 & 3 \\ \hline
+0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 \\
+2 & 1 & 0 & 1 & 3 \\
+3 & 0 & 2 & 1 & 3
+\end{array}
+\]
+with $z_1 = 0$, $z_2 = 1$, $s = 2$, $r = 3$. Mutual inverse fails at $x = 2$: $s \dotop (r \dotop 2) = 2 \dotop 1 = 0 \neq 2$. Lean: \texttt{mutual\_strictly\_stronger\_than\_one\_sided}.
+\end{proposition}
+
+\begin{proof}
+All axioms (two left-absorbers, extensionality, no other zeros, anchoring, one-sided retraction) are verified by direct inspection of the table; the Lean file discharges each check by \texttt{decide}. The non-existence of a mutual-inverse pair with $s' \neq r'$ is also checked by \texttt{decide} over $\Fin(4) \times \Fin(4)$. The separation establishes two points: (i) mutual inverse strictly implies one-sided retraction, so the axiom choice is substantive; (ii) the one-sided analogue of Theorem~\ref{thm:card} with $s \neq r$ would admit this $N = 4$ witness, so the bound $|S| \geq 5$ under mutual inverse cannot be weakened to one-sided.
+\end{proof}
 
 The retraction pair provides a section/retraction structure on core: $s$ acts as a section and $r$ as a retraction. In finite witnesses this can be used to organize elements into coding schemes, but we do not assume a canonical global encoding.
 
