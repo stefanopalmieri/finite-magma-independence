@@ -389,9 +389,9 @@ Role rigidity extends the reach of extensionality. Extensionality already collap
 \paragraph{Rigidity under capability-density scaling.}
 Role-rigidity of the principal witnesses (Proposition~\ref{prop:witness-rigid}) is not a uniform consequence of R+D+H. A brute-force automorphism computation on all witnesses finds $|\mathrm{Aut}(M)| = 1$ in every case at $N \geq 4$; the two $N\!=\!3$ witnesses \texttt{frm3} (R only) and \texttt{cell8} (no capability) admit a non-trivial absorber-swapping involution. But past the minimum coexistence size the uniformity breaks down:
 
-\begin{theorem}[$N\!=\!5$ rigidity under strong R]
+\begin{theorem}[$N\!=\!5$ rigidity under strong R, Z3-verified]
 \label{thm:N5-rigid}
-Every extensional 2-pointed magma on $\Fin(5)$ satisfying R with a mutual-inverse retraction pair $(s, r)$ with $s \neq r$, D, and H is role-rigid. Z3-verified in 0.6 seconds; independent brute-force Python confirmation (enumerating all 120 permutations of $\Fin(5)$ per candidate) agrees. Script: \texttt{scripts/rigidity\_search\_N5\_strongR.py}; UNSAT certificate: \texttt{scripts/rigidity\_search\_N5\_strongR\_result.txt}.
+Every extensional 2-pointed magma on $\Fin(5)$ satisfying R with a mutual-inverse retraction pair $(s, r)$ with $s \neq r$, D, and H is role-rigid. Z3-verified UNSAT in 0.6 seconds; independent brute-force Python confirmation (enumerating all 120 permutations of $\Fin(5)$ per candidate) agrees. Script: \texttt{scripts/rigidity\_search\_N5\_strongR.py}; UNSAT certificate: \texttt{scripts/rigidity\_search\_N5\_strongR\_result.txt}. A machine-checked Lean proof of this statement is open (Section~\ref{sec:discussion}, Open Problem~4): Lean's default \texttt{Decidable} synthesis does not route through the outer universal over $\Fin(5) \to \Fin(5) \to \Fin(5)$; a structured case split or custom decidability instance would close this.
 \end{theorem}
 
 \begin{proposition}[Non-rigidity at $N \geq 6$ under strong R]
