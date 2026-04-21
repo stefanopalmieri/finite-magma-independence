@@ -362,50 +362,38 @@ Corollary~\ref{cor:canonicity} fixes \emph{role classes}: $Z$, $C$, and $N$ are 
 
 \begin{definition}[Role-Rigid Magma]
 \label{def:role-rigid}
-A magma $(S, \dotop)$ is \emph{role-rigid} if the only operation-preserving bijection $\sigma : S \to S$ is the identity --- equivalently, $\mathrm{Aut}(M)$ is trivial. In a role-rigid magma every element is fixed by every automorphism, so individual role assignments are $\mathrm{Aut}(M)$-invariants of the Cayley table, not artifacts of presentation.
+A magma $(S, \dotop)$ is \emph{role-rigid} if the only operation-preserving bijection $\sigma : S \to S$ is the identity --- equivalently, $\mathrm{Aut}(M)$ is trivial. Role-rigidity sharpens the class-level canonicity of the $Z/C/N$ partition to the element level: individual role assignments are $\mathrm{Aut}(M)$-invariants of the Cayley table.
 \end{definition}
 
-\begin{proposition}[Rigidity of principal witnesses]
+\begin{proposition}[Rigidity of the paper's principal witnesses]
 \label{prop:witness-rigid}
-The following paper witnesses are role-rigid:
-\begin{itemize}
-  \item the $N\!=\!5$ R+D+H coexistence witness (\texttt{dotW5});
-  \item the $N\!=\!6$ R+D+H coexistence witness (\texttt{dotW6});
-  \item the $N\!=\!4$ R+D witness (\texttt{dotK4});
-  \item the $N\!=\!5$ R+D witness with $s \neq r$ (\texttt{dotK5});
-  \item the $N\!=\!4$ one-sided separator of Proposition~\ref{prop:one-sided-sep} (\texttt{dotOSS}).
-\end{itemize}
+The following specific witnesses constructed in this paper are role-rigid:
+\texttt{dotW5} (the $N\!=\!5$ R+D+H coexistence witness),
+\texttt{dotW6} (the $N\!=\!6$ R+D+H witness),
+\texttt{dotK4} (the $N\!=\!4$ R+D witness),
+\texttt{dotK5} (the $N\!=\!5$ R+D witness with $s \neq r$), and
+\texttt{dotOSS} (the $N\!=\!4$ one-sided separator of Proposition~\ref{prop:one-sided-sep}).
 Each is discharged by \texttt{native\_decide} over $\mathrm{Equiv.Perm}(\Fin(n))$ in \texttt{Rigidity.lean}.
 \end{proposition}
 
 \begin{corollary}[Polar absorbers in role-rigid magmas]
 \label{cor:polar-absorbers}
-In a role-rigid magma, no automorphism exchanges the two absorbers: $z_1$ and $z_2$ lie in distinct $\mathrm{Aut}(M)$-orbits. The polar reading of the absorber pair (two distinguishable outcomes) is therefore forced; the symmetric reading (an involution swapping the pair) is incompatible with role rigidity. Lean: \texttt{role\_rigid\_polar\_absorbers}.
+In a role-rigid magma, no automorphism exchanges the two absorbers: $z_1$ and $z_2$ lie in distinct $\mathrm{Aut}(M)$-orbits. Lean: \texttt{role\_rigid\_polar\_absorbers}.
 \end{corollary}
 
-\paragraph{Syntax into semantics.}
-Role rigidity extends the reach of extensionality. Extensionality already collapses identity-level syntax into semantics: two elements with equal rows are the same element. Role rigidity collapses role-level syntax: each label assignment (which element plays $z_1$, which plays $\tau$, which plays $s$ versus $r$) is forced by algebraic invariants computable from the Cayley table, not supplied by external choice. In a role-rigid magma, every presentation commitment is an algebraic consequence of the operation.
-
-\paragraph{Rigidity under capability-density scaling.}
-Role-rigidity of the principal witnesses (Proposition~\ref{prop:witness-rigid}) is not a uniform consequence of R+D+H. A brute-force automorphism computation on all witnesses finds $|\mathrm{Aut}(M)| = 1$ in every case at $N \geq 4$; the two $N\!=\!3$ witnesses \texttt{frm3} (R only) and \texttt{cell8} (no capability) admit a non-trivial absorber-swapping involution. But past the minimum coexistence size the uniformity breaks down:
+Role-rigidity of the paper's specific witnesses is not a general consequence of R+D+H; it is, however, forced at the minimum coexistence size.
 
 \begin{theorem}[$N\!=\!5$ rigidity under strong R, Z3-verified]
 \label{thm:N5-rigid}
-Every extensional 2-pointed magma on $\Fin(5)$ satisfying R with a mutual-inverse retraction pair $(s, r)$ with $s \neq r$, D, and H is role-rigid. Z3-verified UNSAT in 0.6 seconds; independent brute-force Python confirmation (enumerating all 120 permutations of $\Fin(5)$ per candidate) agrees. Script: \texttt{scripts/rigidity\_search\_N5\_strongR.py}; UNSAT certificate: \texttt{scripts/rigidity\_search\_N5\_strongR\_result.txt}. A machine-checked Lean proof of this statement is open (Section~\ref{sec:discussion}, Open Problem~4): Lean's default \texttt{Decidable} synthesis does not route through the outer universal over $\Fin(5) \to \Fin(5) \to \Fin(5)$; a structured case split or custom decidability instance would close this.
+Every extensional 2-pointed magma on $\Fin(5)$ satisfying R with a mutual-inverse retraction pair $(s, r)$ with $s \neq r$, D, and H is role-rigid. Z3-verified UNSAT in 0.6 seconds; independent brute-force Python enumeration of all 120 permutations of $\Fin(5)$ per candidate agrees. Script: \texttt{scripts/rigidity\_search\_N5\_strongR.py}. A machine-checked Lean proof is open (Open Problem~4).
 \end{theorem}
 
 \begin{proposition}[Non-rigidity at $N \geq 6$ under strong R]
 \label{prop:N6-nonrigid}
-At $N = 6, 7, 8$ there exist finite extensional 2-pointed magmas satisfying R (mutual-inverse with $s \neq r$), D, and H with non-trivial automorphism group. Sizes and orbit structures:
-\begin{itemize}
-  \item $N\!=\!6$: $|\mathrm{Aut}(M)| = 6$ (the symmetric group $S_3$), permuting three identity-on-core non-classifiers that differ only at the $z_2$ column. The classifier has constant row on core, a degenerate classification.
-  \item $N\!=\!7$: $|\mathrm{Aut}(M)| = 2$, with one involution permuting a classifier pair and a non-classifier pair.
-  \item $N\!=\!8$: $|\mathrm{Aut}(M)| = 4$, including an absorber-swap automorphism. Corollary~\ref{cor:polar-absorbers} (polar absorbers) therefore fails for R+D+H under strong R alone at this size.
-\end{itemize}
-Z3 scripts and witness JSONs: \texttt{scripts/rigidity\_search\_strongR.py}, \texttt{scripts/nonrigid\_rdh\_N\{6,7,8\}\_strongR.json}. Each is independently verified by Python brute-force.
+At $N = 6, 7, 8$ there exist finite extensional 2-pointed magmas satisfying R (mutual-inverse with $s \neq r$), D, and H with non-trivial automorphism group. Z3-verified witnesses with independent Python confirmation: \texttt{scripts/nonrigid\_rdh\_N\{6,7,8\}\_strongR.json}. The $N\!=\!8$ witness admits an absorber-swap automorphism, so Corollary~\ref{cor:polar-absorbers} does not extend to R+D+H under strong R at this size without further hypotheses.
 \end{proposition}
 
-The contrast is sharp: at the minimum coexistence size $N\!=\!5$ the constraints of R+D+H with $s \neq r$ are tight enough to force role-rigidity as a theorem, while one step larger ($N\!=\!6$) it fails. This is a genuine phase transition in the axiom system --- role-rigidity is size-driven at the frontier where coexistence first becomes possible, and additional structural constraints are required to propagate it to larger sizes. The two counterexamples exhibit distinct structural pathologies: at $N\!=\!6$, classifier-core-constancy ($\tau$'s row on core hits only one absorber value); at $N\!=\!8$, classifier-pair boundary-indistinguishability (two classifiers agreeing on both absorber inputs). Each suggests a candidate additional axiom (classifier-nontriviality on core; classifier boundary-discrimination) that would rule out its respective counterexample.
+Theorem~\ref{thm:N5-rigid} and Proposition~\ref{prop:N6-nonrigid} exhibit a phase transition: role-rigidity is forced exactly at the minimum coexistence size, and fails one step larger. At $N\!=\!5$, three core elements must carry R, D, and H simultaneously, which pins the structure enough to rule out non-trivial automorphisms. At $N \geq 6$, structural slack re-opens.
 
 % ══════════════════════════════════════════════════════════════
 \section{ICP Characterization}
@@ -677,7 +665,7 @@ Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorb
   \item \emph{Cross-formalism universality}: Does the three-capability separation appear in the $\lambda$-calculus, typed settings, or infinite algebras? The no-associativity obstruction (Theorem~\ref{thm:no-assoc}) constrains the target setting.
   \item \emph{Categorical characterization of H}: The ICP is the weakest non-degenerate factorization property of the left-regular representation (weakening either pairwise-distinctness or non-triviality makes it vacuous). Is it equivalent to a standard universal property (e.g., existence of a partial internal hom)?
   \item \emph{Categorical characterization of D}: D is the unique coarsest non-trivial isomorphism-invariant partition of core (Corollary~\ref{cor:canonicity}), isolating the two-valued aspect of a subobject classifier without the universality aspect. The left-multiplication maps lack composition closure, precluding standard categorical formulations. Does D correspond to a known concept in non-associative categorical algebra, or does it constitute a new structural property?
-  \item \emph{Rigidity propagation beyond $N\!=\!5$}: Role-rigidity is forced at the minimum coexistence size $N\!=\!5$ under strong R (Theorem~\ref{thm:N5-rigid}) but fails at $N\!=\!6, 7, 8$ under the same axioms (Proposition~\ref{prop:N6-nonrigid}). What axiom strengthening beyond R+D+H with strong R uniformly forces role-rigidity at all sizes $N \geq 5$? Two natural candidates surface from the counterexamples: \emph{classifier-nontriviality on core} (requiring $|\{\tau \dotop x : x \in \core\}| \geq 2$, which rules out the $N\!=\!6$ counterexample), and \emph{classifier boundary-discrimination} (requiring any two classifiers to disagree on at least one absorber input, which rules out the $N\!=\!8$ counterexample). Each is Z3-checkable for sufficiency at its problematic size; a uniform sufficient condition across all $N$ remains open. A deeper question is whether the paper's three operational capabilities are fundamentally incomplete for pinning down a specific self-description at large $N$, or whether a single well-chosen additional axiom closes the gap.
+  \item \emph{Rigidity propagation beyond $N\!=\!5$}: Role-rigidity is forced at $N\!=\!5$ under strong R (Theorem~\ref{thm:N5-rigid}) but fails at $N\!=\!6, 7, 8$ (Proposition~\ref{prop:N6-nonrigid}). Several natural single-axiom strengthenings (classifier-nontriviality on core, asymmetric anchoring of the section, anchor monotonicity, strict anchor asymmetry) were each tested and each Z3-satisfiable alongside a non-trivial automorphism at some $N \in \{6, 7, 8\}$ (scripts and witness JSONs under \texttt{scripts/}). Characterizing the minimum axiom system that uniformly forces role-rigidity at $N \geq 5$ --- and whether it admits a bounded finite specification --- is open. A machine-checked Lean proof of Theorem~\ref{thm:N5-rigid} is also open: Lean's default \texttt{Decidable} synthesis does not route through the outer universal over $\Fin(5) \to \Fin(5) \to \Fin(5)$.
 \end{enumerate}
 
 \paragraph{Artifact.}
