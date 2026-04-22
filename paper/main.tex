@@ -74,14 +74,14 @@ Four obstructions jointly narrow the candidate class of finite magmas in which a
 
 Our main result is that R, D, and H are pairwise independent: no one implies any other. Lean-verified finite counterexamples at sizes $N\!=\!4, 5, 6, 8,$ and $10$ establish all six non-implications; coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ show all three can hold simultaneously. The $N\!=\!5$ bound is optimal: ICP requires 3 pairwise distinct core elements, forcing $|S| \geq 5$. Each counterexample is a concrete Cayley table found by SAT search and independently verified in Lean~4~\cite{moura21}, zero \texttt{sorry}. Whether the independence extends to $\lambda$-calculus or typed settings is an open question (Section~\ref{sec:discussion}).
 
-Beyond independence, we prove several additional structural results. The no-associativity theorem (Theorem~\ref{thm:no-assoc}) rules out the classical algebraic hierarchy: no extensional 2-pointed magma carrying both a classifier and a retraction pair has a right identity or is associative. The three-category decomposition induced by~D is an algebraic invariant (Theorem~\ref{thm:functoriality}); the principal coexistence witnesses are \emph{role-rigid} (Proposition~\ref{prop:witness-rigid}), and at the minimum coexistence size $N\!=\!5$ role-rigidity is forced for every R+D+H magma with strong R, while at $N \geq 6$ it is not (Theorem~\ref{thm:N5-rigid}, Proposition~\ref{prop:N6-nonrigid}): a size-driven phase transition in the rigidity of role assignments. The ICP is equivalent to the standard Compose+Inert axioms (Theorem~\ref{thm:icp-equiv}).
+Beyond independence, we prove several additional structural results. The no-associativity theorem (Theorem~\ref{thm:no-assoc}) rules out the classical algebraic hierarchy: no extensional 2-pointed magma carrying both a classifier and a retraction pair has a right identity or is associative. The three-category decomposition induced by~D is an algebraic invariant (Theorem~\ref{thm:functoriality}); the principal coexistence witnesses are \emph{role-rigid} (Proposition~\ref{prop:witness-rigid}), and at the minimum coexistence size $N\!=\!5$ the roles of retraction, classifier, and H-triple are pinned onto the three core elements: the retraction collapses to $s = r$ (so strong R is outright unavailable) and the H-triple is forced to $(\tau_1, g, \tau_2)$ for the two classifiers and unique non-classifier (Theorem~\ref{thm:N5-structure}); at $N \geq 6$ strong R re-opens and rigidity fails (Proposition~\ref{prop:N6-nonrigid}). The ICP is equivalent to the standard Compose+Inert axioms (Theorem~\ref{thm:icp-equiv}).
 
 \paragraph{Contributions.}
 \begin{enumerate}
   \item Four universal algebraic obstructions that jointly narrow the candidate class to the setting: K-infinity (combinatory algebras must be infinite), no-associativity (the classical algebraic hierarchy is excluded), asymmetry (commutativity incompatible with two absorbers), and single-absorber collapse (one absorber collapses any classifier). A schematic classifier-constancy argument further rules out mediality, left/right self-distributivity, and right identity under D or R+D (Section~\ref{sec:universal}, Proposition~\ref{prop:single-absorber}).
   \item An independence theorem: R, D, and H are pairwise independent, with Lean-verified counterexamples in all six directions at $N\!=\!4$ through $N\!=\!10$ (Section~\ref{sec:independence}), and coexistence witnesses at $N\!=\!5$ and $N\!=\!6$ (Section~\ref{sec:bound}).
   \item An optimal bound: $N\!=\!5$ is the minimum carrier size for R+D+H coexistence. ICP is impossible at $N\!=\!4$ by pigeonhole (Theorem~\ref{thm:no-icp-4}).
-  \item Decomposition invariance and role rigidity: the three-category partition is preserved by isomorphisms (Section~\ref{sec:invariance}); the principal coexistence witnesses have trivial automorphism group (Proposition~\ref{prop:witness-rigid}); role-rigidity is forced at the minimum coexistence size $N\!=\!5$ under strong R (Theorem~\ref{thm:N5-rigid}) but fails at $N \geq 6$ (Proposition~\ref{prop:N6-nonrigid}), a size-driven phase transition.
+  \item Decomposition invariance and role rigidity: the three-category partition is preserved by isomorphisms (Section~\ref{sec:invariance}); the principal coexistence witnesses have trivial automorphism group (Proposition~\ref{prop:witness-rigid}); at $N\!=\!5$ a structure theorem (Theorem~\ref{thm:N5-structure}) forces retraction, classifier, and H-triple onto the three core slots and rules out strong R altogether, while at $N \geq 6$ strong R returns and rigidity fails (Proposition~\ref{prop:N6-nonrigid}): a size-driven phase transition.
   \item A characterization of H confirming the ICP is not ad hoc: it is logically equivalent to Compose+Inert under variable renaming, with necessity of the non-degeneracy conditions demonstrated by Lean-verified witnesses (Section~\ref{sec:icp}).
   \item Joint irredundance: all eight cells of the $(R, D, H)$ Boolean cube are inhabited by Lean-verified witnesses (Section~\ref{sec:boolean-cube}), so no capability is a Boolean function of the other two.
 \end{enumerate}
@@ -381,19 +381,54 @@ Each is discharged by \texttt{native\_decide} over $\mathrm{Equiv.Perm}(\Fin(n))
 In a role-rigid magma, no automorphism exchanges the two absorbers: $z_1$ and $z_2$ lie in distinct $\mathrm{Aut}(M)$-orbits. Lean: \texttt{role\_rigid\_polar\_absorbers}.
 \end{corollary}
 
-Role-rigidity of the paper's specific witnesses is not a general consequence of R+D+H; it is, however, forced at the minimum coexistence size.
+Role-rigidity of the paper's specific witnesses is not a general consequence of R+D+H. At the minimum coexistence size, however, the interaction between R, D, and H pins the structure so tightly that the roles of $s, r$, the classifiers $\tau$, and the H-triple $(a, b, c)$ are forced onto the $Z/C/N$ partition without slack.
 
-\begin{theorem}[$N\!=\!5$ rigidity under strong R, Z3-verified]
-\label{thm:N5-rigid}
-Every extensional 2-pointed magma on $\Fin(5)$ satisfying R with a mutual-inverse retraction pair $(s, r)$ with $s \neq r$, D, and H is role-rigid. Z3-verified UNSAT in 0.6 seconds; independent brute-force Python enumeration of all 120 permutations of $\Fin(5)$ per candidate agrees. Script: \texttt{scripts/rigidity\_search\_N5\_strongR.py}. A machine-checked Lean proof is open (Open Problem~4).
+\begin{theorem}[Structure Theorem at $N\!=\!5$]
+\label{thm:N5-structure}
+Let $M$ be an extensional 2-pointed magma on $\Fin(5)$ satisfying R, D, and H, with absorbers $z_1, z_2$ and core $C = \Fin(5) \setminus \{z_1, z_2\}$ of size~3. Then:
+\begin{enumerate}
+  \item The core partitions as $C = \{\tau_1, \tau_2, g\}$ where $\tau_1, \tau_2$ are classifiers and $g$ is the unique non-classifier.
+  \item Every retraction pair $(s, r)$ in $M$ satisfies $s = r = g$.
+  \item Every H-triple $(a, b, c)$ in $M$ satisfies $b = g$ and $\{a, c\} = \{\tau_1, \tau_2\}$.
+\end{enumerate}
 \end{theorem}
+
+\begin{proof}
+Write $C = \{2, 3, 4\}$. By D, every core element is either a classifier (row on $C$ lies in $\{z_1, z_2\}$) or a non-classifier (row on $C$ lies outside $\{z_1, z_2\}$), and at least one is a non-classifier. Write $k$ for the number of classifiers in $C$; then $k \in \{0, 1, 2\}$.
+
+\emph{Step 1 (retraction elements are non-classifiers).} Let $(s, r)$ be any retraction pair and suppose $s$ is a classifier. Then $s \dotop x \in \{z_1, z_2\}$ for all $x \in C$. Since $|C| = 3 > 2 = |\{z_1, z_2\}|$, pigeonhole gives distinct $x_1, x_2 \in C$ with $s \dotop x_1 = s \dotop x_2$. The retraction identity $r \dotop (s \dotop x_i) = x_i$ then forces $x_1 = x_2$, a contradiction. So $s$ is a non-classifier. The symmetric argument using $s \dotop (r \dotop x) = x$ shows $r$ is a non-classifier.
+
+\emph{Step 2 (H's middle element is a non-classifier).} Let $(a, b, c)$ be any H-triple. By H, $b \dotop x \in C$ for all $x \in C$. A classifier sends $C$ into $\{z_1, z_2\} \subseteq \Fin(5) \setminus C$, so no classifier is core-preserving. Hence $b$ is a non-classifier.
+
+\emph{Step 3 (H's outer elements have the same classifier-type).} By H, $a \dotop x = c \dotop (b \dotop x)$ for all $x \in C$. Since $b \dotop x \in C$, the equation compares $a$'s core-row at $x$ with $c$'s core-row at $b \dotop x$. Both sides lie in $\{z_1, z_2\}$ or neither does; by D-dichotomy this is equivalent to saying $a$ is a classifier iff $c$ is a classifier.
+
+\emph{Step 4 (exactly 2 classifiers).} The case $k = 0$ contradicts D (no full-$\Fin(5)$ classifier $\tau \in C$ exists). Suppose $k = 1$, with unique classifier $\tau$ and non-classifiers $g_1, g_2$. By Step 2, $b \in \{g_1, g_2\}$. By Step 3, $a$ and $c$ have the same type. If both are classifiers, $a = c = \tau$, contradicting pairwise-distinctness. If both are non-classifiers, then $\{a, b, c\}$ are three pairwise-distinct non-classifiers, contradicting $|\{g_1, g_2\}| = 2$. Hence $k = 2$.
+
+\emph{Step 5 (role lock-in).} By Step 4, $C = \{\tau_1, \tau_2, g\}$ with $g$ the unique non-classifier. By Step 1, $s, r \in \{g\}$, so $s = r = g$. By Step 2, $b = g$. By Step 3, $a$ and $c$ are both classifiers; since they are distinct, $\{a, c\} = \{\tau_1, \tau_2\}$. \qedhere
+\end{proof}
+
+Theorem~\ref{thm:N5-structure} is checked by three independent Z3 UNSAT queries (negating each of (i), (ii), (iii) in turn; \texttt{scripts/structure\_theorem\_N5.py}, each query resolves in under 0.1~s). A machine-checked Lean proof is open (Open Problem~4).
+
+\begin{corollary}[Strong R is absent at $N\!=\!5$]
+\label{cor:N5-no-strong-R}
+No R+D+H magma on $\Fin(5)$ admits a retraction pair with $s \neq r$. Equivalently, strong R is unsatisfiable in conjunction with R+D+H at size 5.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:N5-structure}(ii), every retraction pair has $s = r$.
+\end{proof}
+
+\begin{corollary}[$N\!=\!5$ rigidity under strong R]
+\label{cor:N5-rigid}
+Every extensional 2-pointed magma on $\Fin(5)$ satisfying R with $s \neq r$, D, and H is role-rigid. The statement is vacuously true by Corollary~\ref{cor:N5-no-strong-R}.
+\end{corollary}
 
 \begin{proposition}[Non-rigidity at $N \geq 6$ under strong R]
 \label{prop:N6-nonrigid}
 At $N = 6, 7, 8$ there exist finite extensional 2-pointed magmas satisfying R (mutual-inverse with $s \neq r$), D, and H with non-trivial automorphism group. Z3-verified witnesses with independent Python confirmation: \texttt{scripts/nonrigid\_rdh\_N\{6,7,8\}\_strongR.json}. The $N\!=\!8$ witness admits an absorber-swap automorphism, so Corollary~\ref{cor:polar-absorbers} does not extend to R+D+H under strong R at this size without further hypotheses.
 \end{proposition}
 
-Theorem~\ref{thm:N5-rigid} and Proposition~\ref{prop:N6-nonrigid} exhibit a phase transition: role-rigidity is forced exactly at the minimum coexistence size, and fails one step larger. At $N\!=\!5$, three core elements must carry R, D, and H simultaneously, which pins the structure enough to rule out non-trivial automorphisms. At $N \geq 6$, structural slack re-opens.
+Theorem~\ref{thm:N5-structure} and Proposition~\ref{prop:N6-nonrigid} together sharpen the phase transition picture. At $N\!=\!5$ the retraction pair, the H-triple, and the classifier pair are forced onto the three core slots with no room to spare, and in particular the retraction collapses to $s = r$; strong R is not merely consistent with rigidity but outright unavailable. At $N\!=\!6$, adding one core element re-opens strong R, and with it the possibility of non-trivial automorphisms: both the classifier count and the retraction structure admit choices, and neither the structural lock-in of (i)--(iii) nor the rigidity of the principal witnesses survives.
 
 % ══════════════════════════════════════════════════════════════
 \section{ICP Characterization}
@@ -658,14 +693,14 @@ Whether the three-capability separation appears in other settings ($\lambda$-cal
 \section{Conclusion}
 % ══════════════════════════════════════════════════════════════
 
-Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorber collapse --- jointly narrow the candidate class of finite magmas that can carry the operational capabilities of representation, classification, and composition down to the setting of this paper: finite, non-associative, non-commutative, extensional 2-pointed magmas. Within it, we have identified three natural algebraic properties, self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. Joint irredundance strengthens this: all eight Boolean combinations of $(R, D, H)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}); the principal coexistence witnesses are role-rigid (Proposition~\ref{prop:witness-rigid}), with role-rigidity forced at $N\!=\!5$ and failing at $N \geq 6$ under strong R (Theorem~\ref{thm:N5-rigid}, Proposition~\ref{prop:N6-nonrigid}); and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). All results are formalized in Lean~4 (zero \texttt{sorry}).
+Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorber collapse --- jointly narrow the candidate class of finite magmas that can carry the operational capabilities of representation, classification, and composition down to the setting of this paper: finite, non-associative, non-commutative, extensional 2-pointed magmas. Within it, we have identified three natural algebraic properties, self-representation~(R), the classifier dichotomy~(D), and the Internal Composition Property~(H), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. Joint irredundance strengthens this: all eight Boolean combinations of $(R, D, H)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}); the principal coexistence witnesses are role-rigid (Proposition~\ref{prop:witness-rigid}); at $N\!=\!5$ a structure theorem pins retraction, classifier, and H-triple onto the three core slots and rules out strong R altogether (Theorem~\ref{thm:N5-structure}), while at $N \geq 6$ strong R returns and rigidity fails (Proposition~\ref{prop:N6-nonrigid}); and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). All results are formalized in Lean~4 (zero \texttt{sorry}).
 
 \paragraph{Open problems.}
 \begin{enumerate}
   \item \emph{Cross-formalism universality}: Does the three-capability separation appear in the $\lambda$-calculus, typed settings, or infinite algebras? The no-associativity obstruction (Theorem~\ref{thm:no-assoc}) constrains the target setting.
   \item \emph{Categorical characterization of H}: The ICP is the weakest non-degenerate factorization property of the left-regular representation (weakening either pairwise-distinctness or non-triviality makes it vacuous). Is it equivalent to a standard universal property (e.g., existence of a partial internal hom)?
   \item \emph{Categorical characterization of D}: D is the unique coarsest non-trivial isomorphism-invariant partition of core (Corollary~\ref{cor:canonicity}), isolating the two-valued aspect of a subobject classifier without the universality aspect. The left-multiplication maps lack composition closure, precluding standard categorical formulations. Does D correspond to a known concept in non-associative categorical algebra, or does it constitute a new structural property?
-  \item \emph{Rigidity propagation beyond $N\!=\!5$}: Role-rigidity is forced at $N\!=\!5$ under strong R (Theorem~\ref{thm:N5-rigid}) but fails at $N\!=\!6, 7, 8$ (Proposition~\ref{prop:N6-nonrigid}). Several natural single-axiom strengthenings (classifier-nontriviality on core, asymmetric anchoring of the section, anchor monotonicity, strict anchor asymmetry) were each tested and each Z3-satisfiable alongside a non-trivial automorphism at some $N \in \{6, 7, 8\}$ (scripts and witness JSONs under \texttt{scripts/}). Characterizing the minimum axiom system that uniformly forces role-rigidity at $N \geq 5$ --- and whether it admits a bounded finite specification --- is open. A machine-checked Lean proof of Theorem~\ref{thm:N5-rigid} is also open: Lean's default \texttt{Decidable} synthesis does not route through the outer universal over $\Fin(5) \to \Fin(5) \to \Fin(5)$.
+  \item \emph{Rigidity propagation beyond $N\!=\!5$}: Theorem~\ref{thm:N5-structure} forces a rigid role assignment at $N\!=\!5$ (and in particular rules out strong R), but rigidity fails at $N\!=\!6, 7, 8$ under strong R (Proposition~\ref{prop:N6-nonrigid}). Several natural single-axiom strengthenings (classifier-nontriviality on core, asymmetric anchoring of the section, anchor monotonicity, strict anchor asymmetry) were each tested and each Z3-satisfiable alongside a non-trivial automorphism at some $N \in \{6, 7, 8\}$ (scripts and witness JSONs under \texttt{scripts/}). Characterizing the minimum axiom system that uniformly forces role-rigidity at $N \geq 5$ --- and whether it admits a bounded finite specification --- is open. A machine-checked Lean proof of Theorem~\ref{thm:N5-structure} is also open: Lean's default \texttt{Decidable} synthesis does not route through the outer universal over $\Fin(5) \to \Fin(5) \to \Fin(5)$; the Z3 UNSAT certificate (\texttt{scripts/structure\_theorem\_N5.py}) and the hand proof above are our current evidence.
 \end{enumerate}
 
 \paragraph{Artifact.}
