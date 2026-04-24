@@ -22,8 +22,15 @@ import Magma.Witness5
 import Magma.Witness6
 import Magma.Witness10
 
+-- Parametric scaling witness: R+D+ICP for all N ≥ 5 (Theorem 7.3)
+import Magma.WitnessAllN
+
 -- Role rigidity (individual-role canonicity beyond the Z/C/N class decomposition)
 import Magma.Rigidity
+import Magma.RigidityPartial
+
+-- N=5 structure theorem: Corollary 4.10 (strong S unsatisfiable at N=5)
+import Magma.StructureN5
 
 -- Joint irredundance (R×D×H Boolean cube)
 import Magma.BooleanCube

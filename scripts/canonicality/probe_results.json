@@ -1,0 +1,9986 @@
+{
+  "timeout_ms": 60000,
+  "N_values": [
+    5,
+    6
+  ],
+  "axioms": [
+    {
+      "id": "A1_surj_subaction",
+      "description": "exists y in core, L_y surjective on Fin(N)"
+    },
+    {
+      "id": "A2_idempotent",
+      "description": "exists y in core, y*y = y"
+    },
+    {
+      "id": "A3_three_valued_cls",
+      "description": "exists y,m in core, row(y)|core = {0,1,m} (all attained)"
+    },
+    {
+      "id": "A4_one_sided_retraction",
+      "description": "exists s,r in core, r(s(x))=x on core"
+    },
+    {
+      "id": "A5_self_involution",
+      "description": "exists y in core, y(y(x))=x on core"
+    },
+    {
+      "id": "A6_commutative_pair",
+      "description": "exists y1!=y2 in core, y1*y2 = y2*y1"
+    },
+    {
+      "id": "A7_associative_element",
+      "description": "exists y in core, (y*y)*y = y*(y*y)"
+    },
+    {
+      "id": "A8_core_fixed_point",
+      "description": "exists y,x in core, y*x = x"
+    },
+    {
+      "id": "A9_boolean_factor",
+      "description": "exists y in core, row(y)|core = {0,1} (both attained)"
+    },
+    {
+      "id": "A10_double_composition",
+      "description": "exists a,b,c in core distinct, b core-preserving, a(x)=c(c(b(x))), a nontriv"
+    },
+    {
+      "id": "A11_left_cancel_core",
+      "description": "exists y in core, T[y][.] injective on core"
+    },
+    {
+      "id": "A12_core_preserving",
+      "description": "exists y in core, T[y][core] subset core"
+    },
+    {
+      "id": "A13_commutator_trivial",
+      "description": "exists a!=b in core, T[T[a][b]][c] = T[T[b][a]][c] for all c in core"
+    }
+  ],
+  "entries": [
+    {
+      "axiom_id": "A1_surj_subaction",
+      "description": "exists y in core, L_y surjective on Fin(N)",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0039370059967041016,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              1,
+              0
+            ],
+            [
+              3,
+              4,
+              2,
+              1,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0033228397369384766,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              4,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.005860090255737305,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              4,
+              1,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              2,
+              0
+            ],
+            [
+              3,
+              4,
+              1,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.004784822463989258,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              0,
+              2,
+              0
+            ],
+            [
+              4,
+              0,
+              4,
+              4,
+              0
+            ],
+            [
+              1,
+              3,
+              4,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.007345914840698242,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              2,
+              1,
+              4,
+              0
+            ],
+            [
+              0,
+              3,
+              4,
+              0,
+              1
+            ],
+            [
+              0,
+              4,
+              4,
+              0,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.009417057037353516,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              2,
+              4,
+              3
+            ],
+            [
+              0,
+              0,
+              2,
+              4,
+              3
+            ],
+            [
+              0,
+              3,
+              2,
+              4,
+              3
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.003965854644775391,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.01172780990600586,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              3,
+              3,
+              0
+            ],
+            [
+              0,
+              1,
+              2,
+              2,
+              4
+            ],
+            [
+              0,
+              0,
+              3,
+              4,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A1_surj_subaction",
+      "description": "exists y in core, L_y surjective on Fin(N)",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.007514238357543945,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              1,
+              5,
+              2,
+              3,
+              0
+            ],
+            [
+              2,
+              0,
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              1,
+              5,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.004919767379760742,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              0,
+              0,
+              3,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.010943889617919922,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              5,
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              3,
+              5,
+              1,
+              4,
+              2,
+              0
+            ],
+            [
+              2,
+              5,
+              3,
+              4,
+              1,
+              0
+            ],
+            [
+              4,
+              5,
+              3,
+              1,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.021419048309326172,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              3,
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              5,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              5,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              5,
+              4,
+              1,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.04992198944091797,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              5,
+              3,
+              1,
+              2,
+              0
+            ],
+            [
+              4,
+              0,
+              4,
+              0,
+              0,
+              2
+            ],
+            [
+              3,
+              2,
+              0,
+              4,
+              1,
+              5
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.01685619354248047,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              5,
+              4,
+              5,
+              2,
+              3
+            ],
+            [
+              0,
+              0,
+              3,
+              2,
+              1,
+              4
+            ],
+            [
+              2,
+              5,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              5,
+              5,
+              3,
+              0,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.009204864501953125,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              3,
+              3,
+              2,
+              2
+            ],
+            [
+              2,
+              0,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              5,
+              3,
+              3,
+              5
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.056077003479003906,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              4,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              5,
+              0,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              1,
+              0,
+              2,
+              2,
+              2,
+              5
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A2_idempotent",
+      "description": "exists y in core, y*y = y",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0021169185638427734,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              2,
+              0,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0018680095672607422,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.004770040512084961,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.0039348602294921875,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              1,
+              3,
+              0
+            ],
+            [
+              2,
+              2,
+              2,
+              3,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.008701086044311523,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              4,
+              3,
+              0
+            ],
+            [
+              4,
+              2,
+              1,
+              3,
+              0
+            ],
+            [
+              3,
+              3,
+              0,
+              3,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.007112979888916016,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              1,
+              4,
+              3
+            ],
+            [
+              4,
+              1,
+              3,
+              4,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              2,
+              0
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.00321197509765625,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              3
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.008641958236694336,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              4,
+              4,
+              2
+            ],
+            [
+              4,
+              4,
+              1,
+              1,
+              0
+            ],
+            [
+              4,
+              4,
+              0,
+              0,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A2_idempotent",
+      "description": "exists y in core, y*y = y",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0041141510009765625,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0023851394653320312,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              4,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.01099395751953125,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              2,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              3,
+              1,
+              3,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.007853984832763672,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              4,
+              4,
+              0,
+              3,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              4,
+              4,
+              4,
+              4,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.022443056106567383,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              4,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              4,
+              0,
+              1,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.022746801376342773,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              3,
+              4,
+              3,
+              1,
+              2
+            ],
+            [
+              0,
+              0,
+              3,
+              2,
+              5,
+              4
+            ],
+            [
+              0,
+              1,
+              3,
+              2,
+              5,
+              4
+            ],
+            [
+              0,
+              4,
+              5,
+              3,
+              2,
+              0
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0051708221435546875,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              3,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.05105710029602051,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              5,
+              4,
+              3,
+              2
+            ],
+            [
+              3,
+              5,
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              5,
+              5,
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              4,
+              5,
+              0,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A3_three_valued_cls",
+      "description": "exists y,m in core, row(y)|core = {0,1,m} (all attained)",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0040090084075927734,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              0,
+              1,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              2,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0029799938201904297,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              3
+            ],
+            [
+              0,
+              4,
+              2,
+              2,
+              3
+            ],
+            [
+              3,
+              3,
+              2,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.006838083267211914,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              4,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              2,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.007990121841430664,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              0,
+              1,
+              2,
+              0
+            ],
+            [
+              0,
+              4,
+              4,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.007606029510498047,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              4,
+              0,
+              1,
+              1
+            ],
+            [
+              4,
+              0,
+              4,
+              1,
+              0
+            ],
+            [
+              3,
+              3,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.008439064025878906,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              2,
+              4,
+              3
+            ],
+            [
+              0,
+              0,
+              2,
+              4,
+              3
+            ],
+            [
+              0,
+              2,
+              2,
+              4,
+              3
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0035300254821777344,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              2,
+              2,
+              2
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.009862899780273438,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              2,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              3,
+              2,
+              4
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A3_three_valued_cls",
+      "description": "exists y,m in core, row(y)|core = {0,1,m} (all attained)",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.00802302360534668,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              3,
+              0,
+              1,
+              0
+            ],
+            [
+              2,
+              5,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              3,
+              3,
+              5,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              4,
+              1,
+              0,
+              5,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.006445169448852539,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              4,
+              4,
+              2,
+              0
+            ],
+            [
+              2,
+              2,
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              2,
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              4,
+              4,
+              1,
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.011587858200073242,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              2,
+              2,
+              0
+            ],
+            [
+              1,
+              0,
+              5,
+              1,
+              2,
+              0
+            ],
+            [
+              1,
+              1,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              5,
+              1,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.009016990661621094,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              2,
+              0,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              3,
+              3,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              4,
+              4,
+              5,
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.052291154861450195,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              5,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              2,
+              5,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              5,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.023189306259155273,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              0,
+              2,
+              3,
+              0,
+              1
+            ],
+            [
+              0,
+              4,
+              2,
+              3,
+              5,
+              0
+            ],
+            [
+              5,
+              1,
+              2,
+              3,
+              1,
+              4
+            ],
+            [
+              0,
+              0,
+              4,
+              3,
+              0,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.008622169494628906,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            [
+              2,
+              2,
+              5,
+              3,
+              2,
+              5
+            ],
+            [
+              2,
+              2,
+              5,
+              4,
+              5,
+              5
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.049630165100097656,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              1,
+              5,
+              2,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              3,
+              4,
+              5
+            ],
+            [
+              1,
+              3,
+              5,
+              2,
+              0,
+              1
+            ],
+            [
+              0,
+              3,
+              5,
+              2,
+              0,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A4_one_sided_retraction",
+      "description": "exists s,r in core, r(s(x))=x on core",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.005253791809082031,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              2,
+              1,
+              3,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              3,
+              0
+            ],
+            [
+              0,
+              4,
+              1,
+              3,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.004269123077392578,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.007398128509521484,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              4,
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              4,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.005988121032714844,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              3,
+              2,
+              3,
+              0
+            ],
+            [
+              2,
+              3,
+              0,
+              2,
+              0
+            ],
+            [
+              4,
+              2,
+              2,
+              3,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.014045238494873047,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              3,
+              0,
+              1
+            ],
+            [
+              3,
+              3,
+              0,
+              1,
+              1
+            ],
+            [
+              3,
+              4,
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "unsat",
+          "time_seconds": 0.007587909698486328
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.005280971527099609,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              4,
+              2,
+              3
+            ],
+            [
+              0,
+              1,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.014401912689208984,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              3,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              3,
+              0
+            ],
+            [
+              0,
+              1,
+              4,
+              3,
+              4
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A4_one_sided_retraction",
+      "description": "exists s,r in core, r(s(x))=x on core",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.010903120040893555,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              3,
+              2,
+              4,
+              2,
+              0
+            ],
+            [
+              4,
+              5,
+              2,
+              1,
+              3,
+              0
+            ],
+            [
+              5,
+              3,
+              2,
+              4,
+              0,
+              0
+            ],
+            [
+              5,
+              3,
+              2,
+              4,
+              0,
+              1
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.00828409194946289,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              3,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              5,
+              2,
+              2,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              3,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.017926931381225586,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              1,
+              3,
+              1,
+              4,
+              0
+            ],
+            [
+              5,
+              2,
+              3,
+              0,
+              4,
+              0
+            ],
+            [
+              5,
+              3,
+              1,
+              2,
+              4,
+              0
+            ],
+            [
+              4,
+              5,
+              2,
+              3,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.013180255889892578,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              3,
+              4,
+              1,
+              2,
+              0
+            ],
+            [
+              2,
+              2,
+              4,
+              3,
+              3,
+              0
+            ],
+            [
+              2,
+              2,
+              5,
+              2,
+              3,
+              0
+            ],
+            [
+              2,
+              2,
+              1,
+              4,
+              3,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.03218507766723633,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              4,
+              1,
+              3,
+              0
+            ],
+            [
+              1,
+              4,
+              4,
+              5,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              4,
+              5,
+              3,
+              0
+            ],
+            [
+              5,
+              3,
+              2,
+              4,
+              2,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "unsat",
+          "time_seconds": 0.02691197395324707
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.010993242263793945,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              4,
+              2,
+              3,
+              2
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.06550121307373047,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              5,
+              3,
+              2,
+              4
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A5_self_involution",
+      "description": "exists y in core, y(y(x))=x on core",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.004911899566650391,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              2,
+              1,
+              4,
+              3
+            ],
+            [
+              4,
+              3,
+              1,
+              3,
+              0
+            ],
+            [
+              1,
+              3,
+              2,
+              3,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.004297971725463867,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              4,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.0059697628021240234,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              0,
+              3,
+              2,
+              0
+            ],
+            [
+              3,
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.005151271820068359,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              3,
+              2,
+              1,
+              4
+            ],
+            [
+              3,
+              2,
+              1,
+              4,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.014863252639770508,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              3,
+              0,
+              1,
+              1
+            ],
+            [
+              4,
+              0,
+              3,
+              2,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              1,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.010712146759033203,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              4,
+              3
+            ],
+            [
+              0,
+              4,
+              2,
+              1,
+              3
+            ],
+            [
+              0,
+              3,
+              2,
+              4,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0046389102935791016,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              4,
+              2,
+              3
+            ],
+            [
+              0,
+              0,
+              2,
+              3,
+              3
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.029715299606323242,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              2,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              2,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              3,
+              3,
+              4
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A5_self_involution",
+      "description": "exists y in core, y(y(x))=x on core",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.007625102996826172,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              5,
+              4,
+              3,
+              0
+            ],
+            [
+              1,
+              2,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              5,
+              4,
+              2,
+              3,
+              1,
+              0
+            ],
+            [
+              4,
+              5,
+              2,
+              3,
+              0,
+              1
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0067081451416015625,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              4,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              5,
+              0,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.013774871826171875,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              1,
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              2,
+              1,
+              0,
+              2,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              5,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.00876474380493164,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              2,
+              5,
+              2,
+              2,
+              0
+            ],
+            [
+              3,
+              0,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              5,
+              2,
+              2,
+              0
+            ],
+            [
+              5,
+              3,
+              4,
+              1,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.04135298728942871,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              5,
+              0,
+              2,
+              0
+            ],
+            [
+              5,
+              4,
+              2,
+              3,
+              1,
+              0
+            ],
+            [
+              2,
+              0,
+              4,
+              3,
+              5,
+              0
+            ],
+            [
+              4,
+              3,
+              3,
+              1,
+              5,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.028228044509887695,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              4,
+              5,
+              2,
+              0
+            ],
+            [
+              4,
+              5,
+              4,
+              2,
+              2,
+              1
+            ],
+            [
+              5,
+              0,
+              4,
+              1,
+              2,
+              3
+            ],
+            [
+              0,
+              5,
+              3,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.006987094879150391,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              2,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              3,
+              4,
+              2,
+              2
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.04594731330871582,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              4,
+              4
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              1,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A6_commutative_pair",
+      "description": "exists y1!=y2 in core, y1*y2 = y2*y1",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.002198934555053711,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0020706653594970703,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.005822181701660156,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.004256010055541992,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              4,
+              4,
+              2,
+              0
+            ],
+            [
+              2,
+              4,
+              2,
+              3,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.008018016815185547,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.006429910659790039,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              0,
+              4,
+              3,
+              2,
+              4
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.004107952117919922,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.009505033493041992,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              4,
+              2,
+              3,
+              4
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A6_commutative_pair",
+      "description": "exists y1!=y2 in core, y1*y2 = y2*y1",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.002682209014892578,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0035860538482666016,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              1,
+              0
+            ],
+            [
+              4,
+              4,
+              0,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.010661125183105469,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              3,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.0049707889556884766,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              2,
+              4,
+              2,
+              0
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              4,
+              4,
+              4,
+              4,
+              4,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.03383517265319824,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              5,
+              3,
+              5,
+              1,
+              0
+            ],
+            [
+              0,
+              5,
+              3,
+              5,
+              1,
+              0
+            ],
+            [
+              3,
+              3,
+              2,
+              3,
+              1,
+              0
+            ],
+            [
+              4,
+              4,
+              4,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.021162986755371094,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              4,
+              3,
+              2,
+              5
+            ],
+            [
+              0,
+              1,
+              4,
+              3,
+              2,
+              5
+            ],
+            [
+              0,
+              0,
+              4,
+              3,
+              2,
+              5
+            ],
+            [
+              4,
+              5,
+              4,
+              2,
+              1,
+              0
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.006721019744873047,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              4
+            ],
+            [
+              0,
+              5,
+              2,
+              5,
+              2,
+              3
+            ],
+            [
+              4,
+              0,
+              2,
+              3,
+              2,
+              4
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.04923582077026367,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              5,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              0,
+              3,
+              2,
+              3,
+              5
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A7_associative_element",
+      "description": "exists y in core, (y*y)*y = y*(y*y)",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.003125905990600586,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              4,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.002888917922973633,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.005387067794799805,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.004453897476196289,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              0,
+              3,
+              1
+            ],
+            [
+              2,
+              4,
+              0,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.010546207427978516,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              4,
+              0,
+              1
+            ],
+            [
+              1,
+              3,
+              1,
+              4,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.008778095245361328,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              3,
+              3,
+              4,
+              0
+            ],
+            [
+              0,
+              4,
+              3,
+              2,
+              0
+            ],
+            [
+              4,
+              0,
+              3,
+              2,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.004082918167114258,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              3,
+              2,
+              3
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              4,
+              0,
+              2,
+              3,
+              3
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.010125160217285156,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              3,
+              0,
+              1,
+              4
+            ],
+            [
+              1,
+              0,
+              3,
+              2,
+              3
+            ],
+            [
+              1,
+              2,
+              1,
+              0,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A7_associative_element",
+      "description": "exists y in core, (y*y)*y = y*(y*y)",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.006285190582275391,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0033922195434570312,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              5,
+              0,
+              5,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.01226806640625,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              5,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.008262157440185547,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              5,
+              3,
+              0,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              4,
+              0,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              0,
+              1,
+              1
+            ],
+            [
+              4,
+              4,
+              4,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.03360724449157715,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              2,
+              5,
+              0,
+              4,
+              0
+            ],
+            [
+              2,
+              2,
+              0,
+              0,
+              4,
+              0
+            ],
+            [
+              1,
+              2,
+              4,
+              0,
+              4,
+              0
+            ],
+            [
+              4,
+              1,
+              3,
+              1,
+              5,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.019069910049438477,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              3,
+              2,
+              5,
+              4
+            ],
+            [
+              0,
+              2,
+              3,
+              2,
+              5,
+              4
+            ],
+            [
+              0,
+              1,
+              3,
+              2,
+              5,
+              4
+            ],
+            [
+              0,
+              3,
+              3,
+              2,
+              5,
+              4
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.005269050598144531,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              5,
+              3,
+              5,
+              5,
+              2
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              5,
+              0,
+              0,
+              0,
+              1,
+              0
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.045890092849731445,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              5,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              2,
+              2,
+              4,
+              2
+            ],
+            [
+              4,
+              5,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A8_core_fixed_point",
+      "description": "exists y,x in core, y*x = x",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.003650188446044922,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0026390552520751953,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.00539708137512207,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.004370212554931641,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              0,
+              1
+            ],
+            [
+              2,
+              2,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.009490013122558594,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              2,
+              2,
+              0
+            ],
+            [
+              1,
+              1,
+              3,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              2,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.00847315788269043,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              4,
+              4,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              4,
+              2,
+              1
+            ],
+            [
+              0,
+              4,
+              3,
+              1,
+              2
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0033388137817382812,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              3,
+              2,
+              2
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.007650852203369141,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              4,
+              4,
+              2
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A8_core_fixed_point",
+      "description": "exists y,x in core, y*x = x",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0028908252716064453,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.002955913543701172,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              4,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.010365962982177734,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              2,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              3,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              2,
+              5,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.00632786750793457,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              3,
+              2,
+              4,
+              0
+            ],
+            [
+              2,
+              2,
+              1,
+              2,
+              3,
+              0
+            ],
+            [
+              2,
+              2,
+              3,
+              5,
+              2,
+              0
+            ],
+            [
+              2,
+              2,
+              3,
+              2,
+              3,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.030245065689086914,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              3,
+              4,
+              1,
+              3,
+              0
+            ],
+            [
+              2,
+              5,
+              2,
+              4,
+              3,
+              0
+            ],
+            [
+              1,
+              5,
+              2,
+              4,
+              5,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              4,
+              5,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.021908998489379883,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              1,
+              5,
+              0,
+              1,
+              0
+            ],
+            [
+              5,
+              5,
+              3,
+              4,
+              1,
+              2
+            ],
+            [
+              1,
+              1,
+              5,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              4,
+              5,
+              2,
+              3,
+              0
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.005887031555175781,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              3,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              0
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.042653799057006836,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              5,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              5,
+              4,
+              3,
+              2
+            ],
+            [
+              5,
+              5,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              5,
+              5,
+              4,
+              1,
+              0,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A9_boolean_factor",
+      "description": "exists y in core, row(y)|core = {0,1} (both attained)",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0025861263275146484,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.002566099166870117,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              4,
+              4,
+              0
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.0054111480712890625,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.0034177303314208984,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              3,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              3,
+              2,
+              3,
+              3,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.012254953384399414,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              3,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              4,
+              0
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.009450435638427734,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              4,
+              1,
+              2
+            ],
+            [
+              1,
+              4,
+              4,
+              0,
+              1
+            ],
+            [
+              2,
+              4,
+              4,
+              0,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.003314971923828125,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              1,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              2,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              1,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.009823083877563477,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              3,
+              2,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              3,
+              4
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A9_boolean_factor",
+      "description": "exists y in core, row(y)|core = {0,1} (both attained)",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0034990310668945312,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.003934383392333984,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              5,
+              3,
+              0
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              0
+            ],
+            [
+              0,
+              5,
+              2,
+              2,
+              5,
+              0
+            ],
+            [
+              4,
+              4,
+              4,
+              4,
+              4,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.010519981384277344,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.0070400238037109375,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              0
+            ],
+            [
+              2,
+              2,
+              1,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.03209686279296875,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              1,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              1,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.022526025772094727,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              2,
+              3,
+              5,
+              4
+            ],
+            [
+              0,
+              1,
+              2,
+              3,
+              5,
+              4
+            ],
+            [
+              0,
+              0,
+              2,
+              3,
+              5,
+              4
+            ],
+            [
+              0,
+              3,
+              2,
+              3,
+              5,
+              4
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0049343109130859375,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              3,
+              3,
+              2,
+              3
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              0,
+              2,
+              2,
+              4,
+              3
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.055375099182128906,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              5,
+              1,
+              4,
+              5,
+              1
+            ],
+            [
+              2,
+              2,
+              1,
+              4,
+              5,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              4,
+              5,
+              1
+            ],
+            [
+              4,
+              4,
+              5,
+              3,
+              4,
+              2
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A10_double_composition",
+      "description": "exists a,b,c in core distinct, b core-preserving, a(x)=c(c(b(x))), a nontriv",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.023951292037963867,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              4,
+              4,
+              3
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.013515949249267578,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              3,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.029933691024780273,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              2,
+              4,
+              0,
+              4
+            ],
+            [
+              3,
+              0,
+              4,
+              3,
+              2
+            ],
+            [
+              4,
+              0,
+              0,
+              4,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.0231778621673584,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              1,
+              3,
+              4,
+              2
+            ],
+            [
+              2,
+              1,
+              3,
+              4,
+              2
+            ],
+            [
+              4,
+              4,
+              2,
+              3,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.02224588394165039,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              1,
+              3,
+              0,
+              1
+            ],
+            [
+              3,
+              4,
+              0,
+              2,
+              1
+            ],
+            [
+              4,
+              0,
+              2,
+              3,
+              4
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.023401975631713867,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              4,
+              4,
+              2
+            ],
+            [
+              0,
+              3,
+              2,
+              4,
+              3
+            ],
+            [
+              0,
+              4,
+              2,
+              4,
+              3
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.017373085021972656,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              0,
+              2,
+              3,
+              4
+            ],
+            [
+              4,
+              3,
+              2,
+              4,
+              3
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.015100240707397461,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              3,
+              2,
+              3
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              0,
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A10_double_composition",
+      "description": "exists a,b,c in core distinct, b core-preserving, a(x)=c(c(b(x))), a nontriv",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.15216493606567383,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              5,
+              3,
+              2,
+              5,
+              3
+            ],
+            [
+              1,
+              5,
+              3,
+              5,
+              5,
+              3
+            ],
+            [
+              2,
+              1,
+              2,
+              4,
+              0,
+              4
+            ],
+            [
+              5,
+              0,
+              0,
+              4,
+              3,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.07928800582885742,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              3,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              3,
+              2,
+              5,
+              0
+            ],
+            [
+              5,
+              5,
+              4,
+              5,
+              1,
+              0
+            ],
+            [
+              4,
+              0,
+              3,
+              4,
+              5,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.1665959358215332,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              5,
+              3,
+              5,
+              4,
+              1
+            ],
+            [
+              4,
+              1,
+              4,
+              1,
+              5,
+              1
+            ],
+            [
+              3,
+              5,
+              4,
+              3,
+              5,
+              3
+            ],
+            [
+              1,
+              1,
+              2,
+              1,
+              3,
+              5
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.18282580375671387,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              4,
+              1,
+              3,
+              0,
+              1
+            ],
+            [
+              5,
+              0,
+              2,
+              3,
+              3,
+              3
+            ],
+            [
+              1,
+              0,
+              4,
+              3,
+              3,
+              3
+            ],
+            [
+              1,
+              5,
+              0,
+              5,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.16593098640441895,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              2,
+              0,
+              1
+            ],
+            [
+              0,
+              5,
+              0,
+              2,
+              1,
+              1
+            ],
+            [
+              1,
+              5,
+              5,
+              0,
+              5,
+              0
+            ],
+            [
+              3,
+              4,
+              4,
+              2,
+              4,
+              3
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.11449122428894043,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              0,
+              1
+            ],
+            [
+              0,
+              4,
+              5,
+              3,
+              1,
+              2
+            ],
+            [
+              3,
+              5,
+              5,
+              4,
+              4,
+              1
+            ],
+            [
+              0,
+              5,
+              4,
+              5,
+              4,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.08477902412414551,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              5,
+              4,
+              5,
+              3
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              5,
+              3,
+              3,
+              3,
+              4
+            ],
+            [
+              5,
+              1,
+              3,
+              2,
+              5,
+              5
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.09396910667419434,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              3,
+              3,
+              2,
+              4
+            ],
+            [
+              0,
+              1,
+              2,
+              5,
+              4,
+              0
+            ],
+            [
+              2,
+              2,
+              5,
+              5,
+              4,
+              0
+            ],
+            [
+              1,
+              3,
+              4,
+              5,
+              0,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A11_left_cancel_core",
+      "description": "exists y in core, T[y][.] injective on core",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.003361940383911133,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              3,
+              0,
+              1
+            ],
+            [
+              0,
+              4,
+              0,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0022306442260742188,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.005707979202270508,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              3,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              3,
+              4,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.0049419403076171875,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              2,
+              4,
+              0,
+              1
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.010046005249023438,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              2,
+              0,
+              4,
+              0,
+              1
+            ],
+            [
+              3,
+              3,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "unsat",
+          "time_seconds": 0.04127836227416992
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.003564119338989258,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.009200811386108398,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              3,
+              3
+            ],
+            [
+              2,
+              2,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              2,
+              0,
+              1,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A11_left_cancel_core",
+      "description": "exists y in core, T[y][.] injective on core",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.005300045013427734,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              2,
+              3,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0036690235137939453,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.014407873153686523,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              5,
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.006896018981933594,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              3,
+              4,
+              0,
+              1
+            ],
+            [
+              4,
+              2,
+              4,
+              2,
+              4,
+              0
+            ],
+            [
+              3,
+              3,
+              0,
+              5,
+              0,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.028069257736206055,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              5,
+              3,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              3,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              3,
+              4,
+              2,
+              1,
+              0
+            ],
+            [
+              4,
+              4,
+              0,
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "unsat",
+          "time_seconds": 0.6331830024719238
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.007790088653564453,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              2,
+              2
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.04811406135559082,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              5,
+              3,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              5,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              5,
+              2,
+              5,
+              5
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              2,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A12_core_preserving",
+      "description": "exists y in core, T[y][core] subset core",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0029556751251220703,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              3
+            ],
+            [
+              3,
+              3,
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0022368431091308594,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.006072044372558594,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              2,
+              3,
+              4
+            ],
+            [
+              1,
+              0,
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.004564046859741211,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              2,
+              4,
+              2
+            ],
+            [
+              0,
+              1,
+              2,
+              1,
+              4
+            ],
+            [
+              2,
+              0,
+              3,
+              1,
+              4
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.00831294059753418,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              4,
+              4,
+              3
+            ],
+            [
+              0,
+              2,
+              4,
+              4,
+              4
+            ],
+            [
+              1,
+              2,
+              4,
+              4,
+              4
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.009475946426391602,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              2,
+              1,
+              2,
+              3
+            ],
+            [
+              1,
+              2,
+              0,
+              4,
+              0
+            ],
+            [
+              0,
+              2,
+              3,
+              4,
+              0
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "unsat",
+          "time_seconds": 0.004257917404174805
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "unsat",
+          "time_seconds": 0.006662130355834961
+        }
+      }
+    },
+    {
+      "axiom_id": "A12_core_preserving",
+      "description": "exists y in core, T[y][core] subset core",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.006201982498168945,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              5,
+              0,
+              1,
+              5,
+              0
+            ],
+            [
+              2,
+              5,
+              2,
+              1,
+              2,
+              0
+            ],
+            [
+              5,
+              0,
+              2,
+              2,
+              2,
+              5
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              5,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.003187894821166992,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.014124155044555664,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              5,
+              5,
+              4,
+              3
+            ],
+            [
+              1,
+              0,
+              3,
+              1,
+              4,
+              0
+            ],
+            [
+              1,
+              0,
+              5,
+              3,
+              4,
+              3
+            ],
+            [
+              1,
+              0,
+              2,
+              4,
+              5,
+              3
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.011519908905029297,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              5,
+              5
+            ],
+            [
+              0,
+              2,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              5,
+              5,
+              2,
+              4,
+              4,
+              4
+            ],
+            [
+              4,
+              0,
+              1,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.030707120895385742,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              1,
+              1,
+              5,
+              0
+            ],
+            [
+              0,
+              2,
+              0,
+              1,
+              2,
+              0
+            ],
+            [
+              3,
+              3,
+              1,
+              5,
+              5,
+              0
+            ],
+            [
+              0,
+              0,
+              3,
+              4,
+              4,
+              2
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.022052288055419922,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              4,
+              3,
+              2,
+              5,
+              0
+            ],
+            [
+              5,
+              5,
+              3,
+              2,
+              1,
+              4
+            ],
+            [
+              1,
+              4,
+              3,
+              2,
+              5,
+              0
+            ],
+            [
+              5,
+              3,
+              3,
+              0,
+              1,
+              1
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "unsat",
+          "time_seconds": 0.0107269287109375
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "unsat",
+          "time_seconds": 0.03525972366333008
+        }
+      }
+    },
+    {
+      "axiom_id": "A13_commutator_trivial",
+      "description": "exists a!=b in core, T[T[a][b]][c] = T[T[b][a]][c] for all c in core",
+      "N": 5,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.0057179927825927734,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              3,
+              4,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.0050618648529052734,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              4,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.007048130035400391,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              4,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.006217002868652344,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              4,
+              4,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              2,
+              0,
+              0,
+              1
+            ],
+            [
+              3,
+              3,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.009274005889892578,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.010179758071899414,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              2,
+              4,
+              3
+            ],
+            [
+              0,
+              4,
+              2,
+              4,
+              3
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              4
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.006156206130981445,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              2,
+              2,
+              3
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              2,
+              4,
+              4,
+              4
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.011209249496459961,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              2,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              2,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              3,
+              2
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "axiom_id": "A13_commutator_trivial",
+      "description": "exists a!=b in core, T[T[a][b]][c] = T[T[b][a]][c] for all c in core",
+      "N": 6,
+      "queries": {
+        "sat_on_e2pm": {
+          "description": "E2PM & A_k",
+          "result": "sat",
+          "time_seconds": 0.01900315284729004,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              5,
+              3,
+              0,
+              1
+            ],
+            [
+              4,
+              4,
+              4,
+              4,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              2,
+              4,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              1,
+              4,
+              0
+            ]
+          ]
+        },
+        "e2pm_sat_notA": {
+          "description": "E2PM & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.010727167129516602,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              3,
+              3,
+              0,
+              0
+            ],
+            [
+              2,
+              5,
+              2,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "A_implies_R_check": {
+          "description": "E2PM & A_k & ~R",
+          "result": "sat",
+          "time_seconds": 0.02260613441467285,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              0,
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              4,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              5,
+              4,
+              2,
+              0
+            ]
+          ]
+        },
+        "A_implies_D_check": {
+          "description": "E2PM & A_k & ~D",
+          "result": "sat",
+          "time_seconds": 0.01672220230102539,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              4,
+              5,
+              5,
+              0
+            ],
+            [
+              3,
+              3,
+              2,
+              5,
+              5,
+              0
+            ],
+            [
+              4,
+              4,
+              4,
+              5,
+              5,
+              0
+            ]
+          ]
+        },
+        "A_implies_H_check": {
+          "description": "E2PM & A_k & ~H",
+          "result": "sat",
+          "time_seconds": 0.03576397895812988,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              5,
+              1,
+              0,
+              3,
+              0
+            ],
+            [
+              2,
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              5,
+              1,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "R_implies_A_check": {
+          "description": "E2PM & R & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.02321791648864746,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              4,
+              1,
+              2,
+              5
+            ],
+            [
+              1,
+              5,
+              0,
+              5,
+              1,
+              0
+            ],
+            [
+              1,
+              3,
+              5,
+              2,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              4,
+              5,
+              1,
+              0
+            ]
+          ]
+        },
+        "D_implies_A_check": {
+          "description": "E2PM & D & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.015111207962036133,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              3,
+              3,
+              2,
+              3,
+              2,
+              2
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              2,
+              5,
+              4,
+              3,
+              4,
+              4
+            ],
+            [
+              2,
+              2,
+              3,
+              4,
+              3,
+              5
+            ]
+          ]
+        },
+        "H_implies_A_check": {
+          "description": "E2PM & H & ~A_k",
+          "result": "sat",
+          "time_seconds": 0.05805802345275879,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              3,
+              2,
+              1,
+              0,
+              0
+            ],
+            [
+              4,
+              4,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              3,
+              2,
+              5,
+              4,
+              4
+            ],
+            [
+              0,
+              0,
+              2,
+              3,
+              0,
+              0
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "runtime_seconds": 14.191050052642822
+}

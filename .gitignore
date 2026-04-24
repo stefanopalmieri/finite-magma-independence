@@ -1,5 +1,7 @@
 .lake/
 .DS_Store
+.claude/
 paper/*.aux
 paper/*.log
 paper/*.out
+scratch/
