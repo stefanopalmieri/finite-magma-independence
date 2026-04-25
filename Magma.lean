@@ -32,5 +32,8 @@ import Magma.RigidityPartial
 -- N=5 structure theorem: Corollary 4.10 (strong S unsatisfiable at N=5)
 import Magma.StructureN5
 
+-- N=5 mirror-row theorem: every automorphism fixes both absorbers
+import Magma.MirrorRow
+
 -- Joint irredundance (R×D×H Boolean cube)
 import Magma.BooleanCube
