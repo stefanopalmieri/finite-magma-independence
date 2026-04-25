@@ -5,3 +5,4 @@ paper/*.aux
 paper/*.log
 paper/*.out
 scratch/
+__pycache__/
