@@ -1,0 +1,14 @@
+{
+  "strong": {
+    "sat": false,
+    "example": null
+  },
+  "weak": {
+    "sat": false,
+    "example": null
+  },
+  "any": {
+    "sat": false,
+    "example": null
+  }
+}
