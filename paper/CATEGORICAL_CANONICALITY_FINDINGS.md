@@ -40,6 +40,15 @@ same R-block-structure.
 
 ## Result 3: a finer invariant — composition-closure count
 
+(Sub-investigation by an agent: see `scripts/CLOSURE_INVARIANT_FINDINGS.md`
+for full details. The closure count is iso-invariant under
+absorber-preserving permutations. At N=5 the cc=5 cases are exactly
+those with `g = id` on core (530/3901). The cc∈{2,4} sub-split among
+the 3371 non-identity-`g` cases is not a function of `g`'s row alone
+and remains an open sub-question. At N=6 closure count spreads across
+14 distinct values and strictly refines role-shape, so the invariant
+keeps discriminating power as N grows.)
+
 The `H_triple_count` from the cartography is uniformly 2 at N=5, but
 this counted only *distinct-element* triples (the operational ICP
 definition). The row-image perspective suggests counting *all*

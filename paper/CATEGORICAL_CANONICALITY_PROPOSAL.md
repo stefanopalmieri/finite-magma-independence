@@ -234,3 +234,40 @@ Quick eliminations of other suggested categorical homes:
 
 The slice / row-image partial-monoid path is the most concrete that
 survives.
+
+## 9. Literature search: this setting is genuinely new
+
+A separate agent-driven search of the partial-transformation /
+restriction-category / Ehresmann-semigroup / Brandt-semigroup
+literature found no prior class that matches E2PM-with-(S, D, C).
+Closest published gravity wells:
+
+  - **Restriction categories** (Cockett–Lack 2002–2007). The "partial
+    map classifier" of *Restriction Categories II* is the closest
+    formal analog of D — a monad whose Kleisli category classifies
+    partial maps. Mismatch: restriction categories track partiality
+    via *idempotents* on a total ambient hom, whereas in E2PM the
+    partiality is the failure of `R(X)` to be closed under composition,
+    not internal idempotent restriction. There's also no published
+    analog of the forced 2-block sink (D's codomain dichotomy with
+    exactly two absorbers).
+  - **Ehresmann semigroups / constellations** (Lawson; Gould–Hollings).
+    Subsemigroups of partial transformation semigroups closed under
+    domain/range projections, with a distinguished projection
+    semilattice. Mismatch: their two distinguished elements are
+    idempotents in a semilattice, not constant maps; the codomain
+    decomposition `R = R_abs ⊔ R_clas ⊔ R_core` has no Ehresmann
+    analog.
+  - **Brandt / completely 0-simple inverse semigroups.** Single zero,
+    not two; require global inverses.
+
+Conclusion (Agent A's report): no clean prior name. The closest
+citation neighborhood is the Cockett–Lack restriction-category /
+partial-classifier axis. The forced uniform decomposition at N=5 (every
+S+D+C magma realising the same `(|R_clas|, |R_core|, |mixed|)` block
+sizes) is a feature of this setting that does *not* show up in
+restriction categories or Ehresmann semigroups, both of which admit
+families parametrised by arbitrary semilattices. The setting is
+genuinely new. A working name: **"2-classified row-image algebra"** or
+"bipointed extensional partial transformation algebra with codomain-pure
+decomposition".

@@ -61,6 +61,15 @@ classifier-swap automorphism. Theorem 4.8 (role-shape lock-in) is the
 stronger universal N=5 statement; full automorphism-level rigidity is a
 property of most, not all, S+D+C magmas at N=5.
 
+**The mirror-row conjecture has since been proved.** See
+`paper/MIRROR_ROW_THEOREM.md` for the proof. The clean statement: for
+any N=5 S+D+C magma, `Aut(M)` is a subgroup of the Klein four-group
+`Sym(Z) × Sym({τ₁, τ₂}) × {id_g}`, and the only non-trivial element
+that can occur is the classifier transposition `(τ₁ τ₂)`. So
+`|Aut(M)| ≤ 2`, the swap is the unique non-trivial automorphism when
+it exists, and the empirical 0.3% non-rigid subpopulation is exactly
+the magmas that admit this swap.
+
 ## Finding 2: N=5 → N=6 is a shape-diversity explosion, 1 → 18 shapes
 
 | N | distinct role shapes observed | top-shape share |
