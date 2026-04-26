@@ -2,37 +2,53 @@ import Magma.Dichotomic
 import Magma.ICP
 
 /-!
-# Lean-Verified Coexistence Witness: R+D+ICP at N=5
+# Canonical N=5 S+D+C Coexistence Witness (indicator magma)
 
-A concrete 5-element algebra satisfying all three capabilities simultaneously:
-  R (self-representation): retraction pair Q=E=2 (identity on core)
-  D (self-description): classifier τ=3 with classifier dichotomy
-  H (self-execution): ICP witnessed by a=3, b=2, c=4
+A concrete 5-element S+D+C magma chosen by structural principle rather
+than engineering convenience. The two principles:
 
-**Optimal minimum cardinality**: N=5 is the smallest possible witness for
-R+D+H coexistence. At N=4, the core has only 2 elements, but ICP requires
-3 pairwise distinct non-absorbers (`kripke4_no_icp` in ICP.lean).
+  1. **Indicator-style classifiers.** Reading absorbers as Boolean
+     truth values (z₁ = FALSE, z₂ = TRUE — which is what D *is*
+     topos-theoretically, with Ω = 1+1), each classifier τᵢ is the
+     characteristic function of {τᵢ, z₂}: τᵢ(x) = z₂ iff x ∈ {τᵢ, z₂},
+     else z₁. So τᵢ identifies itself as TRUE and preserves both
+     truth labels.
 
-The retraction pair is the identity on core (sec=ret=2), making this the
-simplest possible S witness. The ICP factorization a·x = c·(b·x) with
-b=identity reduces to a·x = c·x on core — the two classifiers (3 and 4)
-agree on core but differ on absorber columns.
+  2. **Non-classifier as classifier-swap.** The unique non-classifier g
+     acts on core as the transposition (τ₁ τ₂), with g·g = g and g
+     fixing both absorbers. So the magma's classifier-swap symmetry
+     (which the mirror-row theorem identifies as the only possible
+     non-trivial automorphism at N=5) is *internalised* — it lives
+     inside the magma as g's action on core.
 
 ```
      0  1  2  3  4
-  0 [0, 0, 0, 0, 0]   ← z₁ (absorber)
-  1 [1, 1, 1, 1, 1]   ← z₂ (absorber)
-  2 [0, 1, 2, 3, 4]   ← sec=ret (identity on Fin 5, non-classifier)
-  3 [0, 0, 0, 1, 1]   ← classifier (a in ICP), recognizes both classifiers
-  4 [0, 1, 0, 1, 1]   ← classifier (c in ICP), recognizes both classifiers + z₂
+  0 [0, 0, 0, 0, 0]   ← z₁ = FALSE (absorber)
+  1 [1, 1, 1, 1, 1]   ← z₂ = TRUE  (absorber)
+  2 [0, 1, 1, 0, 0]   ← τ₁: indicator of {τ₁, z₂}
+  3 [0, 1, 0, 1, 0]   ← τ₂: indicator of {τ₂, z₂}
+  4 [0, 1, 3, 2, 4]   ← g = sec = ret: swaps τ₁↔τ₂ on core, fixes Z and self
+```
 
 Category distribution:
   Zeros (2):           {0, 1}
-  Classifiers (2):     {3, 4}
-  Non-classifiers (1): {2}
-```
+  Classifiers (2):     {2, 3}
+  Non-classifiers (1): {4}
 
-Table verified by Z3 SAT solver, independently verified in Lean.
+ICP triple: `(a, b, c) = (2, 4, 3)`. With b = g acting as the swap,
+the factorisation a·x = c·(b·x) on core is non-trivial — it's the
+classifier-swap rewriting itself.
+
+This witness is non-rigid: |Aut| = 2, with the unique non-trivial
+automorphism being the transposition (τ₁ τ₂) — which is exactly g's
+own action on core. Mirror-row (Theorem 4.13) then ensures this is the
+*only* possible non-trivial automorphism at N=5.
+
+**Optimal minimum cardinality**: N=5 is the smallest possible witness
+for R+D+H coexistence (`no_icp_at_4` below). The simpler "identity on
+core" alternative — what the paper used to use as `dotW5` — is rigid
+but doesn't internalise its symmetry; this canonical witness sacrifices
+rigidity for structural transparency.
 -/
 
 set_option autoImplicit false
@@ -46,9 +62,9 @@ namespace Dichotomic
 private def rawW5 : Nat → Nat → Nat
   | 0, 0 => 0 | 0, 1 => 0 | 0, 2 => 0 | 0, 3 => 0 | 0, 4 => 0
   | 1, 0 => 1 | 1, 1 => 1 | 1, 2 => 1 | 1, 3 => 1 | 1, 4 => 1
-  | 2, 0 => 0 | 2, 1 => 1 | 2, 2 => 2 | 2, 3 => 3 | 2, 4 => 4
-  | 3, 0 => 0 | 3, 1 => 0 | 3, 2 => 0 | 3, 3 => 1 | 3, 4 => 1
-  | 4, 0 => 0 | 4, 1 => 1 | 4, 2 => 0 | 4, 3 => 1 | 4, 4 => 1
+  | 2, 0 => 0 | 2, 1 => 1 | 2, 2 => 1 | 2, 3 => 0 | 2, 4 => 0
+  | 3, 0 => 0 | 3, 1 => 1 | 3, 2 => 0 | 3, 3 => 1 | 3, 4 => 0
+  | 4, 0 => 0 | 4, 1 => 1 | 4, 2 => 3 | 4, 3 => 2 | 4, 4 => 4
   | _, _ => 0
 
 private theorem rawW5_bound (a b : Fin 5) : rawW5 a.val b.val < 5 := by
@@ -60,13 +76,15 @@ def dotW5 (a b : Fin 5) : Fin 5 := ⟨rawW5 a.val b.val, rawW5_bound a b⟩
 -- Capability R: FaithfulRetractMagma (self-representation)
 -- ═══════════════════════════════════════════════════════════════════
 
-/-- The N=5 witness is a FaithfulRetractMagma with Q=E=2 (identity on core). -/
+/-- The canonical N=5 witness is a FaithfulRetractMagma with sec = ret = 4
+    (the unique non-classifier g, acting on core as the classifier swap and
+    fixing absorbers). -/
 def witness5_frm : FaithfulRetractMagma 5 where
   dot := dotW5
   zero₁ := 0
   zero₂ := 1
-  sec := 2
-  ret := 2
+  sec := 4
+  ret := 4
   zero₁_left := by decide
   zero₂_left := by decide
   zeros_distinct := by decide
@@ -80,14 +98,16 @@ def witness5_frm : FaithfulRetractMagma 5 where
 -- Capability D: DichotomicRetractMagma (self-description)
 -- ═══════════════════════════════════════════════════════════════════
 
-/-- The N=5 witness is a DichotomicRetractMagma with τ=3. -/
+/-- The canonical N=5 witness is a DichotomicRetractMagma with τ=2 (one of
+    the two indicator classifiers; the other, τ=3, would do equally — they
+    are exchanged by the magma's classifier-swap automorphism). -/
 def witness5_drm : DichotomicRetractMagma 5 where
   dot := dotW5
   zero₁ := 0
   zero₂ := 1
-  sec := 2
-  ret := 2
-  cls := 3
+  sec := 4
+  ret := 4
+  cls := 2
   zero₁_left := by decide
   zero₂_left := by decide
   zeros_distinct := by decide
@@ -106,9 +126,10 @@ def witness5_drm : DichotomicRetractMagma 5 where
 -- Capability H: ICP (self-execution)
 -- ═══════════════════════════════════════════════════════════════════
 
-/-- ICP holds at N=5, witnessed by a=3, b=2, c=4.
-    Since b=2 is the identity on core, the factorization reduces to
-    3·x = 4·x for all core x: the two classifiers agree on core. -/
+/-- ICP holds at N=5, witnessed by a=2, b=4, c=3. With b=g acting as the
+    classifier swap on core, the factorisation `a·x = c·(b·x)` is the
+    classifier-swap identity τ₁(x) = τ₂(g(x)) — the two indicator
+    classifiers exchange under the swap they internalise. -/
 theorem w5_has_icp : HasICP 5 dotW5 0 1 := by decide
 
 -- ═══════════════════════════════════════════════════════════════════

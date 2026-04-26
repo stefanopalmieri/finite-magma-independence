@@ -28,7 +28,9 @@ no presentation freedom beyond what the operation already fixes.
 
 The paper's main witnesses are role-rigid:
 
-  * `witness5_role_rigid`  — N=5 R+D+H coexistence (`dotW5`)
+  * `witness5_classifier_swap_aut` — N=5 R+D+H coexistence (`dotW5`)
+    is non-rigid; the classifier transposition (2 3) is its non-trivial
+    automorphism (and, by the mirror-row theorem, its *only* one).
   * `witness6_role_rigid`  — N=6 R+D+H coexistence (`dotW6`)
   * `kripke4_role_rigid`   — N=4 R+D (`dotK4`)
   * `kripke5_role_rigid`   — N=5 R+D with s ≠ r (`dotK5`)
@@ -71,11 +73,16 @@ def IsRoleRigid (n : Nat) (dot : Fin n → Fin n → Fin n) : Prop :=
 -- Main witnesses are role-rigid
 -- ══════════════════════════════════════════════════════════════════════
 
-/-- **The N=5 coexistence witness is role-rigid.** Every role assignment
-    in `witness5_drm` — z₁=0, z₂=1, s=r=2, τ=3, and the remaining
-    classifier at 4 — is fixed by every automorphism. -/
-theorem witness5_role_rigid : IsRoleRigid 5 dotW5 := by
-  unfold IsRoleRigid; native_decide
+/-- **The canonical N=5 coexistence witness `dotW5` is *not* role-rigid:
+    it admits the classifier transposition (2 3) as a non-trivial
+    automorphism.** This is by design — the canonical witness internalises
+    its symmetry as g's action on core (g·τ₁ = τ₂, g·τ₂ = τ₁). The
+    mirror-row theorem (`Magma/MirrorRow.lean`) ensures this is the only
+    possible non-trivial automorphism: |Aut(dotW5)| = 2. -/
+theorem witness5_classifier_swap_aut :
+    ∀ a b : Fin 5, (Equiv.swap (2 : Fin 5) 3) (dotW5 a b)
+      = dotW5 ((Equiv.swap (2 : Fin 5) 3) a) ((Equiv.swap (2 : Fin 5) 3) b) := by
+  decide
 
 /-- **The N=6 coexistence witness is role-rigid.** -/
 theorem witness6_role_rigid : IsRoleRigid 6 dotW6 := by
