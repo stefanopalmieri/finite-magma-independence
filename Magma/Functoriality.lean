@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 
 /-!
 # Functoriality of the Three-Category Decomposition
@@ -17,7 +17,7 @@ is a "functorial invariant shared by all models" (README).
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 /-- A DRM isomorphism: a bijective function preserving the operation and zeros. -/
 structure DRMIso {n : Nat} (M₁ M₂ : DichotomicRetractMagma n) where
@@ -76,4 +76,4 @@ theorem DRMIso.preserves_decomposition (a : Fin n) :
     (IsNonClassifier M₁ a → IsNonClassifier M₂ (φ.toFun a)) :=
   ⟨φ.preserves_zero a, φ.preserves_classifier a, φ.preserves_non_classifier a⟩
 
-end KripkeWall
+end Dichotomic

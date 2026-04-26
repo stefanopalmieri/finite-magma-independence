@@ -202,7 +202,7 @@ Throughout, the magma operation $\dotop$ is taken as given --- the structuring r
 \label{sec:universal}
 % ══════════════════════════════════════════════════════════════
 
-The following theorems are proved by pure algebraic reasoning (no \texttt{decide}) and formalized in \texttt{CatKripkeWallMinimal.lean} and \texttt{NoCommutativity.lean}. We state the hypotheses explicitly: some require only D, while others use both S and D.
+The following theorems are proved by pure algebraic reasoning (no \texttt{decide}) and formalized in \texttt{Dichotomic.lean} and \texttt{NoCommutativity.lean}. We state the hypotheses explicitly: some require only D, while others use both S and D.
 
 \subsection{Theorems from D alone}
 
@@ -277,7 +277,7 @@ No extensional 2-pointed magma carrying both a classifier and a retraction pair 
 \end{theorem}
 
 \begin{proof}
-Assume $(\tau \dotop a) \dotop b = \tau \dotop (a \dotop b)$ for all $a, b$. We derive a contradiction in four steps. The proof uses only extensionality, the existence of a classifier $\tau$, and a retraction pair $(s, r)$. Neither the global dichotomy nor the non-classifier existence axiom is needed. Lean file: \texttt{CatKripkeWallMinimal.lean}.
+Assume $(\tau \dotop a) \dotop b = \tau \dotop (a \dotop b)$ for all $a, b$. We derive a contradiction in four steps. The proof uses only extensionality, the existence of a classifier $\tau$, and a retraction pair $(s, r)$. Neither the global dichotomy nor the non-classifier existence axiom is needed. Lean file: \texttt{Dichotomic.lean}.
 
 \emph{Step 1: $\tau$ absorbs on the right.} For any $a, b$:
 \[
@@ -948,7 +948,7 @@ J.~Robin~B. Cockett and Pieter Hofstra.
 All tables are extracted from the Lean source files and verified by \texttt{lake build}. Element $i$'s row is row~$i$; entry $(i,j)$ is $i \dotop j$.
 
 \paragraph{$N\!=\!4$: Minimal S+D witness ($s = r$).}
-Roles: $0 = z_1$, $1 = z_2$, $2 = \tau$, $3 = s = r$. \quad Lean: \texttt{CatKripkeWallMinimal.lean}, \texttt{kripke4}.
+Roles: $0 = z_1$, $1 = z_2$, $2 = \tau$, $3 = s = r$. \quad Lean: \texttt{Dichotomic.lean}, \texttt{kripke4}.
 
 \medskip
 {\small
@@ -961,7 +961,7 @@ $\dotop$ & 0 & 1 & 2 & 3 \\\hline
 \end{tabular}}
 
 \paragraph{$N\!=\!5$: Minimal S+D witness ($s \neq r$).}
-Roles: $0 = z_1$, $1 = z_2$, $2 = s$, $3 = r$, $4 = \tau$. \quad Lean: \texttt{CatKripkeWallMinimal.lean}, \texttt{kripke5}.
+Roles: $0 = z_1$, $1 = z_2$, $2 = s$, $3 = r$, $4 = \tau$. \quad Lean: \texttt{Dichotomic.lean}, \texttt{kripke5}.
 
 \medskip
 {\small
@@ -1143,7 +1143,7 @@ All Lean files compile with \texttt{lake build}, zero \texttt{sorry}. Proof styl
 \begin{tabular}{lrcl}
 \textbf{File} & \textbf{Thms} & \textbf{Style} & \textbf{Content} \\
 \hline
-CatKripkeWallMinimal & 20 & Algebraic & Decomposition, bounds, wall \\
+Dichotomic & 20 & Algebraic & Decomposition, bounds, classifier dichotomy \\
 NoCommutativity      &  3 & Algebraic & Asymmetry \\
 Functoriality        &  4 & Algebraic & Decomposition invariance \\
 CapabilityInvariance &  4 & Algebraic & S, D, C each invariant \\

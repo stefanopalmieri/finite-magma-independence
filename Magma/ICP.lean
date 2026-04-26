@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.Countermodels10
 import Magma.Witness10
 
@@ -30,7 +30,7 @@ All model-specific proofs by `native_decide`.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ═══════════════════════════════════════════════════════════════════
 -- Definition: Internal Composition Property
@@ -113,7 +113,7 @@ theorem icp_iff_composeInert (n : Nat) (dot : Fin n → Fin n → Fin n)
 -- ═══════════════════════════════════════════════════════════════════
 
 /-- **H ⊬ D model has ICP**: witnessed by a=8 (η), b=6 (g), c=7 (ρ).
-    The evaluation core exists despite the Kripke dichotomy failing. -/
+    The evaluation core exists despite the classifier dichotomy failing. -/
 theorem hNotD_has_icp : HasICP 10 dotHnotD 0 1 := by native_decide
 
 /-- **R+D+H witness has ICP**: witnessed by a=8 (η), b=6 (g), c=7 (ρ).
@@ -151,7 +151,7 @@ theorem dichotomy_not_implies_icp :
   ⟨dNotH, dNotH_no_icp⟩
 
 /-- **ICP ⊬ D**: Partial internal composition does not imply the classifier dichotomy.
-    The H⊬D model is a FaithfulRetractMagma with ICP that violates Kripke. -/
+    The H⊬D model is a FaithfulRetractMagma with ICP that violates the dichotomy. -/
 theorem icp_not_implies_dichotomy :
     ∃ (_ : FaithfulRetractMagma 10),
     HasICP 10 dotHnotD 0 1 ∧
@@ -354,4 +354,4 @@ theorem icp_nontrivial_necessary :
       HasICPWeakNontriv n dot z₁ z₂ ∧ ¬ HasICP n dot z₁ z₂ :=
   ⟨6, dotNT6, 0, 1, nt6_has_weak_nontriv, nt6_no_icp⟩
 
-end KripkeWall
+end Dichotomic

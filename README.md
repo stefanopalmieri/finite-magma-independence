@@ -18,7 +18,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 
 | File | Thms | Style | Content |
 |------|------|-------|---------|
-| CatKripkeWallMinimal | 17 | Algebraic | Decomposition, bounds, classifier wall |
+| Dichotomic | 17 | Algebraic | Decomposition, bounds, classifier-dichotomy boundary |
 | NoCommutativity | 3 | Algebraic | Asymmetry |
 | Functoriality | 4 | Algebraic | Invariance under isomorphism |
 | SelfSimulation | 5 | Algebraic | Partial application injectivity |

@@ -1,10 +1,10 @@
-/- # CatKripkeWallMinimal — The Kripke Wall
+/- # Dichotomic Retract Magmas
 
    ## Summary
 
-   We study a property — the **Kripke dichotomy** — of a standard algebraic
-   object: a finite faithful extensional magma on a 2-pointed set with
-   a retraction pair. All ingredients are textbook:
+   We study a property — the **classifier dichotomy** (D) — of a finite
+   faithful extensional magma on a 2-pointed set with a retraction pair.
+   All ingredients are textbook:
 
    - **Extensional magma on a 2-pointed set (S, B):** a set S with a
      binary operation and a distinguished 2-element subset B = {zero₁, zero₂}
@@ -15,17 +15,14 @@
      inverses on the core S \ B, with ret preserving zero₁. Standard
      categorical concept (cf. `CategoryTheory.RetractOf`).
 
-   The **Kripke dichotomy** is the one new property: every non-constant
+   The **classifier dichotomy** is the one new property: every non-constant
    transformation either maps the core entirely into B (a "classifier") or
    maps the core entirely into S \ B (a "non-classifier"). No mixing.
-
-   This clean separation between classification and computation is the
-   **Kripke wall**.
 
    ## Results
 
    In any finite faithful extensional magma on (S, B) with a retraction
-   pair satisfying the Kripke dichotomy:
+   pair satisfying the classifier dichotomy:
 
    1. The carrier decomposes into three disjoint classes (Z, C, N).
    2. No right identity exists.
@@ -33,12 +30,20 @@
    4. |S| ≥ 4, tight (`kripke4`, with sec = ret).
    5. |S| ≥ 5 if sec ≠ ret, tight (`kripke5`).
 
+   The historical witness names `kripke4` / `kripke5` (and the operations
+   `dotK4`, `dotK5`) are retained because they appear in dependent files
+   and in the paper. The previous file name and namespace
+   (`CatKripkeWallMinimal` / `KripkeWall`) overpromised
+   categorical/Kripke-semantic content the file does not deliver, so the
+   surrounding scaffolding has been renamed; the witness identifiers
+   stay.
+
    All proofs are purely algebraic — no `decide`, no `native_decide`.
 
    ## Structure of this file
 
    **Part 1a:** `FaithfulRetractMagma` — the standard setup.
-   **Part 1b:** `DichotomicRetractMagma` — extends the setup with the Kripke dichotomy.
+   **Part 1b:** `DichotomicRetractMagma` — extends the setup with the classifier dichotomy.
    **Part 2a:** The 4-element witness (minimum, sec = ret).
    **Part 2b:** The 5-element witness (minimum with sec ≠ ret).
    **Part 3:** Universal theorems.
@@ -50,7 +55,7 @@ import Mathlib.Data.Finset.Card
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ══════════════════════════════════════════════════════════════════════
 -- Part 1a: The Standard Setup
@@ -107,15 +112,15 @@ structure FaithfulRetractMagma (n : Nat) where
   ret_zero₁ : dot ret zero₁ = zero₁
 
 -- ══════════════════════════════════════════════════════════════════════
--- Part 1b: The Kripke Dichotomy
+-- Part 1b: The Classifier Dichotomy
 -- ══════════════════════════════════════════════════════════════════════
 
-/-- A faithful retract magma satisfying the **Kripke dichotomy**: every
+/-- A faithful retract magma satisfying the **classifier dichotomy**: every
     non-constant transformation either maps the core entirely into B
     (a "classifier") or maps the core entirely into S \ B (a
     "non-classifier"). No mixing.
 
-    The setup (`FaithfulRetractMagma`) is standard. The Kripke dichotomy
+    The setup (`FaithfulRetractMagma`) is standard. The classifier dichotomy
     is the one new property. The classifier and non-degeneracy conditions
     ensure both sides of the dichotomy are inhabited.
 
@@ -132,7 +137,7 @@ structure DichotomicRetractMagma (n : Nat) extends FaithfulRetractMagma n where
   /-- The classifier is not zero₂ (non-degeneracy). -/
   cls_ne_zero₂ : cls ≠ zero₂
 
-  -- === The Kripke dichotomy ===
+  -- === The classifier dichotomy ===
 
   /-- Every non-constant transformation is either all-B or all-non-B
       on the core. This is the single new property. -/
@@ -340,7 +345,7 @@ def IsNonClassifier (a : Fin n) : Prop :=
   ∀ x : Fin n, x ≠ M.zero₁ → x ≠ M.zero₂ → M.dot a x ≠ M.zero₁ ∧ M.dot a x ≠ M.zero₂
 
 /-- **Three-category exhaustion**: every element is a zero, classifier,
-    or non-classifier. Follows directly from the Kripke dichotomy. -/
+    or non-classifier. Follows directly from the classifier dichotomy. -/
 theorem three_categories (a : Fin n) :
     IsZero M a ∨ IsClassifier M a ∨ IsNonClassifier M a := by
   by_cases h1 : a = M.zero₁
@@ -761,7 +766,7 @@ theorem sec_ne_zero₂ : M.sec ≠ M.zero₂ := by
     2. Show `sec · nc` is non-zero using `ret_zero₁`, injectivity, and `nc ≠ cls`.
     3. Since `sec · nc` is non-zero, `ret · (sec · nc) = nc` (non-boolean)
        witnesses a non-boolean output of ret on a non-zero input.
-    4. Kripke dichotomy places ret in the non-classifier class. -/
+    4. classifier dichotomy places ret in the non-classifier class. -/
 theorem ret_is_non_classifier : IsNonClassifier M M.ret := by
   have hrnz1 := ret_ne_zero₁ M
   have hrnz2 := ret_ne_zero₂ M
@@ -832,7 +837,7 @@ theorem sec_is_non_classifier : IsNonClassifier M M.sec := by
   -- sec · (ret · nc) = nc (by sec_ret, since nc is non-zero)
   have hsec := M.sec_ret nc hnc1 hnc2
   -- sec maps (ret · nc) to nc. nc is non-boolean. ret · nc is non-zero.
-  -- So sec has non-boolean output on a non-zero input → non-classifier by Kripke.
+  -- So sec has non-boolean output on a non-zero input → non-classifier by the dichotomy.
   rcases M.dichotomy M.sec hsnz1 hsnz2 with hbool | hcomp
   · exfalso
     rcases hbool (M.dot M.ret nc) hrnc.1 hrnc.2 with h | h
@@ -872,4 +877,4 @@ theorem card_ge_five_of_sec_ne_ret {n : Nat} (M : DichotomicRetractMagma n)
     _ ≤ Finset.univ.card := Finset.card_le_card hsub
     _ = Fintype.card (Fin n) := Finset.card_univ
 
-end KripkeWall
+end Dichotomic

@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.ICP
 import Mathlib.Data.Finset.Card
 
@@ -28,7 +28,7 @@ Open Problem 4 for the key retraction-collapse content of that theorem.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ══════════════════════════════════════════════════════════════════════
 -- Part 1: H-triple type-coherence (universal N)
@@ -70,7 +70,7 @@ theorem h_triple_coherence
     · exact absurd h hx1
     · exact absurd h hx2
     · exact h
-  -- Case-split on the type of `c` via the Kripke dichotomy.
+  -- Case-split on the type of `c` via the classifier dichotomy.
   rcases M.dichotomy c hc1 hc2 with hc_cls | hc_nc
   · -- c is a classifier ⇒ a is a classifier.
     left
@@ -125,7 +125,7 @@ private theorem fin5_five_distinct_covers_univ
       Finset.card_insert_of_notMem h4,
       Finset.card_singleton, Fintype.card_fin]
 
-/-- At N=5 under the Kripke dichotomy plus ICP, the non-classifier in core
+/-- At N=5 under the classifier dichotomy plus ICP, the non-classifier in core
     is unique. -/
 theorem unique_non_classifier_at_N5
     (hC : HasICP 5 M.dot M.zero₁ M.zero₂)
@@ -333,4 +333,4 @@ theorem N5_no_strong_S :
   rintro ⟨M, hC, h_ne⟩
   exact h_ne (N5_sec_eq_ret M hC)
 
-end KripkeWall
+end Dichotomic

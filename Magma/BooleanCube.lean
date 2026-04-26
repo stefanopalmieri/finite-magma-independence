@@ -40,7 +40,7 @@ All verifications by `decide` (N ≤ 8) or `native_decide` (N = 10).
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ═══════════════════════════════════════════════════════════════════
 -- Cell 4: R ∧ ¬D ∧ ¬H at N=3
@@ -293,4 +293,4 @@ theorem boolean_cube_all_inhabited :
   ⟨cell_RDH, cell_RD_noH, cell_R_noD_H, cell_R_noD_noH,
    cell_noR_DH, cell_noR_D_noH, cell_noR_noD_H, cell_noR_noD_noH⟩
 
-end KripkeWall
+end Dichotomic

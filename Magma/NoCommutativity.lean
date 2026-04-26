@@ -14,7 +14,7 @@
    "extensional, 2-pointed" setting.
 
    In particular, neither the `FaithfulRetractMagma` nor `DichotomicRetractMagma`
-   setups from `CatKripkeWallMinimal.lean` can be weakened to a commutative or
+   setups from `Dichotomic.lean` can be weakened to a commutative or
    single-absorber variant without collapse.
 
    ## Proofs
@@ -28,16 +28,16 @@
    **Single-absorber collapse.** The rows `x ↦ dot τ x` and `x ↦ dot z x`
    are both constantly `z`, so extensionality identifies `τ` and `z`.
 
-   These are the simplest possible impossibilities: no Kripke wall, no
+   These are the simplest possible impossibilities: no dichotomy boundary, no
    retraction pair, no dichotomy. Just the absorber axioms — paired with
    commutativity in one case, extensionality in the other.
 -/
 
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ══════════════════════════════════════════════════════════════════════
 -- The No-Commutativity Theorem
@@ -51,7 +51,7 @@ variable {n : Nat}
     left-absorbers and is commutative, we get a contradiction.
 
     This is the weakest possible statement — it doesn't need extensionality,
-    retraction pairs, or the Kripke dichotomy. Just the two absorbers. -/
+    retraction pairs, or the classifier dichotomy. Just the two absorbers. -/
 theorem no_comm_two_absorbers
     (dot : Fin n → Fin n → Fin n)
     (zero₁ zero₂ : Fin n)
@@ -117,4 +117,4 @@ theorem single_absorber_collapse
 
 end SingleAbsorberCollapse
 
-end KripkeWall
+end Dichotomic

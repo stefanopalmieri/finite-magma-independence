@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.Witness5
 import Magma.Witness6
 import Magma.OneSidedSeparation
@@ -9,7 +9,7 @@ import Mathlib.Data.Fintype.Perm
 
 An extensional 2-pointed magma satisfying the D dichotomy has a canonical
 role-class decomposition `S = Z ⊔ C ⊔ N` (Theorem `three_cat_decomposition` in
-`CatKripkeWallMinimal.lean`). Role classes are isomorphism invariants
+`Dichotomic.lean`). Role classes are isomorphism invariants
 (`Functoriality.lean`). This file strengthens the class-level canonicity to
 the individual-role level for the paper's main witnesses.
 
@@ -49,7 +49,7 @@ which role-rigidity rules out.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ══════════════════════════════════════════════════════════════════════
 -- Role rigidity: definition
@@ -113,4 +113,4 @@ theorem role_rigid_polar_absorbers
   have : σ z₁ = z₁ := h_rigid σ h_hom z₁
   exact h_distinct (this.symm.trans h_swap)
 
-end KripkeWall
+end Dichotomic

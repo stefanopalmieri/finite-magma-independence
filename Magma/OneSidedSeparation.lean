@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.E2PM
 
 /-!
@@ -41,7 +41,7 @@ this magma (brute-force `decide`). This separates:
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 section OneSidedSeparation
 
@@ -111,4 +111,4 @@ theorem mutual_strictly_stronger_than_one_sided :
 
 end OneSidedSeparation
 
-end KripkeWall
+end Dichotomic

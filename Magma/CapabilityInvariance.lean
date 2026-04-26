@@ -19,7 +19,7 @@ All proofs are purely algebraic — no `decide`, no `native_decide`.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 /-- An isomorphism of extensional 2-pointed magmas: a bijective
     operation-preserving map that sends absorbers to absorbers. -/
@@ -189,4 +189,4 @@ theorem E2PMIso.preserves_all {n : Nat}
     (HasICP n dot₁ z₁₁ z₂₁ → HasICP n dot₂ z₁₂ z₂₂) :=
   ⟨φ.preserves_retractPair, φ.preserves_dichotomy, φ.preserves_icp⟩
 
-end KripkeWall
+end Dichotomic

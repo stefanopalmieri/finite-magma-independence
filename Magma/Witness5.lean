@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.ICP
 
 /-!
@@ -6,7 +6,7 @@ import Magma.ICP
 
 A concrete 5-element algebra satisfying all three capabilities simultaneously:
   R (self-representation): retraction pair Q=E=2 (identity on core)
-  D (self-description): classifier τ=3 with Kripke dichotomy
+  D (self-description): classifier τ=3 with classifier dichotomy
   H (self-execution): ICP witnessed by a=3, b=2, c=4
 
 **Optimal minimum cardinality**: N=5 is the smallest possible witness for
@@ -22,9 +22,9 @@ agree on core but differ on absorber columns.
      0  1  2  3  4
   0 [0, 0, 0, 0, 0]   ← z₁ (absorber)
   1 [1, 1, 1, 1, 1]   ← z₂ (absorber)
-  2 [0, 2, 2, 3, 4]   ← sec=ret (identity on core, non-classifier)
-  3 [0, 0, 0, 1, 0]   ← classifier (a in ICP)
-  4 [0, 1, 0, 1, 0]   ← classifier (c in ICP)
+  2 [0, 1, 2, 3, 4]   ← sec=ret (identity on Fin 5, non-classifier)
+  3 [0, 0, 0, 1, 1]   ← classifier (a in ICP), recognizes both classifiers
+  4 [0, 1, 0, 1, 1]   ← classifier (c in ICP), recognizes both classifiers + z₂
 
 Category distribution:
   Zeros (2):           {0, 1}
@@ -37,7 +37,7 @@ Table verified by Z3 SAT solver, independently verified in Lean.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ═══════════════════════════════════════════════════════════════════
 -- The N=5 R+D+ICP witness
@@ -46,9 +46,9 @@ namespace KripkeWall
 private def rawW5 : Nat → Nat → Nat
   | 0, 0 => 0 | 0, 1 => 0 | 0, 2 => 0 | 0, 3 => 0 | 0, 4 => 0
   | 1, 0 => 1 | 1, 1 => 1 | 1, 2 => 1 | 1, 3 => 1 | 1, 4 => 1
-  | 2, 0 => 0 | 2, 1 => 2 | 2, 2 => 2 | 2, 3 => 3 | 2, 4 => 4
-  | 3, 0 => 0 | 3, 1 => 0 | 3, 2 => 0 | 3, 3 => 1 | 3, 4 => 0
-  | 4, 0 => 0 | 4, 1 => 1 | 4, 2 => 0 | 4, 3 => 1 | 4, 4 => 0
+  | 2, 0 => 0 | 2, 1 => 1 | 2, 2 => 2 | 2, 3 => 3 | 2, 4 => 4
+  | 3, 0 => 0 | 3, 1 => 0 | 3, 2 => 0 | 3, 3 => 1 | 3, 4 => 1
+  | 4, 0 => 0 | 4, 1 => 1 | 4, 2 => 0 | 4, 3 => 1 | 4, 4 => 1
   | _, _ => 0
 
 private theorem rawW5_bound (a b : Fin 5) : rawW5 a.val b.val < 5 := by
@@ -142,4 +142,4 @@ theorem no_icp_at_4 (dot : Fin 4 → Fin 4 → Fin 4) : ¬ HasICP 4 dot 0 1 := b
   rcases mem a ha1 ha2 with rfl | rfl <;> rcases mem b hb1 hb2 with rfl | rfl <;>
     rcases mem c hc1 hc2 with rfl | rfl <;> simp_all
 
-end KripkeWall
+end Dichotomic

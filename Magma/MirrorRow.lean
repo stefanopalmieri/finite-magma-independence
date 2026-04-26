@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.Functoriality
 import Magma.ICP
 import Magma.StructureN5
@@ -38,7 +38,7 @@ two classifiers.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 variable {n : Nat} (M : DichotomicRetractMagma n)
 
@@ -445,4 +445,4 @@ theorem N5_aut_preserves_absorbers
     · rw [hv] at h_σ_v
       exact M.zeros_distinct.symm (h_σ_v.symm.trans h_swap₂)
 
-end KripkeWall
+end Dichotomic

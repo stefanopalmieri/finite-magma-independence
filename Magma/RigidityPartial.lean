@@ -35,7 +35,7 @@ directly applicable to any E2PM.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 /-- **Unique Classifier with Asymmetric Profile ⇒ No Swap Automorphism.**
 
@@ -137,4 +137,4 @@ theorem unique_classifier_asymmetric_profile_polar
     rw [← h_image_A, Finset.card_image_of_injective _ σ.injective]
   exact h_asymmetric h_card_eq
 
-end KripkeWall
+end Dichotomic

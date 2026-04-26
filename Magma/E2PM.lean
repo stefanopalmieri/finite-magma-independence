@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.ICP
 
 /-!
@@ -12,7 +12,7 @@ It is `FaithfulRetractMagma` without the retraction pair.
 
 - `Ext2PointedMagma n`: extensional magma with exactly two absorbers.
 - `HasRetractPair`: the E2PM admits a retraction pair (capability R).
-- `HasDichotomy`: the E2PM satisfies the Kripke dichotomy (capability D).
+- `HasDichotomy`: the E2PM satisfies the classifier dichotomy (capability D).
 - `HasICP`: already defined in `ICP.lean` (capability H).
 
 ## Results
@@ -26,7 +26,7 @@ this gives full 6-way independence of S, D, H.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ═══════════════════════════════════════════════════════════════════
 -- The base structure: Extensional 2-Pointed Magma
@@ -52,7 +52,7 @@ structure Ext2PointedMagma (n : Nat) where
     (∀ x : Fin n, x ≠ z₁ → x ≠ z₂ → dot sec (dot ret x) = x) ∧
     dot ret z₁ = z₁
 
-/-- An E2PM satisfies the Kripke dichotomy: capability D.
+/-- An E2PM satisfies the classifier dichotomy: capability D.
     Uses disjunction form for decidability. -/
 @[reducible] def HasDichotomy (n : Nat) (dot : Fin n → Fin n → Fin n) (z₁ z₂ : Fin n) : Prop :=
   -- A classifier exists
@@ -114,7 +114,7 @@ def dNoS_e2pm : Ext2PointedMagma 5 where
   no_other_zeros := by decide
   extensional := by decide
 
-/-- The D⇏S witness satisfies the Kripke dichotomy. -/
+/-- The D⇏S witness satisfies the classifier dichotomy. -/
 theorem dNoS_has_dichotomy : HasDichotomy 5 dotDnoS 0 1 := by decide
 
 /-- The D⇏S witness has NO retraction pair. -/
@@ -360,4 +360,4 @@ Three have smaller vacuous witnesses (R⇏D, R⇏H, D⇏H) where the
 negated property fails for cardinality reasons, not structural ones.
 -/
 
-end KripkeWall
+end Dichotomic

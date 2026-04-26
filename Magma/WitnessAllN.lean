@@ -1,4 +1,4 @@
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.ICP
 
 /-!
@@ -41,7 +41,7 @@ All proofs are universally quantified in N: `decide` does not apply.
 
 set_option autoImplicit false
 
-namespace KripkeWall
+namespace Dichotomic
 
 -- ═══════════════════════════════════════════════════════════════════
 -- The parametric construction
@@ -766,4 +766,4 @@ theorem sdh_witness_all_N (N : Nat) (h5 : 5 ≤ N) :
   unfold witnessAllN_drm
   exact witnessAllN_has_icp N h5
 
-end KripkeWall
+end Dichotomic

@@ -4,7 +4,7 @@
 -- 10 paper files (80 theorems) + 1 supplementary (5 theorems), zero sorry.
 
 -- Foundation
-import Magma.CatKripkeWallMinimal
+import Magma.Dichotomic
 import Magma.NoCommutativity
 import Magma.OneSidedSeparation
 import Magma.Functoriality
