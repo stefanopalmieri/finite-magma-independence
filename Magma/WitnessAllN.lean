@@ -1,5 +1,6 @@
 import Magma.Dichotomic
 import Magma.ICP
+import Magma.DStruct
 
 /-!
 # Parametric Coexistence Witness: R+D+ICP for All N ≥ 5
@@ -648,26 +649,17 @@ theorem dichotomy_dotN (y : Fin N)
           rw [ek] at hval
           exact hx2 (Fin.ext hval)
 
-theorem has_non_classifier_dotN :
-    ∃ y : Fin N, y ≠ ⟨0, by omega⟩ ∧ y ≠ ⟨1, by omega⟩ ∧
-    ∃ x : Fin N, x ≠ ⟨0, by omega⟩ ∧ x ≠ ⟨1, by omega⟩ ∧
-      dotN N h5 y x ≠ ⟨0, by omega⟩ ∧ dotN N h5 y x ≠ ⟨1, by omega⟩ := by
-  refine ⟨⟨2, by omega⟩, ?_, ?_, ⟨2, by omega⟩, ?_, ?_, ?_, ?_⟩
-  · intro h; exact absurd (Fin.mk.inj_iff.mp h) (by omega)
-  · intro h; exact absurd (Fin.mk.inj_iff.mp h) (by omega)
-  · intro h; exact absurd (Fin.mk.inj_iff.mp h) (by omega)
-  · intro h; exact absurd (Fin.mk.inj_iff.mp h) (by omega)
-  · rw [dotN_row2_eq]; intro h; exact absurd (Fin.mk.inj_iff.mp h) (by omega)
-  · rw [dotN_row2_eq]; intro h; exact absurd (Fin.mk.inj_iff.mp h) (by omega)
-
 end AxiomProofs
 
 -- ═══════════════════════════════════════════════════════════════════
--- Packaging into a DichotomicRetractMagma
+-- Packaging into a DStructRetractMagma (D minus has_non_classifier)
 -- ═══════════════════════════════════════════════════════════════════
 
-/-- The parametric R+D witness as a `DichotomicRetractMagma N` for any N ≥ 5. -/
-def witnessAllN_drm (N : Nat) (h5 : 5 ≤ N) : DichotomicRetractMagma N where
+/-- The parametric R + D_struct witness as a `DStructRetractMagma N` for any
+    N ≥ 5. This is the full classifier-dichotomy structure *minus* the
+    `has_non_classifier` clause; that clause is recovered automatically as a
+    corollary of `witnessAllN_has_icp` (see `witnessAllN_drm` below). -/
+def witnessAllN_dstruct (N : Nat) (h5 : 5 ≤ N) : DStructRetractMagma N where
   dot := dotN N h5
   zero₁ := ⟨0, by omega⟩
   zero₂ := ⟨1, by omega⟩
@@ -686,7 +678,6 @@ def witnessAllN_drm (N : Nat) (h5 : 5 ≤ N) : DichotomicRetractMagma N where
   cls_ne_zero₁ := cls_ne_zero₁_dotN h5
   cls_ne_zero₂ := cls_ne_zero₂_dotN h5
   dichotomy := dichotomy_dotN h5
-  has_non_classifier := has_non_classifier_dotN h5
 
 -- ═══════════════════════════════════════════════════════════════════
 -- ICP for the parametric witness
@@ -754,6 +745,19 @@ theorem witnessAllN_has_icp (N : Nat) (h5 : 5 ≤ N) :
       exact absurd hval (by omega)
 
 -- ═══════════════════════════════════════════════════════════════════
+-- Packaging into a DichotomicRetractMagma (via ofDStructICP)
+-- ═══════════════════════════════════════════════════════════════════
+
+/-- The parametric R+D witness as a `DichotomicRetractMagma N` for any
+    N ≥ 5. Built by upgrading `witnessAllN_dstruct` with `witnessAllN_has_icp`
+    via `DichotomicRetractMagma.ofDStructICP`. The `has_non_classifier`
+    field is supplied by the upgrade lemma — it is no longer stated or
+    proved as a separate axiom. -/
+def witnessAllN_drm (N : Nat) (h5 : 5 ≤ N) : DichotomicRetractMagma N :=
+  DichotomicRetractMagma.ofDStructICP (witnessAllN_dstruct N h5)
+    (witnessAllN_has_icp N h5)
+
+-- ═══════════════════════════════════════════════════════════════════
 -- Combined existence theorem
 -- ═══════════════════════════════════════════════════════════════════
 
@@ -761,9 +765,7 @@ theorem witnessAllN_has_icp (N : Nat) (h5 : 5 ≤ N) :
     there exists a `DichotomicRetractMagma N` whose underlying operation
     satisfies the Internal Composition Property. -/
 theorem sdh_witness_all_N (N : Nat) (h5 : 5 ≤ N) :
-    ∃ (M : DichotomicRetractMagma N), HasICP N M.dot M.zero₁ M.zero₂ := by
-  refine ⟨witnessAllN_drm N h5, ?_⟩
-  unfold witnessAllN_drm
-  exact witnessAllN_has_icp N h5
+    ∃ (M : DichotomicRetractMagma N), HasICP N M.dot M.zero₁ M.zero₂ :=
+  ⟨witnessAllN_drm N h5, witnessAllN_has_icp N h5⟩
 
 end Dichotomic

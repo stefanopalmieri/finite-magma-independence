@@ -1,0 +1,177 @@
+{
+  "probe": "no_other_zeros_independence",
+  "question": "Is `no_other_zeros` (E2PM clause iii) derivable from the rest of the axioms together with D?",
+  "schema": "Q1 SAT  \u21d2 independence (axiom is load-bearing); Q1 UNSAT \u21d2 reduction (D + ext + named absorbers forces it).",
+  "timeout_ms": 60000,
+  "N_values": [
+    4,
+    5,
+    6
+  ],
+  "entries": [
+    {
+      "N": 4,
+      "queries": {
+        "Q2_sanity": {
+          "description": "E2PM (full) + D",
+          "result": "sat",
+          "time_seconds": 0.018635988235473633
+        },
+        "Q1_independence": {
+          "description": "E2PM clauses (i)+(ii)+extensionality + D + \u2203 third absorber",
+          "result": "sat",
+          "time_seconds": 0.0019729137420654297,
+          "verdict": "independence",
+          "third_absorber": 3,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "N": 5,
+      "queries": {
+        "Q2_sanity": {
+          "description": "E2PM (full) + D",
+          "result": "sat",
+          "time_seconds": 0.003031015396118164
+        },
+        "Q1_independence": {
+          "description": "E2PM clauses (i)+(ii)+extensionality + D + \u2203 third absorber",
+          "result": "sat",
+          "time_seconds": 0.0031659603118896484,
+          "verdict": "independence",
+          "third_absorber": 4,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              4,
+              4,
+              4,
+              4,
+              4
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "N": 6,
+      "queries": {
+        "Q2_sanity": {
+          "description": "E2PM (full) + D",
+          "result": "sat",
+          "time_seconds": 0.004681110382080078
+        },
+        "Q1_independence": {
+          "description": "E2PM clauses (i)+(ii)+extensionality + D + \u2203 third absorber",
+          "result": "sat",
+          "time_seconds": 0.004660844802856445,
+          "verdict": "independence",
+          "third_absorber": 4,
+          "witness": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              5,
+              5,
+              2,
+              5,
+              5,
+              4
+            ],
+            [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}

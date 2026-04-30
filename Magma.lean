@@ -17,6 +17,9 @@ import Magma.Countermodels10
 import Magma.E2PM
 import Magma.ICP
 
+-- Axiom-reduction prototype: D_struct + ICP ⇒ DichotomicRetractMagma
+import Magma.DStruct
+
 -- Coexistence witnesses
 import Magma.Witness5
 import Magma.Witness6

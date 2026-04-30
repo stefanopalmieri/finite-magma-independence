@@ -1,0 +1,441 @@
+% =====================================================================
+% DRAFT: §1 Introduction and §2 Definitions in the positive frame.
+%
+% Self-contained excerpt — drop into main.tex by replacing the existing
+% \section{Introduction} ... up through the end of \section{Definitions}.
+% Macro definitions (\dotop, \core, \FRM, \ICP, \Fin) are unchanged
+% from main.tex.
+%
+% Substantive changes vs. the current §1, §2:
+%   - The setting is introduced as a positive primitive (finite extensional
+%     algebra with binary judgment), not as the residual of four obstructions.
+%   - The three capabilities S, D, C are the natural questions about that
+%     primitive, motivated before being defined.
+%   - K-infinity moves out of "what narrows the candidate class" into a
+%     contextualising paragraph relating this work to the PCA/TCA tradition.
+%   - Single-absorber collapse demotes from Proposition 1 to a remark
+%     (the cardinality 2 is part of the definition of "binary judgment",
+%     so the collapse just records why "binary" is the minimum).
+%   - The "tour of obstructions" paragraph in §1 becomes a single
+%     positive thread: the no-associativity / no-mediality / no-RSD /
+%     no-LSD / no-right-identity cluster is presented as a single
+%     classifier-constancy schema with a unified motivation.
+%   - Asymmetry (Theorem 5 in current numbering) is mentioned in §1
+%     and shown to follow from the absorber semantics directly, not
+%     listed as an obstruction.
+%
+% No theorem statement, no proof, and no Lean artifact moves. Section 3
+% (Universal Theorems) and beyond are untouched.
+% =====================================================================
+
+\section{Introduction}
+\label{sec:introduction}
+
+A finite magma is the Cayley table of a binary operation, stripped of
+syntax and types. We study a particular kind: \emph{finite extensional
+algebras with binary judgment} --- finite magmas whose binary operation
+returns, alongside data outputs, judgments drawn from a fixed two-element
+subset of the carrier playing the role of truth values. Within this
+setting we ask three natural operational questions: can the algebra
+\emph{represent} its own data, can it \emph{classify} its own structure,
+and can it \emph{compose} its own operations. Each question has a precise
+formal answer (S, D, C), and our main result is that the three are
+pairwise independent: no one implies any other.
+
+The setting is fixed by three structural commitments, all of them positive.
+\emph{Extensionality} is the foundational one: an element's identity is
+exhausted by its row in the Cayley table, so an element \emph{is} its
+action under the operation~\cite{burris81}. \emph{Two distinguished
+truth values} $z_1, z_2$ are the minimum number for the operation to
+register a binary outcome; equipping the algebra with judgment cardinality
+one is degenerate (Remark~\ref{rem:single-judgment}), and higher arities
+are natural generalisations we do not pursue. \emph{Inertness of the
+truth values} formalises what makes them truth values rather than data:
+$z_i \dotop x = z_i$ for all $x$, so post-judgment behaviour depends only
+on judgment status. The truth values are operationally distinguishable
+(they absorb), structurally interchangeable (no axiom prefers $z_1$ to
+$z_2$), and exhaustive among inert elements (no third element is
+left-absorbing). Together these commitments select the class of finite
+extensional 2-pointed magmas.
+
+The three capabilities. Let $\core(S) = S \setminus \{z_1, z_2\}$ denote
+the carrier minus its truth values. \emph{Internal splitting~(S)}: there
+exists a section/retraction pair $(s, r) \in \core(S)^2$ with
+$r \dotop (s \dotop x) = x$ on $\core(S)$, so the algebra has internal
+encoding/decoding for its own data. \emph{Internal dichotomy~(D)}: every
+element of core has the same judgment behaviour across all of core ---
+either every output lies in $\{z_1, z_2\}$ (a \emph{classifier}) or no
+output does (a \emph{non-classifier}) --- and at least one example of each
+type exists. \emph{Internal composition~(C)}: there exist three pairwise
+distinct core elements $a, b, c$ with $b$ core-preserving and
+$a \dotop x = c \dotop (b \dotop x)$ on $\core(S)$, with $a$ taking at
+least two distinct values --- a non-trivial factorization in the
+left-regular representation. Each capability is what an external machine
+would otherwise have to supply (naming and decoding, binary judgment,
+operation chaining), realised instead as a behaviour of elements of the
+algebra modulo the operation.
+
+\paragraph{Three structural results.} Pairwise independence (Section~\ref{sec:independence}):
+no one of the three capabilities implies any other. Lean-verified finite
+counterexamples at sizes $N \in \{4, 5, 6, 8, 10\}$ establish all six
+non-implications; four are tight. Joint irredundance
+(Section~\ref{sec:boolean-cube}): all eight Boolean combinations of
+$(S, D, C)$ are realised by Lean-verified witnesses, so no capability is
+a Boolean function of the other two. Optimal coexistence
+(Section~\ref{sec:bound}): the smallest cardinality at which all three
+capabilities can hold simultaneously is $N = 5$, and this is tight: ICP
+requires three pairwise-distinct core elements, forcing $|S| \geq 5$.
+Each Cayley table is found by SAT search and independently verified in
+Lean~4~\cite{moura21} with zero \texttt{sorry}.
+
+\paragraph{What follows from binary judgment.} Several classical
+algebraic identities are incompatible with this setting. The proofs
+share a single schema: any equation whose specialisation at a
+classifier $\tau$ forces $\tau$'s row to be constant collides with
+extensionality, equating $\tau$ with one of the truth values. From D
+alone: commutativity, mediality, right self-distributivity all fail
+(Theorems~\ref{thm:asymmetry}, \ref{thm:no-mediality}, \ref{thm:no-rsd}).
+From S+D: associativity, left self-distributivity, right identity all
+fail (Theorems~\ref{thm:no-assoc}, \ref{thm:no-lsd}, \ref{thm:no-rid}).
+The classical algebraic hierarchy --- semigroups, monoids, groups, rings
+--- therefore cannot host all three capabilities, despite each capability
+being individually expressible in classical terms. The intuition behind
+the schema is that binary judgment is intrinsically non-chainable:
+composing the operation through a classifier collapses the judgment to
+a fixed verdict, eliminating discriminative content.
+
+\paragraph{What lies beyond.} Two structural results extend the picture.
+The three-category decomposition $S = Z \sqcup C \sqcup N$ induced by D
+is an isomorphism invariant (Theorem~\ref{thm:functoriality}); the
+unique coarsest non-trivial isomorphism-invariant partition of core is
+the classifier/non-classifier split (Corollary~\ref{cor:canonicity}).
+At $N = 5$ a structure theorem (Theorem~\ref{thm:N5-structure}) pins the
+role assignments of retraction, classifier, and ICP-triple onto the
+three core slots with no slack: every retraction pair has $s = r$, every
+ICP-triple has the form $(\tau_1, g, \tau_2)$, and the only possible
+non-trivial automorphism is the classifier transposition
+$(\tau_1\,\tau_2)$ (Theorem~\ref{thm:mirror-row}). At $N \geq 6$ strong S
+re-opens and the role-shape fractures (Proposition~\ref{prop:N6-nonrigid}),
+but partial invariants survive across the transition
+(Propositions~\ref{prop:N6-aut-structure}, \ref{prop:N6-h-triples}).
+
+\paragraph{Relation to universality programmes.} Combinatory algebras
+(PCAs, TCAs)~\cite{vanoosten08, longley15, bethke88} and Turing
+categories~\cite{cockett08} solve a different problem: full internal
+universality of the operation, paid for by infinite cardinality
+(Theorem~\ref{thm:k-infinity}, the K-infinity result of the PCA tradition).
+The setting of this paper retains finite cardinality and obtains, in
+exchange, a weaker form of universality --- representation without a
+global projector, classification without a subobject classifier,
+composition without a total internal hom. The three capabilities S, D, C
+are what survives the trade. Section~\ref{sec:related} discusses the
+finite-vs-infinite cardinality dichotomy in more detail; it is context
+for our setting, not a fact derivable inside it.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A positive axiomatisation of the setting as finite extensional
+    algebras with binary judgment, together with a uniform
+    classifier-constancy schema explaining why associativity, mediality,
+    self-distributivity, right identity, and commutativity all fail
+    (Section~\ref{sec:universal}).
+  \item An independence theorem: S, D, and C are pairwise independent,
+    with Lean-verified counterexamples in all six directions at $N = 4$
+    through $N = 10$ (Section~\ref{sec:independence}), and coexistence
+    witnesses at $N = 5$ and $N = 6$ (Section~\ref{sec:bound}).
+  \item An optimal bound: $N = 5$ is the minimum carrier size for S+D+C
+    coexistence; ICP is impossible at $N = 4$ by pigeonhole
+    (Theorem~\ref{thm:no-icp-4}).
+  \item Decomposition invariance and role rigidity: the $Z/C/N$ partition
+    is preserved by isomorphisms (Section~\ref{sec:invariance}); the
+    $N \geq 6$ principal coexistence witness and the smaller S+D witnesses
+    have trivial automorphism group, while the canonical $N = 5$ S+D+C
+    witness internalises a classifier-swap as the action of its
+    non-classifier (Proposition~\ref{prop:witness-rigid},
+    Remark~\ref{rem:canonical-witness}); at $N = 5$ a structure theorem
+    forces retraction, classifier, and C-triple onto the three core slots
+    and rules out strong S, and the mirror-row theorem
+    (Theorem~\ref{thm:mirror-row}) bounds $|\mathrm{Aut}(M)| \leq 2$;
+    at $N \geq 6$ strong S returns and rigidity fails
+    (Proposition~\ref{prop:N6-nonrigid}).
+  \item A characterization of C: the ICP is logically equivalent to the
+    standard Compose+Inert axioms under variable renaming, with
+    Lean-verified necessity of the non-degeneracy guard conditions
+    (Section~\ref{sec:icp}).
+  \item Joint irredundance: all eight cells of the $(S, D, C)$ Boolean
+    cube are inhabited by Lean-verified witnesses
+    (Section~\ref{sec:boolean-cube}), so no capability is a Boolean
+    function of the other two.
+\end{enumerate}
+
+% =====================================================================
+
+\section{Definitions}
+\label{sec:definitions}
+
+Throughout, $(S, \dotop)$ is a finite magma on
+$\Fin(n) = \{0, 1, \ldots, n-1\}$ with binary operation
+$\dotop : \Fin(n) \times \Fin(n) \to \Fin(n)$.
+
+\begin{definition}[Finite Extensional Algebra with Binary Judgment]
+\label{def:epm}
+A \emph{finite extensional algebra with binary judgment} --- equivalently,
+an \emph{extensional 2-pointed magma} --- is a tuple
+$(S, \dotop, z_1, z_2)$ where:
+\begin{enumerate}
+  \item $z_1, z_2 \in S$ are distinct elements designated as the
+    \emph{truth values} of the algebra.
+  \item The truth values are \emph{operationally inert}: $z_i \dotop x = z_i$
+    for all $x \in S$. Equivalently, $z_1$ and $z_2$ are left-absorbers.
+  \item No other element is operationally inert: no other element is a
+    left-absorber.
+  \item \emph{Extensionality}: distinct elements have distinct rows in
+    the Cayley table.
+\end{enumerate}
+We write $\core(S) := S \setminus \{z_1, z_2\}$ for the elements of $S$
+that are not truth values.
+\end{definition}
+
+The four clauses isolate four structural commitments. Clause~(i) declares
+two distinguished judgment outputs and requires them to be distinct ---
+``binary'' means two-valued. Clause~(ii) gives the truth values their
+operational meaning: their post-judgment behaviour depends only on
+their judgment status, not on what they are judging. Clause~(iii) closes
+the truth-value subset against operational impostors: every other element
+of $S$ varies under left-multiplication, so no other element ``acts like
+a truth value'' without being one. Clause~(iv) is the foundational
+extensional commitment: an element's row in the Cayley table is a
+complete operational description of it, so equality of behaviour is
+equality.
+
+The choice of cardinality two for the judgment subset is forced by
+non-degeneracy:
+
+\begin{remark}[Why binary, not unary]
+\label{rem:single-judgment}
+If a candidate algebra had only one truth value $z$, any element
+$\tau$ purportedly classifying inputs against $\{z\}$ would satisfy
+$\tau \dotop x = z$ for all $x$. The row of $\tau$ would then equal the
+row of $z$ (both constantly $z$), and extensionality would force
+$\tau = z$ --- the supposed classifier collapses into the truth value
+itself. Binary judgment is therefore the smallest non-degenerate case,
+not a parameter choice; $k$-valued generalisations for $k \geq 3$
+strengthen the theory in a different direction we do not pursue here.
+Lean: \texttt{single\_absorber\_collapse}.
+\end{remark}
+
+The clause~(iii) requirement that no other element be a left-absorber
+is independent of clauses~(i), (ii), and (iv) together with the
+classifier dichotomy of Definition~\ref{def:cd}: at every $N \in \{4, 5, 6\}$,
+Z3 produces an extensional 2-pointed magma satisfying D in which a third
+core element has a constant row (script
+\texttt{scripts/canonicality/no\_other\_zeros\_independence.py}). The
+clause is therefore a genuine axiom, not a consequence of the rest.
+
+We do \emph{not} commit to a stronger reading of the two truth values as
+``opposites'' in any structural sense. The theorems are compatible both
+with a symmetric reading (two indistinguishable judgment outputs) and a
+polar reading (two poles of a polarity). Whether $z_1$ corresponds to
+``false'' and $z_2$ to ``true'' or vice versa is a free choice the
+axioms do not constrain. This freedom is genuine: applications can
+specialise the reading without changing the theorems.
+
+\begin{definition}[Faithful Retract Magma]
+\label{def:frm}
+A \emph{Faithful Retract Magma} ($\FRM$) extends an extensional 2-pointed
+magma with a \emph{retraction pair} $s, r \in \core(S)$ satisfying
+$r \dotop (s \dotop x) = x$ for all $x \in \core(S)$, with
+$r \dotop z_1 = z_1$ (anchoring). The remaining absorber outputs of $s$
+and $r$ are unconstrained.
+\end{definition}
+
+\paragraph{Retraction pair convention.}
+\label{rem:mutual}
+Throughout this paper the retraction pair $(s, r)$ satisfies the
+mutual-inverse condition on core: $r \dotop (s \dotop x) = x$ and
+$s \dotop (r \dotop x) = x$ for all $x \in \core(S)$. This matches the
+Lean formalisation. The choice is load-bearing, not stylistic.
+One-sided retraction ($r \dotop (s \dotop x) = x$) is a
+decodable-encoding condition: $s$ produces codes that $r$ can recover.
+Mutual inverse is the stronger, faithful-representation condition: $s$
+and $r$ invert each other in both directions on core, so the encoding
+neither invents nor loses information. Most theorems (9 of 11) go
+through under the one-sided hypothesis, and we note this where relevant;
+two results, retraction pair placement (Theorem~\ref{thm:placement}) and
+the tight bound $|S| \geq 5$ when $s \neq r$ (Theorem~\ref{thm:card}),
+genuinely require the full mutual inverse.
+Proposition~\ref{prop:one-sided-sep} shows this distinction is
+non-vacuous.
+
+\begin{proposition}[One-Sided / Mutual-Inverse Separation]
+\label{prop:one-sided-sep}
+There is an extensional 2-pointed magma on $\Fin(4)$ admitting a
+one-sided retraction pair $(s, r)$ with $s \neq r$, $s, r \in \core$,
+$r \dotop z_1 = z_1$, and $r \dotop (s \dotop x) = x$ for all
+$x \in \core$, but no mutual-inverse pair $(s', r')$ with $s' \neq r'$.
+The explicit Cayley table (rows indexed by the left operand) is:
+\[
+\begin{array}{c|cccc}
+\dotop & 0 & 1 & 2 & 3 \\ \hline
+0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 \\
+2 & 1 & 0 & 1 & 3 \\
+3 & 0 & 2 & 1 & 3
+\end{array}
+\]
+with $z_1 = 0$, $z_2 = 1$, $s = 2$, $r = 3$. Mutual inverse fails at
+$x = 2$: $s \dotop (r \dotop 2) = 2 \dotop 1 = 0 \neq 2$. Lean:
+\texttt{mutual\_strictly\_stronger\_than\_one\_sided}.
+\end{proposition}
+
+\begin{proof}
+All axioms are verified by direct inspection; Lean discharges each by
+\texttt{decide}, including the non-existence of a mutual-inverse pair
+with $s' \neq r'$ over $\Fin(4) \times \Fin(4)$. The separation
+establishes that mutual inverse strictly implies one-sided retraction,
+so the choice of axiom is substantive, and that the tight bound of
+Theorem~\ref{thm:card} cannot be weakened to one-sided.
+\end{proof}
+
+The retraction pair gives the algebra a section/retraction structure on
+core: $s$ acts as a section and $r$ as a retraction. We do not assume a
+canonical global encoding.
+
+\begin{definition}[Classifier Dichotomy]
+\label{def:cd}
+An extensional 2-pointed magma satisfies the \emph{classifier dichotomy}
+when:
+\begin{enumerate}
+  \item A \emph{classifier} $\tau \in \core(S)$ exists with
+    $\tau \dotop x \in \{z_1, z_2\}$ for all $x \in S$.
+  \item For every $y \in \core(S)$, either
+    \begin{itemize}
+      \item $y \dotop x \in \{z_1, z_2\}$ for all $x \in \core(S)$ ---
+        $y$ is a \emph{classifier}, or
+      \item $y \dotop x \notin \{z_1, z_2\}$ for all $x \in \core(S)$ ---
+        $y$ is a \emph{non-classifier}.
+    \end{itemize}
+  \item At least one non-classifier exists (the dichotomy is not
+    one-sided).
+\end{enumerate}
+\end{definition}
+
+The three clauses split into structural and non-vacuity content.
+Clauses~(i) and~(ii) together, $D_{\mathrm{struct}}$, are the structural
+fragment: the algebra contains \emph{some} classifier and the
+classification is global. Clause~(iii) ensures both classes are
+inhabited. In the joint S+D+C setting, clause~(iii) is automatic: the
+middle element $b$ of any ICP triple is core-preserving (Definition~\ref{def:icp}
+clause~1), hence a non-classifier, hence supplies the missing witness
+(Lean: \texttt{DStructRetractMagma.has\_non\_classifier\_of\_icp}).
+Theorem~\ref{thm:d-factorization} below makes the split formal:
+$D \iff D_{\mathrm{struct}} \wedge P$, where $P$ asserts the existence
+of a core-preserving element.
+
+The dichotomy creates a three-category decomposition
+$S = Z \sqcup C \sqcup N$ where $Z = \{z_1, z_2\}$ (truth values),
+$C$ (classifiers), and $N$ (non-classifiers). No element can be partially
+classifying. We call outputs in $\{z_1, z_2\}$ \emph{absorber-valued}.
+
+\begin{definition}[Internal Composition Property]
+\label{def:icp}
+A magma $(S, \dotop, z_1, z_2)$ satisfies the \emph{Internal Composition
+Property} ($\ICP$) when:
+\[
+\exists\, a, b, c \in \core(S),\ \text{pairwise distinct, such that:}
+\]
+\begin{enumerate}
+  \item \emph{Core-preservation}: $b \dotop x \notin \{z_1, z_2\}$ for
+    all $x \in \core(S)$.
+  \item \emph{Factorization}: $a \dotop x = c \dotop (b \dotop x)$ for
+    all $x \in \core(S)$.
+  \item \emph{Non-triviality}: $|\{a \dotop x : x \in \core(S)\}| \geq 2$.
+\end{enumerate}
+\end{definition}
+
+ICP says that the left-regular representation contains a non-trivial
+factorization on core: one core action factors through two others, one
+of them core-preserving --- a single fragment of internal composition.
+The pairwise-distinctness and non-triviality clauses are guard conditions
+blocking degeneracies; both are proved necessary by Lean-verified
+witnesses (Section~\ref{sec:icp}). In Section~\ref{sec:icp} we prove
+that $\ICP$ is equivalent to the standard operational axioms
+Compose+Inert (Theorem~\ref{thm:icp-equiv}).
+
+\begin{definition}[The Three Capabilities]
+\label{def:capabilities}
+An extensional 2-pointed magma has:
+\begin{itemize}
+  \item Capability $S$ (\emph{internal splitting}) if it admits a
+    retraction pair (Definition~\ref{def:frm}).
+  \item Capability $D$ (\emph{internal dichotomy}) if it satisfies the
+    classifier dichotomy (Definition~\ref{def:cd}).
+  \item Capability $C$ (\emph{internal composition}) if it satisfies the
+    Internal Composition Property (Definition~\ref{def:icp}).
+\end{itemize}
+\end{definition}
+
+All three capabilities are properties of the same base structure. None
+is defined as an extension of any other, making the independence theorem
+a statement about six non-implications, all proved by Lean-verified
+counterexamples.
+
+\paragraph{Why these three.} Each capability answers a specific positive
+question about a finite extensional algebra with binary judgment, in a
+way that is operational rather than typed. Extensionality identifies
+each element with its row in the Cayley table, so the elements of the
+algebra are a family of typed maps
+$\{L_a^{\core} : \core \to \core \cup Z\}$, one per element, with the
+truth-value maps $L_{z_1}, L_{z_2}$ being constant. S, D, and C
+correspond to three fundamental structural questions about such a
+family:
+\begin{itemize}
+  \item \emph{Splitting} (S): does the identity on core split through
+    the family --- do some $L_s, L_r$ satisfy
+    $L_r \circ L_s = \mathrm{id}_{\core}$? This is the standard
+    section-retraction pair~\cite{maclane71}.
+  \item \emph{Codomain purity} (D): does each map hit $\core$ or $Z$,
+    never both? This is the unique coarsest non-trivial
+    isomorphism-invariant partition of core
+    (Corollary~\ref{cor:canonicity}).
+  \item \emph{Factorization} (C): does the family contain a non-trivial
+    composition $L_a = L_c \circ L_b$ with $L_b$ core-preserving and
+    $L_a$ non-constant? This is the weakest factorization condition
+    that is not vacuously satisfiable (Lean-verified separations in
+    \texttt{ICP.lean}).
+\end{itemize}
+Each property is minimal in its own sense. S is the standard notion of
+splitting. D is the coarsest invariant partition. C is the weakest
+non-degenerate factorization. The independence and joint-irredundance
+results (Theorems~\ref{thm:independence}, \ref{thm:cube}) confirm these
+are three questions, jointly irredundant.
+
+\paragraph{Other structural questions.} The slice $(S, D, C)$ is one
+choice within a broader axiom landscape. A Z3 canonicality probe
+(\texttt{scripts/canonicality/probe\_axioms.py}) tested thirteen
+candidate operational axioms on extensional 2-pointed magmas at
+$N \in \{5, 6\}$ via pairwise directional implication queries against
+$S$, $D$, $C$; ten are pairwise independent of $(S, D, C)$ in both
+directions at both sizes, three collapse into derived consequences
+(retraction pair gives one-sided retraction and left-cancellation; both
+$D$ and $C$ imply $P$ via Theorem~\ref{thm:d-factorization}). $(S, D, C)$
+is therefore one structurally selectable slice among many. What
+distinguishes it is that the canonical $N = 5$ S+D+C witness is fully
+determined by the topos-theoretic indicator reading of $D$ together with
+the requirement that the magma's automorphism be internalised in its
+operation (Remark~\ref{rem:canonical-witness}); the other ten probe
+axioms have no such joint structural characterisation.
+
+\paragraph{The internalisation frame.}
+The magma operation $\dotop$ is taken as given throughout --- the
+structuring relation of $(A, \dotop)$, not itself an object inside the
+structure. This is not a gap but a structural commitment: no finite
+algebra can contain its own operation as an element without generating
+a meta-operation, a Tarski/Lawvere-style regress. We study what
+\emph{can} be internalised within $(A, \dotop)$ modulo $\dotop$:
+services that would otherwise be supplied externally (naming and
+decoding, binary judgment, operation chaining), realised instead as
+behaviours of elements relative to the fixed operation. The three
+capabilities S, D, C are each one such internalisation; the operation
+$\dotop$ is the one component deliberately left outside the
+internalisation catalog.

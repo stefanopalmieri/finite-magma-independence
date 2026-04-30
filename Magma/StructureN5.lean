@@ -1,5 +1,6 @@
 import Magma.Dichotomic
 import Magma.ICP
+import Magma.DStruct
 import Mathlib.Data.Finset.Card
 
 /-!
@@ -332,5 +333,41 @@ theorem N5_no_strong_S :
         HasICP 5 M.dot M.zero₁ M.zero₂ ∧ M.sec ≠ M.ret := by
   rintro ⟨M, hC, h_ne⟩
   exact h_ne (N5_sec_eq_ret M hC)
+
+-- ══════════════════════════════════════════════════════════════════════
+-- Part 4: DStruct-typed restatements
+-- ══════════════════════════════════════════════════════════════════════
+
+/-! ### DStruct + ICP variants
+
+The two corollaries below take `DStructRetractMagma 5 + HasICP` instead of
+`DichotomicRetractMagma 5 + HasICP`. The classifier-dichotomy data plus an
+ICP proof is *strictly more general* than a full DRM hypothesis: every full
+DRM forgets to a `DStructRetractMagma`, and conversely the upgrade lemma
+`DichotomicRetractMagma.ofDStructICP` reconstructs a full DRM whenever ICP
+is present. These wrappers expose that more-general form to consumers.
+
+Wrappers for the `IsNonClassifier` / `IsClassifier`-flavoured statements
+(`unique_non_classifier_at_N5`, `N5_exists_unique_non_classifier`,
+`N5_icp_triple_structure`) would require lifting those predicates to the
+`DStructRetractMagma` namespace; that is straightforward but deferred. -/
+
+/-- **Corollary 4.10, DStruct form.** At N=5, no `DStructRetractMagma`
+    satisfying ICP admits `sec ≠ ret`. Strictly generalises
+    `N5_sec_eq_ret`: every full DRM forgets to a DStruct, but the converse
+    is non-trivial absent ICP. -/
+theorem N5_sec_eq_ret_dstruct
+    (Md : DStructRetractMagma 5)
+    (hC : HasICP 5 Md.dot Md.zero₁ Md.zero₂) :
+    Md.sec = Md.ret :=
+  N5_sec_eq_ret (DichotomicRetractMagma.ofDStructICP Md hC) hC
+
+/-- **DStruct form** of `N5_no_strong_S`: no `DStructRetractMagma + HasICP`
+    on `Fin 5` admits `sec ≠ ret`. -/
+theorem N5_no_strong_S_dstruct :
+    ¬ ∃ Md : DStructRetractMagma 5,
+        HasICP 5 Md.dot Md.zero₁ Md.zero₂ ∧ Md.sec ≠ Md.ret := by
+  rintro ⟨Md, hC, h_ne⟩
+  exact h_ne (N5_sec_eq_ret_dstruct Md hC)
 
 end Dichotomic
