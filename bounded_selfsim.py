@@ -320,9 +320,9 @@ def check_bounded_selfsim(table, N, s, r, z1, name, max_depth=3):
 TABLE_5 = [
     [0, 0, 0, 0, 0],
     [1, 1, 1, 1, 1],
-    [0, 2, 2, 3, 4],
-    [0, 0, 0, 1, 0],
-    [0, 1, 0, 1, 0],
+    [0, 1, 2, 3, 4],
+    [0, 0, 0, 1, 1],
+    [0, 1, 0, 1, 1],
 ]
 
 # N=6 coexistence witness (from self_sim_investigation.py / Witness6.lean)

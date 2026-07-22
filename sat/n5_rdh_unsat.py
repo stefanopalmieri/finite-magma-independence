@@ -326,9 +326,9 @@ if __name__ == "__main__":
     witness_5 = [
         [0, 0, 0, 0, 0],  # Row 0: z₁ absorber
         [1, 1, 1, 1, 1],  # Row 1: z₂ absorber
-        [0, 2, 2, 3, 4],  # Row 2: sec=ret, identity on core, non-classifier
-        [0, 0, 0, 1, 0],  # Row 3: classifier (a in ICP)
-        [0, 1, 0, 1, 0],  # Row 4: classifier (c in ICP)
+        [0, 1, 2, 3, 4],  # Row 2: sec=ret, identity on Fin 5, non-classifier
+        [0, 0, 0, 1, 1],  # Row 3: classifier (a in ICP), recognizes both classifiers
+        [0, 1, 0, 1, 1],  # Row 4: classifier (c in ICP), recognizes both classifiers + z₂
     ]
 
     ok = verify_witness(witness_5, "Hand-constructed (identity retraction)")

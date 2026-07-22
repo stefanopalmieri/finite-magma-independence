@@ -159,6 +159,11 @@ winding marks, environment representation, tag encodings, GC.
 
 ## 10. File pointers
 
+- `scripts/psi_lambda_mu_n9.py`, `psi_lambda_mu_n9_v2.py`, `n9_church_2a.py`,
+  `LAMBDA_MU_ON_N9.md`, `RESULT_2A.md` — **the driver seed**: a working
+  λ̄μμ̃ prototype (polarity involution with σ-fixed cut trigger and
+  position-swapping duality; 25/25 σ̂-commutation checks). Built over the
+  archived N=9 substrate (`scripts/n9-archive/`); port it to `dotA8`.
 - `Magma/ArtifactN8.lean` — the canonical artifact and its 16 certified laws
 - `Magma/Homoiconic.lean` — introspection determines the quotation law; N=6 kernel
 - `Magma/Sorting.lean` — sorting, involution theorem, four class-tables, swap balance
