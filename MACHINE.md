@@ -165,8 +165,19 @@ winding marks, environment representation, tag encodings, GC.
    operational shadow); λ-free programs conservative at fuel ≥ depth
    (`run_embed`); the duality pairing reached metacircularly by β
    (`eval_quote_duality_demo`). Tags: quote (2) = λ, eval (3) = app,
-   shift (4) = var. Remaining: control operators (μ / `call/cc`) and
-   the store (§§4–6) up to R7RS.
+   shift (4) = var. **Control DONE** (`Magma/FactorizationCtrl.lean`):
+   the driver is now an actual System L machine — command states
+   ⟨focus ‖ continuation⟩, halt = cut against the toplevel co-constant
+   (`step_halt`), `callcc` = binder-form μ (`step_mu`), continuation
+   invocation = cut against the captured consumer discarding the
+   current one (`step_throw`), proper tail calls structural
+   (`step_beta`: β keeps the same continuation). `eval_quote` holds
+   over the machine uniformly in fuel; escape-through-quotation demo
+   certified against the table; big-step → machine simulation theorem
+   (`machine_sim`, continuation-polymorphic) + machine determinism =
+   two-sided conservativity on μ-free programs; Ω diverges via a
+   certified five-state machine cycle. Tag: judge? (6) = μ. Remaining:
+   the store (S of CESK, §§4–6), then outward to R7RS.
 2. **Size escalation criterion**: stay at N=8; move to N=10 only when a
    specific desired law returns UNSAT at 8 (candidate: a certified
    abort/continuation pair, if the exception path should be table-level).

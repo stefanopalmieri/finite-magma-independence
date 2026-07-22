@@ -1,7 +1,7 @@
 -- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 28 paper files (294 theorems) + 1 supplementary (5 theorems), zero sorry.
+-- 29 paper files (314 theorems) + 1 supplementary (5 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
@@ -67,3 +67,6 @@ import Magma.FactorizationEnv
 
 -- Factorization with closures: β, fuel, certified divergence (Ω), conservative again
 import Magma.FactorizationClos
+
+-- Factorization with control: the System L machine, μ/call-cc, simulation theorem
+import Magma.FactorizationCtrl

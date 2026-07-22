@@ -9,7 +9,7 @@ Three algebraic properties of finite extensional 2-pointed magmas — internal s
 ## Building
 
 ```bash
-lake build          # builds all 29 files, verifies ~320 theorems, zero sorry
+lake build          # builds all 30 files, verifies ~340 theorems, zero sorry
 ```
 
 Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefile.lean`).
@@ -41,13 +41,14 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **Factorization** | 7 | Alg.+decide | **Driver metacircularity: eval(quote p) = run p, base case = the certified table law** |
 | **FactorizationEnv** | 10 | Alg.+decide | **Metacircularity with environments (R7RS two-argument eval), conservative over the minimal form** |
 | **FactorizationClos** | 15 | Alg.+decide | **Metacircularity with closures: β, fuel, certified divergence (Ω), conservative again** |
+| **FactorizationCtrl** | 20 | Alg.+decide | **The System L machine: μ/call-cc, escape demo, big-step→machine simulation, Ω as a 5-state cycle** |
 | BooleanCube | 25 | decide+native | Joint irredundance: all 8 cells of (S,D,C) |
 | Rigidity | 6 | decide | Role rigidity of principal witnesses |
 | RigidityPartial | 1 | Algebraic | Partial rigidity maps |
 | StructureN5 | 8 | Algebraic | N=5 structure theorem: role lock-in, no strong S |
 | MirrorRow | 1 | Algebraic | N=5 automorphisms fix absorbers, \|Aut\| ≤ 2 |
 | SelfSimulation | 5 | Algebraic | Partial application injectivity (supplementary) |
-| **Total** | **323** | | |
+| **Total** | **343** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 
