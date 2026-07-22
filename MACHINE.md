@@ -176,8 +176,22 @@ winding marks, environment representation, tag encodings, GC.
    certified against the table; big-step → machine simulation theorem
    (`machine_sim`, continuation-polymorphic) + machine determinism =
    two-sided conservativity on μ-free programs; Ω diverges via a
-   certified five-state machine cycle. Tag: judge? (6) = μ. Remaining:
-   the store (S of CESK, §§4–6), then outward to R7RS.
+   certified five-state machine cycle. Tag: judge? (6) = μ.
+   **Store DONE — item 1 CLOSED** (`Magma/FactorizationStore.lean`):
+   the full CESK machine. E captured vs S threaded is certified as
+   computation (`eval_quote_mutation`: a `setref` in argument position
+   observed by the body through β); continuations provably do not
+   restore the store (`step_throw`); allocation/read/write laws +
+   `read_alloc`; conservativity strengthened to a **lockstep
+   bisimulation** (`step_embed`/`runM_embed`: identical answers under
+   `Option.map`, values and divergence alike — Ω transfers free).
+   Tags: data? (5) marks store forms, sub-tagged by quote/eval/shift =
+   ref/deref/setref. The factorization ladder is complete: minimal →
+   env → closures → control → store, each rung conservative, every
+   induction grounded in `eatom_qatom`. What remains toward R7RS (§6)
+   is breadth, not architecture: data types, numeric tower,
+   `syntax-rules`, ports — tape/driver engineering, no new algebraic
+   content.
 2. **Size escalation criterion**: stay at N=8; move to N=10 only when a
    specific desired law returns UNSAT at 8 (candidate: a certified
    abort/continuation pair, if the exception path should be table-level).
