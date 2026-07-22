@@ -146,9 +146,13 @@ winding marks, environment representation, tag encodings, GC.
 
 ## 9. Open next steps
 
-1. **The two-level factorization theorem**: driver `eval`/`quote` factor
-   correctly through the table's internal duality — the novel deliverable;
-   no Scheme implementation has certified metacircularity against an algebra.
+1. **The two-level factorization theorem** — minimal form DONE
+   (`Magma/Factorization.lean`, `eval_quote`): a driver whose only
+   semantic step is a `dotA8` lookup satisfies `eval (quote p) = run p`
+   for every program, by an induction whose base case is the artifact's
+   certified retraction (`eatom_qatom`). Remaining: extend the same
+   induction shape through environments, store, and control (§§4–6)
+   up to R7RS.
 2. **Size escalation criterion**: stay at N=8; move to N=10 only when a
    specific desired law returns UNSAT at 8 (candidate: a certified
    abort/continuation pair, if the exception path should be table-level).
