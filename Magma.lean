@@ -1,7 +1,7 @@
--- Pairwise Independence of Representation, Classification, and Composition
+-- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 10 paper files (80 theorems) + 1 supplementary (5 theorems), zero sorry.
+-- 25 paper files (262 theorems) + 1 supplementary (5 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
@@ -40,3 +40,21 @@ import Magma.MirrorRow
 
 -- Joint irredundance (R×D×H Boolean cube)
 import Magma.BooleanCube
+
+-- Tight N=5 counterexamples: S ⇏ D, S ⇏ C structural, S+D ⇏ C (all optimal)
+import Magma.TightWitnesses
+
+-- All six non-implications at every size: the scaling conjecture, resolved
+import Magma.IndependenceAllN
+
+-- The two walls: K-infinity, and completeness excludes the dichotomy
+import Magma.CompletenessWall
+
+-- Sorted magmas: the first connecting axiom (class-compositionality)
+import Magma.Sorting
+
+-- Homoiconic introspection: the quotation law is determined by the world
+import Magma.Homoiconic
+
+-- The canonical N=8 artifact (Stack A): certified Scheme microcode
+import Magma.ArtifactN8

@@ -1,15 +1,15 @@
-# Pairwise Independence of Representation, Classification, and Composition in Finite Extensional Magmas
+# Pairwise Independence of Splitting, Dichotomy, and Composition in Finite Extensional Magmas
 
 Lean 4 formalization and SAT reproduction scripts for the paper.
 
 ## Result
 
-Three algebraic properties of finite extensional 2-pointed magmas — self-representation (R), the classifier dichotomy (D), and the Internal Composition Property (H) — are pairwise independent. Six Lean-verified counterexamples (sizes 5–10) establish all six non-implications. The optimal coexistence witness has N=5, which is tight: ICP requires 3 pairwise distinct core elements, so N ≥ 5.
+Three algebraic properties of finite extensional 2-pointed magmas — internal splitting (S, a retraction pair), the classifier dichotomy (D), and internal composition (C, the Internal Composition Property) — are pairwise independent, and jointly irredundant: all eight Boolean profiles of (S, D, C) are realized. Every one of the six non-implications has a Lean-verified counterexample at its **provably minimal size** (N=4 or N=5), and explicit parametric families realize every non-implication and every Boolean profile at **every admissible carrier size**, so neither result is a small-size artifact. The optimal coexistence witness has N=5, which is tight: ICP requires 3 pairwise distinct core elements, so N ≥ 5.
 
 ## Building
 
 ```bash
-lake build          # builds all 11 files, verifies 80+ theorems, zero sorry
+lake build          # builds all 26 files, verifies 290+ theorems, zero sorry
 ```
 
 Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefile.lean`).
@@ -18,52 +18,73 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 
 | File | Thms | Style | Content |
 |------|------|-------|---------|
-| Dichotomic | 17 | Algebraic | Decomposition, bounds, classifier-dichotomy boundary |
-| NoCommutativity | 3 | Algebraic | Asymmetry |
+| Dichotomic | 20 | Algebraic | Decomposition, bounds, classifier-dichotomy boundary |
+| NoCommutativity | 4 | Algebraic | Asymmetry |
+| OneSidedSeparation | 3 | decide | One-sided vs mutual-inverse retraction |
 | Functoriality | 4 | Algebraic | Invariance under isomorphism |
-| SelfSimulation | 5 | Algebraic | Partial application injectivity |
+| CapabilityInvariance | 4 | Algebraic | S, D, C each invariant |
 | ICP | 20 | Alg.+decide | ICP ↔ Compose+Inert |
-| Countermodel | 5 | decide | S ⊬ D (N=8) |
-| Countermodels10 | 9 | native_decide | D ⊬ H, H ⊬ D (N=10) |
-| E2PM | 10 | decide | D ⊬ S (N=5), H ⊬ S (N=6), S ⊬ H (N=6) |
-| Witness5 | 3 | decide | S+D+H at N=5 (optimal), no ICP at N=4 |
-| Witness6 | 3 | decide | S+D+H at N=6 |
-| Witness10 | 6 | native_decide | S+D+H at N=10 |
-| **Total** | **80** | | |
+| DStruct | 1 | Algebraic | Axiom reduction: D_struct + ICP |
+| Countermodel | 5 | decide | S ⊬ D (N=8, separated roles; superseded) |
+| Countermodels10 | 9 | native_decide | D ⊬ C, C ⊬ D (N=10) |
+| E2PM | 19 | decide | D ⊬ S (N=4 tight), C ⊬ S, C ⊬ D (N=5 tight), S ⊬ C (N=6) |
+| **TightWitnesses** | 18 | decide | **S ⊬ D, S ⊬ C, S+D ⊬ C — all tight at N=5** |
+| Witness5 | 3 | decide | S+D+C at N=5 (optimal), no ICP at N=4 |
+| Witness6 | 3 | decide | S+D+C at N=6 (s ≠ r) |
+| Witness10 | 6 | native_decide | S+D+C at N=10 |
+| WitnessAllN | 25 | Algebraic | S+D+C at every N ≥ 5 |
+| **IndependenceAllN** | 36 | Algebraic | **All six non-implications and all 8 cube cells at every size** |
+| **CompletenessWall** | 7 | Algebraic | **K-infinity; combinatorial completeness excludes D (any cardinality)** |
+| **Sorting** | 28 | Alg.+decide | **Sorted magmas (the first connecting axiom): involution, four class-tables, balance, preserving world at every N** |
+| **Homoiconic** | 14 | Alg.+decide | **Introspection fixes the quotation law; the canonical N=6 Lisp kernel** |
+| **ArtifactN8** | 16 | decide | **The canonical N=8 artifact: kernel + hygienic shift, lex-min of a 228-table space** |
+| BooleanCube | 25 | decide+native | Joint irredundance: all 8 cells of (S,D,C) |
+| Rigidity | 6 | decide | Role rigidity of principal witnesses |
+| RigidityPartial | 1 | Algebraic | Partial rigidity maps |
+| StructureN5 | 8 | Algebraic | N=5 structure theorem: role lock-in, no strong S |
+| MirrorRow | 1 | Algebraic | N=5 automorphisms fix absorbers, \|Aut\| ≤ 2 |
+| SelfSimulation | 5 | Algebraic | Partial application injectivity (supplementary) |
+| **Total** | **291** | | |
 
-Note: `SelfSimulation.lean` (5 additional theorems on partial application injectivity) is included in the repository but not referenced by the paper.
-
-Proof styles: *Algebraic* = pure equational reasoning, no `decide`. *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
+Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 
 ## Independence structure
 
-No capability implies any other — all six pairwise non-implications are Lean-proved:
+No capability implies any other — all six pairwise non-implications are Lean-proved at their minimal sizes, and at every size above:
 
-|  | R | D | H |
+|  | S | D | C |
 |--|---|---|---|
-| **R** | — | ⊬ (N=8) | ⊬ (N=6) |
-| **D** | ⊬ (N=5) | — | ⊬ (N=10) |
-| **H** | ⊬ (N=6) | ⊬ (N=10) | — |
+| **S** | — | ⊬ (N=5, tight) | ⊬ (N=5, tight) |
+| **D** | ⊬ (N=4, tight) | — | ⊬ (N=4 tight; N=5 structural) |
+| **C** | ⊬ (N=5, tight) | ⊬ (N=5, tight) | — |
 
-Entry (X, Y) = "X does not imply Y", with counterexample size.
+Entry (X, Y) = "X does not imply Y", with minimal counterexample size.
 
 Counterexample details:
 
-| Direction | Size | File |
-|-----------|------|------|
-| S ⊬ D | N=8 | Countermodel.lean |
-| S ⊬ H | N=6 | E2PM.lean |
-| D ⊬ S | N=5 | E2PM.lean |
-| D ⊬ H | N=10 | Countermodels10.lean + ICP.lean |
-| H ⊬ S | N=6 | E2PM.lean |
-| H ⊬ D | N=10 | Countermodels10.lean + ICP.lean |
+| Direction | Size | Tightness | File |
+|-----------|------|-----------|------|
+| S ⊬ D | N=5 | tight (non-vacuous failure needs 3 core roles) | TightWitnesses.lean |
+| S ⊬ C | N=5 | tight (structural: ICP formulable only for N ≥ 5) | TightWitnesses.lean |
+| D ⊬ S | N=4 | tight (D needs N ≥ 4) | E2PM.lean |
+| D ⊬ C | N=4 | tight (vacuous); N=5 structural, also with S+D | ICP.lean, TightWitnesses.lean |
+| C ⊬ S | N=5 | tight (ICP needs N ≥ 5) | E2PM.lean |
+| C ⊬ D | N=5 | tight (ICP needs N ≥ 5) | E2PM.lean |
+
+The two walls: `CompletenessWall.lean` formalizes K-infinity (no finite carrier with ≥ 2 elements admits a k-combinator) and the completeness wall (no total applicative structure of *any* cardinality with two absorbers and s/k combinators satisfies the dichotomy — D's own axioms provide a mixed column, and completeness transposes it into a mixed row). Finite worlds cannot be complete; complete worlds cannot be dichotomic: the S/D/C landscape is precisely the sub-complete regime, which is why it is invisible from inside the λ-calculus.
+
+Scaling: `IndependenceAllN.lean` proves — algebraically, uniformly in n — that each of the six non-implications has a witness of size exactly n for every n ≥ 5, and that each of the eight (S, D, C) Boolean profiles is realized at every admissible size (`independence_all_N`, `boolean_cube_all_N`). Together with `WitnessAllN.lean` (S+D+C at every N ≥ 5), this settles the scaling conjecture.
+
+The connecting axiom: `Sorting.lean` begins the theory of what entangles the capabilities. **Sorting** (the Z/C/N class map is compositional on core — "the other half" of the type discipline D starts) is proved independent of S+D+C even at N=5 (`sorting_independent`), and the involution theorem (`sorted_involution`) shows S cuts the sorted worlds to exactly two: class-preserving (realized by witness5) and class-swapping (realized at N=6 by a witness whose section exchanges the judge and data blocks — the algebraic shadow of quotation). All four conceivable class-tables are realized (id, swap, const-C, const-N), and S permits exactly the involutive two: the constant worlds provably exclude retraction pairs (`constC_blocks_retraction`, `constN_blocks_retraction`). The swap world forces |C| = |N| (`swap_balance`), hence an even core — within S+D+C it exists only at even N ≥ 6 — while the class-preserving world exists at every N ≥ 5 (`witnessAllN_sorted`: the canonical scaling family is sorted). Under the computational reading — preserving as typing, swapping as quotation — the typed world is available at every size; the quoting world demands exact balance between judges and data.
+
+Homoiconic introspection: `Homoiconic.lean` proves that an internal sort predicate (`data?`/`judge?`) has its quotation law *determined* by the world — negating under quote in the swap world, transparent in the preserving world, with the wrong pairing impossible (SAT-confirmed UNSAT at N = 6..16, then Lean-proved). The canonical N=6 kernel (`canonical_kernel`) realizes the full stack — halt states, quote, eval, `data?`, `judge?` — with the single internal composition being the homoiconicity law `judge? = data? ∘ quote`, and quotation of order 4.
 
 ## SAT reproduction
 
 ```bash
-python3 sat/n5_rdh_unsat.py       # N=5 R+D+H: algebraic analysis + Z3 confirmation
-python3 sat/n5_rdh_check.py       # N=5 R+D+H: direct Z3 SAT check
-python3 independence_results.py          # generate and verify all counterexamples
+python3 sat/n5_rdh_unsat.py       # N=5 S+D+C: algebraic analysis + Z3 confirmation
+python3 sat/n5_rdh_check.py       # N=5 S+D+C: direct Z3 SAT check
+python3 independence_results.py   # generate and verify all counterexamples
 ```
 
 Frozen counterexample tables in `counterexamples.json` allow re-verification without Z3.

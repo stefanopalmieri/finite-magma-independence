@@ -56,11 +56,11 @@
 \keywords{finite extensional magma, pairwise independence, classifier dichotomy, internal composition, Lean~4, machine-checked proofs}
 
 \begin{abstract}
-Internal splitting~(S), the classifier dichotomy~(D), and internal composition~(C) are three natural algebraic properties of finite extensional 2-pointed magmas. We prove they are pairwise independent: no one implies any other. Lean-verified finite counterexamples at sizes $4$ through $10$ establish all six non-implications, four with provably tight bounds. A joint irredundance result strengthens this: all eight Boolean combinations of $(S, D, C)$ are realized, so no property is a Boolean function of the other two. The minimum coexistence witness has $N\!=\!5$ and is optimal, since the ICP requires $3$ pairwise distinct core elements.
+Internal splitting~(S), the classifier dichotomy~(D), and internal composition~(C) are three natural algebraic properties of finite extensional 2-pointed magmas. We prove they are pairwise independent: no one implies any other. Lean-verified finite counterexamples at sizes $4$ and $5$ establish all six non-implications, each with a provably tight bound. A joint irredundance result strengthens this: all eight Boolean combinations of $(S, D, C)$ are realized, so no property is a Boolean function of the other two. Neither result is a small-size artifact: explicit parametric families realize every non-implication and every Boolean profile at every admissible carrier size. The minimum coexistence witness has $N\!=\!5$ and is optimal, since the ICP requires $3$ pairwise distinct core elements.
 
-The setting is fixed by four universal obstructions: nontrivial combinatory algebras with $\mathbf{s}$ and $\mathbf{k}$ must be infinite; associativity is incompatible with combining a classifier and a retraction pair; commutativity is incompatible with two distinct left-absorbers; and a single left-absorber collapses any classifier. What survives is finite, non-associative, non-commutative, extensional 2-pointed magmas.
+The setting is fixed by four universal obstructions: any nontrivial total magma with a $\mathbf{k}$-combinator must be infinite; associativity is incompatible with combining a classifier and a retraction pair; commutativity is incompatible with two distinct left-absorbers; and a single left-absorber collapses any classifier. What survives is finite, non-associative, non-commutative, extensional 2-pointed magmas.
 
-Further structural results: the three-category decomposition induced by $D$ is an isomorphism invariant; the automorphism group of any $N\!=\!5$ S+D+C magma has order at most $2$, with the unique possible non-trivial element being the classifier transposition $(\tau_1\,\tau_2)$; a size-driven phase transition takes the role-shape from a single forced configuration at $N\!=\!5$ (every retraction pair satisfies $s = r$, every C-triple has the form $(\tau_1, g, \tau_2)$) to a heterogeneous landscape at $N \geq 6$ where strong S re-opens and multiple shape classes coexist; and the ICP is logically equivalent to the standard Compose+Inert axioms. Lean-verified results --- independence counterexamples, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witness, H-triple type-coherence, the $N\!=\!5$ structure theorem, and the mirror-row theorem --- compile with zero \texttt{sorry}; the remaining universal-$N$ algebraic results in Section~\ref{sec:universal} not yet transcribed to Lean have hand proofs supported by Z3 UNSAT certificates.
+Further structural results: the three-category decomposition induced by $D$ is an isomorphism invariant; the automorphism group of any $N\!=\!5$ S+D+C magma has order at most $2$, with the unique possible non-trivial element being the classifier transposition $(\tau_1\,\tau_2)$; a size-driven phase transition takes the role-shape from a single forced configuration at $N\!=\!5$ (every retraction pair satisfies $s = r$, every C-triple has the form $(\tau_1, g, \tau_2)$) to a heterogeneous landscape at $N \geq 6$ where strong S re-opens and multiple shape classes coexist; and the ICP is logically equivalent to the standard Compose+Inert axioms. Lean-verified results --- independence counterexamples with tight bounds, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witnesses (coexistence, all six non-implications, and all eight cube cells), C-triple type-coherence, the $N\!=\!5$ structure theorem, and the mirror-row theorem --- compile with zero \texttt{sorry}; the remaining universal-$N$ algebraic results in Section~\ref{sec:universal} not yet transcribed to Lean have hand proofs supported by Z3 UNSAT certificates.
 \end{abstract}
 
 \maketitle
@@ -115,16 +115,20 @@ algebra modulo the operation.
 
 \paragraph{Three structural results.} Pairwise independence (Section~\ref{sec:independence}):
 no one of the three capabilities implies any other. Lean-verified finite
-counterexamples at sizes $N \in \{4, 5, 6, 8, 10\}$ establish all six
-non-implications; four are tight. Joint irredundance
+counterexamples at sizes $N \in \{4, 5\}$ establish all six
+non-implications, each at its provably minimal size, and explicit
+parametric families realize every non-implication at every size
+$n \geq 5$ (Theorem~\ref{thm:scaling-nonimp}). Joint irredundance
 (Section~\ref{sec:boolean-cube}): all eight Boolean combinations of
-$(S, D, C)$ are realised by Lean-verified witnesses, so no capability is
-a Boolean function of the other two. Optimal coexistence
+$(S, D, C)$ are realised by Lean-verified witnesses --- again at every
+admissible size --- so no capability is a Boolean function of the other
+two. Optimal coexistence
 (Section~\ref{sec:bound}): the smallest cardinality at which all three
 capabilities can hold simultaneously is $N = 5$, and this is tight: ICP
 requires three pairwise-distinct core elements, forcing $|S| \geq 5$.
 Each Cayley table is found by SAT search and independently verified in
-Lean~4~\cite{moura21} with zero \texttt{sorry}.
+Lean~4~\cite{moura21} with zero \texttt{sorry}; the parametric families
+are verified by symbolic case analysis, uniformly in $n$.
 
 \paragraph{What follows from binary judgment.} Several classical
 algebraic identities are incompatible with this setting. The proofs
@@ -148,9 +152,9 @@ is an isomorphism invariant (Theorem~\ref{thm:functoriality}); the
 unique coarsest non-trivial isomorphism-invariant partition of core is
 the classifier/non-classifier split (Corollary~\ref{cor:canonicity}).
 At $N = 5$ a structure theorem (Theorem~\ref{thm:N5-structure}) pins the
-role assignments of retraction, classifier, and ICP-triple onto the
+role assignments of retraction, classifier, and C-triple onto the
 three core slots with no slack: every retraction pair has $s = r$, every
-ICP-triple has the form $(\tau_1, g, \tau_2)$, and the only possible
+C-triple has the form $(\tau_1, g, \tau_2)$, and the only possible
 non-trivial automorphism is the classifier transposition
 $(\tau_1\,\tau_2)$ (Theorem~\ref{thm:mirror-row}). At $N \geq 6$ strong S
 re-opens and the role-shape fractures (Proposition~\ref{prop:N6-nonrigid}),
@@ -178,9 +182,11 @@ for our setting, not a fact derivable inside it.
     self-distributivity, right identity, and commutativity all fail
     (Section~\ref{sec:universal}).
   \item An independence theorem: S, D, and C are pairwise independent,
-    with Lean-verified counterexamples in all six directions at $N = 4$
-    through $N = 10$ (Section~\ref{sec:independence}), and coexistence
-    witnesses at $N = 5$ and $N = 6$ (Section~\ref{sec:bound}).
+    with Lean-verified counterexamples in all six directions, each at its
+    provably minimal size ($N = 4$ or $N = 5$), together with parametric
+    families realizing every non-implication at every size $n \geq 5$
+    (Section~\ref{sec:independence}), and coexistence witnesses at
+    $N = 5$ and $N = 6$ (Section~\ref{sec:bound}).
   \item An optimal bound: $N = 5$ is the minimum carrier size for S+D+C
     coexistence; ICP is impossible at $N = 4$ by pigeonhole
     (Theorem~\ref{thm:no-icp-4}).
@@ -201,9 +207,10 @@ for our setting, not a fact derivable inside it.
     Lean-verified necessity of the non-degeneracy guard conditions
     (Section~\ref{sec:icp}).
   \item Joint irredundance: all eight cells of the $(S, D, C)$ Boolean
-    cube are inhabited by Lean-verified witnesses
-    (Section~\ref{sec:boolean-cube}), so no capability is a Boolean
-    function of the other two.
+    cube are inhabited by Lean-verified witnesses, at every admissible
+    carrier size (Section~\ref{sec:boolean-cube},
+    Theorem~\ref{thm:scaling-nonimp}), so no capability is a Boolean
+    function of the other two --- at any size.
 \end{enumerate}
 
 % =====================================================================
@@ -363,7 +370,7 @@ Clauses~(i) and~(ii) together, $D_{\mathrm{struct}}$, are the structural
 fragment: the algebra contains \emph{some} classifier and the
 classification is global. Clause~(iii) ensures both classes are
 inhabited. In the joint S+D+C setting, clause~(iii) is automatic: the
-middle element $b$ of any ICP triple is core-preserving (Definition~\ref{def:icp}
+middle element $b$ of any C-triple is core-preserving (Definition~\ref{def:icp}
 clause~1), hence a non-classifier, hence supplies the missing witness
 (Lean: \texttt{DStructRetractMagma.has\_non\_classifier\_of\_icp}).
 Theorem~\ref{thm:d-factorization} below makes the split formal:
@@ -601,17 +608,17 @@ Theorems~\ref{thm:asymmetry}, \ref{thm:no-mediality}, \ref{thm:no-rsd}, \ref{thm
 
 \subsection{Theorems from D+C}\label{subsec:from-DC}
 
-\begin{theorem}[H-triple type-coherence]
+\begin{theorem}[C-triple type-coherence]
 \label{thm:h-triple-coherence}
-In any extensional 2-pointed magma satisfying both D and C, the outer elements $a$ and $c$ of any H-triple $(a, b, c)$ are either both classifiers or both non-classifiers.
+In any extensional 2-pointed magma satisfying both D and C, the outer elements $a$ and $c$ of any C-triple $(a, b, c)$ are either both classifiers or both non-classifiers.
 \end{theorem}
 
 \begin{proof}
-Let $(a, b, c)$ be an H-triple, so $a \dotop x = c \dotop (b \dotop x)$ for all $x \in \core(S)$, with $b \dotop x \in \core(S)$ for all $x \in \core(S)$ (core-preservation of $b$).
+Let $(a, b, c)$ be a C-triple, so $a \dotop x = c \dotop (b \dotop x)$ for all $x \in \core(S)$, with $b \dotop x \in \core(S)$ for all $x \in \core(S)$ (core-preservation of $b$).
 
-Suppose $c$ is a classifier. Then $c \dotop y \in \{z_1, z_2\}$ for all $y \in \core(S)$, so in particular $c \dotop (b \dotop x) \in \{z_1, z_2\}$ for all $x \in \core(S)$. By the H-triple equation, $a \dotop x \in \{z_1, z_2\}$ for all $x \in \core(S)$, so $a$ is also a classifier.
+Suppose $c$ is a classifier. Then $c \dotop y \in \{z_1, z_2\}$ for all $y \in \core(S)$, so in particular $c \dotop (b \dotop x) \in \{z_1, z_2\}$ for all $x \in \core(S)$. By the C-triple equation, $a \dotop x \in \{z_1, z_2\}$ for all $x \in \core(S)$, so $a$ is also a classifier.
 
-Suppose $c$ is a non-classifier. Then $c \dotop y \notin \{z_1, z_2\}$ for all $y \in \core(S)$, so $c \dotop (b \dotop x) \notin \{z_1, z_2\}$ for all $x \in \core(S)$. By the H-triple equation, $a \dotop x \notin \{z_1, z_2\}$ for all $x \in \core(S)$, so $a$ is also a non-classifier.
+Suppose $c$ is a non-classifier. Then $c \dotop y \notin \{z_1, z_2\}$ for all $y \in \core(S)$, so $c \dotop (b \dotop x) \notin \{z_1, z_2\}$ for all $x \in \core(S)$. By the C-triple equation, $a \dotop x \notin \{z_1, z_2\}$ for all $x \in \core(S)$, so $a$ is also a non-classifier.
 
 Either way, $a$ and $c$ have the same classifier-type.
 \end{proof}
@@ -626,7 +633,7 @@ In any extensional 2-pointed magma satisfying both D and C, either $|C| \geq 2$ 
 \end{theorem}
 
 \begin{proof}
-Let $(a, b, c)$ be any H-triple (existing by C). By Theorem~\ref{thm:p-witness-identity}, $b$ is a non-classifier (since $b$ is core-preserving by clause~1 of Definition~\ref{def:icp}), so $b \in N$. By Theorem~\ref{thm:h-triple-coherence}, $a$ and $c$ are either both in $C$ or both in $N$.
+Let $(a, b, c)$ be any C-triple (existing by C). By Theorem~\ref{thm:p-witness-identity}, $b$ is a non-classifier (since $b$ is core-preserving by clause~1 of Definition~\ref{def:icp}), so $b \in N$. By Theorem~\ref{thm:h-triple-coherence}, $a$ and $c$ are either both in $C$ or both in $N$.
 
 If $a, c \in C$: since $a \neq c$, $|C| \geq 2$.
 
@@ -643,19 +650,34 @@ The following classical result, recalled here in self-contained form, frames the
 
 \begin{theorem}[K-infinity]
 \label{thm:k-infinity}
-If $(A, \dotop, \mathbf{k}, \mathbf{s})$ is a combinatory algebra (total application satisfying $\mathbf{k} \dotop a \dotop b = a$ and the $\mathbf{s}$ equations) with $|A| \geq 2$, then $A$ is infinite.
+Let $(A, \dotop)$ be a total magma with $|A| \geq 2$ carrying an element $\mathbf{k}$ that satisfies $\mathbf{k} \dotop a \dotop b = a$ for all $a, b \in A$. Then $A$ is infinite. In particular, every nontrivial combinatory algebra is infinite.
 \end{theorem}
 
 \begin{proof}
-The map $\varphi(x) = \mathbf{k} \dotop x$ is injective: $\mathbf{k} \dotop a = \mathbf{k} \dotop b$ implies $\mathbf{k} \dotop a \dotop c = \mathbf{k} \dotop b \dotop c$ for all $c$, hence $a = b$. We claim $\mathbf{k} \notin \mathrm{Im}(\varphi)$. Suppose $\mathbf{k} \dotop x = \mathbf{k}$ for some $x$. Then for all $y$, $\mathbf{k} \dotop x \dotop y = \mathbf{k} \dotop y$, so $x = \mathbf{k} \dotop y$ for all $y$. By injectivity, all $y$ are equal, contradicting $|A| \geq 2$. Thus $\varphi : A \to A$ is an injection missing $\mathbf{k}$, which is impossible for finite~$A$.
+The map $\varphi(x) = \mathbf{k} \dotop x$ is injective: $\mathbf{k} \dotop a = \mathbf{k} \dotop b$ implies $\mathbf{k} \dotop a \dotop c = \mathbf{k} \dotop b \dotop c$ for all $c$, hence $a = b$. We claim $\mathbf{k} \notin \mathrm{Im}(\varphi)$. Suppose $\mathbf{k} \dotop x = \mathbf{k}$ for some $x$. Then for all $y$, $\mathbf{k} \dotop x \dotop y = \mathbf{k} \dotop y$, so $x = \mathbf{k} \dotop y$ for all $y$. By injectivity, all $y$ are equal, contradicting $|A| \geq 2$. Thus $\varphi : A \to A$ is an injection missing $\mathbf{k}$, which is impossible for finite~$A$. Lean: \texttt{CompletenessWall.lean}, theorems \texttt{k\_collapse\_of\_finite} and \texttt{no\_k\_combinator\_on\_fin} (formalized for arbitrary finite carriers).
 \end{proof}
 
 \begin{remark}
-The proof uses only the $\mathbf{k}$ equation ($\mathbf{k} \dotop a \dotop b = a$) and totality; $\mathbf{s}$ is irrelevant. Our extensional 2-pointed magmas avoid this obstruction: instead of a projector $\mathbf{k}$ with $\mathbf{k} \dotop a \dotop b = a$, they have left-absorbers $z$ with $z \dotop x = z$ (the dual pattern, constant on columns rather than rows) and a retraction pair $(s, r)$ with $r \dotop (s \dotop x) = x$ on core. Neither structure provides a non-surjective injection on the full ground set.
+The hypothesis is the $\mathbf{k}$ equation alone: no $\mathbf{s}$ combinator is needed, so the obstruction bites well below full combinatory-algebra structure. Our extensional 2-pointed magmas avoid it: instead of a projector $\mathbf{k}$ with $\mathbf{k} \dotop a \dotop b = a$, they have left-absorbers $z$ with $z \dotop x = z$ (the dual pattern, constant on columns rather than rows) and a retraction pair $(s, r)$ with $r \dotop (s \dotop x) = x$ on core. Neither structure provides a non-surjective injection on the full ground set.
 \end{remark}
 
 \begin{remark}[K-infinity and finite computational substrates]
 K-infinity shows that no finite carrier admits a total, global $\mathbf{k}$ combinator --- the kind of universality that packs all of computation into a single element acting on the rest. It does \emph{not} rule out the weaker notion of a finite algebra serving as the \emph{instruction set} of a universal interpreter whose state and memory are external. A finite Cayley table can in principle function like a CPU's instruction table: every step of a computation is a table lookup, while the evolving state (working memory, stack, continuation) lives outside the algebra as finite sequences of element-indices that grow with the input. In this bounded-memory sense of universality --- analogous to a Turing machine whose transition table is finite but whose tape grows with the input --- finite extensional 2-pointed magmas are not ruled out as computational substrates. The obstruction bites only when one asks for universality to be \emph{entirely internal} to a single global element of a finite carrier; distributed, stepwise universality over a finite instruction set remains available.
+\end{remark}
+
+K-infinity is a wall about \emph{size}: finiteness excludes completeness. A second wall, in the opposite direction, shows that completeness excludes the dichotomy --- at every cardinality.
+
+\begin{theorem}[Completeness wall]
+\label{thm:completeness-wall}
+No total applicative structure $(A, \dotop)$ --- of any cardinality --- carrying two left absorbers $z_1, z_2$ and elements $\mathbf{s}, \mathbf{k}$ satisfying the combinatory equations satisfies the classifier dichotomy. It suffices that every column of the Cayley table be internalized as a row: if for every $a$ there is an element $m_a$ with $m_a \dotop x = x \dotop a$ for all $x$ (the thrush $\lambda x.\, x\, a$, definable as $\mathbf{s}\,(\mathbf{s}\mathbf{k}\mathbf{k})\,(\mathbf{k}\,a)$), then D fails. Neither extensionality nor the distinctness of the absorbers is used.
+\end{theorem}
+
+\begin{proof}
+The dichotomy constrains \emph{rows}: every core row is absorber-valued or core-valued on core, never mixed. But D's own axioms provide a mixed \emph{column}: for any classifier $\tau$ and non-degeneracy witness $y_0 \dotop x_0 \notin \{z_1, z_2\}$, the column of $x_0$ contains the absorber-valued entry $\tau \dotop x_0$ and the core-valued entry $y_0 \dotop x_0$. A mixed column is harmless until the structure can transpose. The element $m := m_{x_0}$ has the column of $x_0$ as its row: $m \dotop \tau = \tau \dotop x_0$ is absorber-valued while $m \dotop y_0 = y_0 \dotop x_0$ is not; moreover $m$ is not itself an absorber (an absorber's row is absorber-valued everywhere, but $m \dotop y_0$ is not). So $m$ is a mixed core element, and the dichotomy fails at $m$. Lean: \texttt{CompletenessWall.lean}, theorems \texttt{flip\_blocks\_dichotomy} and \texttt{sk\_blocks\_dichotomy}, stated over an arbitrary carrier type.
+\end{proof}
+
+\begin{remark}[The two walls delimit the setting]
+Together the walls say: finite worlds cannot be combinatorially complete (K-infinity), and complete worlds cannot be dichotomic (Theorem~\ref{thm:completeness-wall}). In the untyped $\lambda$-calculus extended with two absorbing sink constants --- or in the $\bar\lambda\mu\tilde\mu$-calculus of Curien and Herbelin, where absorbers are directly definable as aborting terms $\mu\delta.c$ with $\delta$ unused --- capabilities S and C are definable for free (Church pairing; the $\mathbf{B}$ combinator), while D provably fails: mixed elements, i.e.\ ``partial deciders'' that return absorber values on some core inputs and core values on others, are always definable. The dichotomy is consistent exactly in worlds that cannot internalize their own columns as rows, so the S/D/C landscape of this paper is not a toy model of the $\lambda$-calculus but the regime that combinatorial completeness forbids. This sharpens the cross-formalism question of Section~\ref{sec:discussion}: the transfer target for a non-vacuous D cannot be any computationally complete calculus; the natural candidates are sub-complete fragments, such as the polarized or focused subsyntaxes of sequent-style calculi, whose producer/consumer discipline enforces syntactically what D demands behaviorally.
 \end{remark}
 
 \begin{remark}[K-infinity and Scott's continuous resolution]
@@ -697,7 +719,7 @@ Algebraic proof (no \texttt{decide}); Lean file: \texttt{Functoriality.lean}.
 
 \begin{corollary}[Canonicity of the decomposition]
 \label{cor:canonicity}
-The $Z/C/N$ partition is the unique coarsest non-trivial isomorphism-invariant partition of the core. Any absorber-preserving isomorphism preserves each class individually (Theorem~\ref{thm:functoriality}), so no coarser partition of core into two non-empty parts can be invariant unless it coincides with $C/N$. The classification is determined by a single algebraic invariant: whether an element's row on core has image contained in~$\{z_1, z_2\}$.
+The $C/N$ partition of core is iso-invariant: every absorber-preserving isomorphism preserves $C$ and $N$ individually (Theorem~\ref{thm:functoriality}). Moreover, it is the unique coarsest non-trivial iso-invariant partition of core, since classifier-status --- whether an element's row on core has image contained in $\{z_1, z_2\}$ --- is the only intrinsic two-valued algebraic invariant on core.
 \end{corollary}
 
 \begin{theorem}[Capability Invariance]
@@ -708,7 +730,7 @@ All three properties S, D, and C are preserved by absorber-preserving isomorphis
 \subsection{Role Rigidity}
 \label{subsec:rigidity}
 
-Corollary~\ref{cor:canonicity} fixes \emph{role classes}: $Z$, $C$, and $N$ are intrinsic invariants of the Cayley table. Individual role assignments within each class --- which absorber is $z_1$, which classifier is $\tau$, which core element is the section $s$ versus the retraction $r$ --- remain, in general, determined only up to $\mathrm{Aut}(M)$.
+Theorem~\ref{thm:functoriality} fixes \emph{role classes}: $Z$, $C$, and $N$ are intrinsic invariants of the Cayley table, and Corollary~\ref{cor:canonicity} adds that $C/N$ is the unique coarsest non-trivial iso-invariant partition of core. Individual role assignments within each class --- which absorber is $z_1$, which classifier is $\tau$, which core element is the section $s$ versus the retraction $r$ --- remain, in general, determined only up to $\mathrm{Aut}(M)$.
 
 \begin{definition}[Role-Rigid Magma]
 \label{def:role-rigid}
@@ -763,7 +785,7 @@ Write $C = \{2, 3, 4\}$. By D, every core element is either a classifier (row on
 
 \emph{Step 3 (C's outer elements have the same classifier-type).} By Theorem~\ref{thm:h-triple-coherence}, $a$ and $c$ are either both classifiers or both non-classifiers.
 
-\emph{Step 4 (exactly 2 classifiers).} By Theorem~\ref{thm:classifier-count-bound}, $k \geq 2$ or the non-classifier count in core is $\geq 3$. The second alternative would fill the entire 3-element core with non-classifiers, contradicting D's requirement that a full classifier $\tau$ exists. Hence $k \geq 2$; combined with $k \leq 2$ from the proof opening, $k = 2$.
+\emph{Step 4 (exactly 2 classifiers).} By Theorem~\ref{thm:classifier-count-bound}, $k \geq 2$ or the non-classifier count in core is $\geq 3$. The second alternative would fill the entire 3-element core with non-classifiers, contradicting D's requirement that a full classifier $\tau$ exists. Hence $k \geq 2$. Since $|C| = 3$ and D also requires at least one non-classifier, $k \leq 2$. Therefore $k = 2$.
 
 \emph{Step 5 (role lock-in).} By Step 4, $C = \{\tau_1, \tau_2, g\}$ with $g$ the unique non-classifier. By Step 1, $s, r \in \{g\}$, so $s = r = g$. By Step 2, $b = g$. By Step 3, $a$ and $c$ are both classifiers; since they are distinct, $\{a, c\} = \{\tau_1, \tau_2\}$. \qedhere
 \end{proof}
@@ -898,7 +920,7 @@ This equivalence gives C a single-concept definition: the left-regular represent
   % D <-> S (left edge): both bend left — outer arc goes left, inner goes right
   \draw[arr] (S.140) to[bend left=18] coordinate[midway] (SD) (D.280);
   \node[cross] at (SD) {$\times$};
-  \node[lbl, left=1pt of SD] {$N\!=\!8$};
+  \node[lbl, left=1pt of SD] {$N\!=\!5$};
 
   \draw[arr] (D.310) to[bend left=18] coordinate[midway] (DS) (S.110);
   \node[cross] at (DS) {$\times$};
@@ -907,7 +929,7 @@ This equivalence gives C a single-concept definition: the left-regular represent
   % C <-> S (right edge): mirror of left — both bend right
   \draw[arr] (S.40) to[bend right=18] coordinate[midway] (SC) (C.260);
   \node[cross] at (SC) {$\times$};
-  \node[lbl, right=1pt of SC] {$N\!=\!6$};
+  \node[lbl, right=1pt of SC] {$N\!=\!5$};
 
   \draw[arr] (C.230) to[bend right=18] coordinate[midway] (CS) (S.70);
   \node[cross] at (CS) {$\times$};
@@ -921,8 +943,8 @@ This equivalence gives C a single-concept definition: the left-regular represent
 \label{thm:independence}
 No capability implies any other. Specifically, all six pairwise non-implications hold:
 \begin{enumerate}
-  \item $S \not\Rightarrow D$: An extensional 2-pointed magma of size $8$ satisfying S contains a classifier element but fails the global dichotomy condition.
-  \item $S \not\Rightarrow C$: An extensional 2-pointed magma of size $6$ satisfying S has 4 core elements (enough for $\ICP$ to be non-vacuous) but no triple satisfies the $\ICP$.
+  \item $S \not\Rightarrow D$: An extensional 2-pointed magma of size $5$ satisfying S contains a classifier, a pure non-classifier, and a mixed element violating the dichotomy. This is tight: a non-vacuous dichotomy failure requires three pairwise distinct core elements, so $N \geq 5$.
+  \item $S \not\Rightarrow C$: An extensional 2-pointed magma of size $5$ satisfying S has exactly the 3 core elements $\ICP$ requires, yet no triple satisfies the $\ICP$. This is tight: $\ICP$ is formulable only for $N \geq 5$.
   \item $D \not\Rightarrow C$: An extensional 2-pointed magma of size $4$ satisfying D has only 2 core elements, so $\ICP$ is vacuously unsatisfiable (pigeonhole).
   \item $C \not\Rightarrow D$: An extensional 2-pointed magma of size $5$ satisfies $\ICP$ but violates the classifier dichotomy. This is tight: $\ICP$ requires $N \geq 5$.
   \item $D \not\Rightarrow S$: An extensional 2-pointed magma of size $4$ satisfies the classifier dichotomy but admits no retraction pair. This is tight: D requires $N \geq 4$.
@@ -933,14 +955,14 @@ No capability implies any other. Specifically, all six pairwise non-implications
 \begin{proof}
 Each direction is proved by exhibiting a concrete Cayley table and verifying the claimed properties by \texttt{native\_decide} (or \texttt{decide} for $N \leq 8$). The tables are:
 
-\paragraph{$S \not\Rightarrow D$ ($N\!=\!8$).}
-An $8 \times 8$ Cayley table (Appendix~\ref{app:tables}) defining an $\FRM$ with $s = 2$, $r = 3$. Element~4 is a classifier, but element~5's row on core is $(6, 2, 1, 1, 1, 1)$, mixing absorber and non-absorber outputs, violating the dichotomy. SAT confirms the non-implication is achievable as early as $N\!=\!3$, but vacuously: with only 1 core element, the dichotomy cannot be formulated (it requires both a classifier and a non-classifier). The $N\!=\!8$ witness is the smallest with enough core structure for D to be non-vacuously falsifiable. Lean file: \texttt{Countermodel.lean}.
+\paragraph{$S \not\Rightarrow D$ ($N\!=\!5$, tight).}
+A $5 \times 5$ Cayley table (Appendix~\ref{app:tables}) defining an $\FRM$ with $s = r = 2$, the identity on core. Element~3 is a classifier, element~2 is a pure non-classifier, and element~4 is mixed: $4 \dotop 2 = 0$ is absorber-valued while $4 \dotop 3 = 2$ is core-valued, violating the dichotomy. All three dichotomy roles are inhabited, so the failure is non-vacuous (SAT confirms the non-implication is achievable as early as $N\!=\!3$, but vacuously: with only 1 core element the dichotomy cannot be formulated). The bound is tight: a classifier, a pure non-classifier, and a mixed element are necessarily pairwise distinct core elements, so a non-vacuous dichotomy failure forces $|S| \geq 5$ --- a pigeonhole argument valid for arbitrary binary operations (\texttt{no\_nonvacuous\_dichotomy\_failure\_at\_4}). The earlier $N\!=\!8$ witness (\texttt{Countermodel.lean}), found by SAT search over separated role assignments ($s \neq r$, disjoint classifier and mixed elements), is retained; the tight witness shows that collapsing the retraction pair ($s = r$, the identity row) shrinks the counterexample to the minimum. Lean file: \texttt{TightWitnesses.lean}, theorem \texttt{s\_not\_implies\_d\_tight}.
 
-\paragraph{$S \not\Rightarrow C$ ($N\!=\!6$, structural).}
-A $6 \times 6$ Cayley table (Appendix~\ref{app:tables}) defining an extensional 2-pointed magma with a retraction pair ($s = r = 2$, an involution on core) but no $\ICP$. The core has 4 elements, more than the 3 pairwise distinct witnesses $\ICP$ requires, yet no triple satisfies the $\ICP$. As with $S \not\Rightarrow D$, the non-implication is vacuously achievable at $N\!=\!3$ (only 1 core element), but the $N\!=\!6$ witness is the smallest where $\ICP$ failure is structural rather than dimensional. Lean file: \texttt{E2PM.lean}, theorem \texttt{s\_not\_\allowbreak implies\_\allowbreak icp\_\allowbreak structural}.
+\paragraph{$S \not\Rightarrow C$ ($N\!=\!5$, structural, tight).}
+A $5 \times 5$ Cayley table (Appendix~\ref{app:tables}) whose three core elements act on the core as the three transpositions $L_2 = (3\;4)$, $L_3 = (2\;3)$, $L_4 = (2\;4)$. Each $L_y$ is an involution, so every core element is its own retraction pair --- S holds three ways over. But the composition of two distinct transpositions moves three points and is never a transposition, so no factorization $L_a = L_c \circ L_b$ over pairwise distinct core elements exists: no triple satisfies the $\ICP$, and the failure is structural, with the core exactly as large as the 3 elements $\ICP$ requires. The bound is tight, since $\ICP$ is formulable only for $N \geq 5$. The earlier $N\!=\!6$ witness with a 4-element core (\texttt{E2PM.lean}, \texttt{s\_not\_\allowbreak implies\_\allowbreak icp\_\allowbreak structural}) is retained. Lean file: \texttt{TightWitnesses.lean}, theorem \texttt{s\_not\_implies\_icp\_structural\_tight}.
 
 \paragraph{$D \not\Rightarrow C$ ($N\!=\!4$, tight).}
-The minimal S+D model at $N\!=\!4$ (\texttt{kripke4} in Appendix~\ref{app:tables}) has only 2 core elements. $\ICP$ requires 3 pairwise distinct non-absorbers, so it is vacuously unsatisfiable. Lean file: \texttt{ICP.lean}, theorem \texttt{kripke4\_no\_icp}. The $N\!=\!10$ D+S model in \texttt{Countermodels10.lean} complements this: it has 8 core elements (more than enough for $\ICP$ to be non-vacuous), yet no triple satisfies $\ICP$. The formal non-implication holds at $N\!=\!4$; the $N\!=\!10$ witness shows it persists even when C has room to exist.
+The minimal S+D model at $N\!=\!4$ (\texttt{kripke4} in Appendix~\ref{app:tables}) has only 2 core elements. $\ICP$ requires 3 pairwise distinct non-absorbers, so it is vacuously unsatisfiable. Lean file: \texttt{ICP.lean}, theorem \texttt{kripke4\_no\_icp}. A structural witness exists already at $N\!=\!5$, the minimum size at which $\ICP$ is formulable: \texttt{TightWitnesses.lean} exhibits both a D-only witness (\texttt{d\_not\_implies\_icp\_structural\_tight}) and a full S+D witness of size $5$ with no ICP triple (\texttt{sd\_not\_implies\_icp\_tight}, a \texttt{DichotomicRetractMagma} with one classifier and two non-classifiers --- by the role-counting argument of the $N\!=\!5$ structure theorem, one classifier makes ICP impossible). The $N\!=\!10$ D+S model in \texttt{Countermodels10.lean} is retained: it shows the failure persists with 8 core elements.
 
 \paragraph{$C \not\Rightarrow D$ ($N\!=\!5$, tight).}
 A $5 \times 5$ Cayley table satisfying $\ICP$ but with no classifier: all three core elements map core to core (no element produces only absorber-valued outputs on core). The bound is tight: $\ICP$ requires $N \geq 5$. Lean file: \texttt{E2PM.lean}, theorem \texttt{h\_not\_implies\_d\_tight}.
@@ -955,10 +977,21 @@ All tables are generated by Z3 SAT solver and independently verified. The Cayley
 \end{proof}
 
 \paragraph{Methodology and minimality.}
-Each counterexample was found by encoding the relevant capability axioms (and the negation of the target capability) as a SAT problem over an $n \times n$ Cayley table, then solving with Z3, incrementing $n$ from 3 upward. Once found, each table was frozen and independently verified in Lean. Four of six directions have provably tight bounds: D$\not\Rightarrow$S and D$\not\Rightarrow$C are tight at $N\!=\!4$ (the minimum where D is non-vacuous, resp.\ where $\ICP$ is dimensionally impossible); C$\not\Rightarrow$S and C$\not\Rightarrow$D are tight at $N\!=\!5$ (the minimum where $\ICP$ can be stated). The remaining two (S$\not\Rightarrow$D at $N\!=\!8$, S$\not\Rightarrow$C at $N\!=\!6$) are the smallest non-vacuous witnesses found. The SAT search was exhaustive: all smaller sizes returned UNSAT for every role assignment tested. Whether different role assignments or overlapping encodings could yield tighter witnesses is open.
+Each counterexample was found by encoding the relevant capability axioms (and the negation of the target capability) as a SAT problem over an $n \times n$ Cayley table, then solving with Z3, incrementing $n$ from 3 upward; each table was frozen and independently verified in Lean. All six directions carry provably tight bounds. D$\not\Rightarrow$S and D$\not\Rightarrow$C are tight at $N\!=\!4$ (the minimum where D is non-vacuous, resp.\ where $\ICP$ is dimensionally impossible); C$\not\Rightarrow$S and C$\not\Rightarrow$D are tight at $N\!=\!5$ (the minimum where $\ICP$ can be stated); S$\not\Rightarrow$D is tight at $N\!=\!5$ for non-vacuous failure (the classifier, non-classifier, and mixed roles occupy three distinct core slots); and S$\not\Rightarrow$C is tight at $N\!=\!5$ for structural failure ($\ICP$ must be formulable). The last two resolve a question left open in an earlier version of this paper: the SAT search producing the original $N\!=\!8$ and $N\!=\!6$ witnesses ranged over separated role assignments, and overlapping assignments --- a collapsed retraction pair $s = r$ whose row doubles as identity or involution --- yield strictly smaller witnesses.
 
 \paragraph{Scaling.}
-The independence is not a small-size artifact. For the coexistence direction, S+D+C is realized at every $N \geq 5$ by an explicit construction (Theorem~\ref{thm:scaling-witness}), so existence at all sufficiently large sizes is no longer empirical. For the six non-implication directions, we rely on SAT search: it confirms that all six are satisfiable at every size from their respective minima through $N\!=\!15$ (the solver limit), and no size was found where any direction becomes UNSAT. Whether each non-implication holds at all $n \geq $ its minimum (i.e.\ a witness exists at size $n$ for every $n$) remains a conjecture supported by this data, pending a constructive scaling argument analogous to Theorem~\ref{thm:scaling-witness}.
+The independence is not a small-size artifact, and this is a theorem rather than an empirical observation:
+
+\begin{theorem}[Non-implications and Boolean cube at every size]
+\label{thm:scaling-nonimp}
+For every $n \geq 5$, each of the six non-implications of Theorem~\ref{thm:independence} has a witness of size exactly $n$, and each of the eight cells of the $(S, D, C)$ Boolean cube (Theorem~\ref{thm:cube}) is realized at size exactly $n$. The cells $\neg S \land D \land \neg C$ and $\neg S \land \neg D \land \neg C$ are realized from $n \geq 4$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Seven explicit parametric families of Cayley tables, one per capability profile (the coexistence profile is Theorem~\ref{thm:scaling-witness}'s construction). Each family pads a small witness with three reusable row patterns: identity rows (preserving S), constant-on-core rows (blocking both injective sections and non-trivial factorizations), and transposition rows (preserving S while blocking factorization, since the composition of two distinct transpositions is never a transposition). All properties are verified in Lean by symbolic case analysis uniformly in $n$ --- no \texttt{decide}. Lean file: \texttt{IndependenceAllN.lean}, theorems \texttt{independence\_all\_N} and \texttt{boolean\_cube\_all\_N}.
+\end{proof}
+
+An earlier version of this claim rested on SAT search, which confirmed satisfiability of all six directions through $N\!=\!15$ (the solver limit); the parametric families supersede that evidence and settle the scaling conjecture.
 
 \paragraph{Interpretation.}
 The independence result shows that S, D, and C are genuinely three things, not one. An algebra can encode and decode without classifying (S without D). An algebra can classify without encoding (D without S). An algebra can internally compose without classifying or encoding (C without S or D). No capability algebraically forces any other. In particular, the $C \not\Rightarrow D$ direction shows that an algebra can internalize a non-trivial composition pattern without satisfying the classifier dichotomy: internal composition does not force organizational separation.
@@ -980,7 +1013,7 @@ Each of the eight Boolean combinations of $(S, D, C)$ is realized by a Lean-veri
 \hline
 1 & $S \land D \land C$             & 5  & \texttt{witness5} \\
 2 & $S \land D \land \neg C$        & 4  & \texttt{kripke4} \\
-3 & $S \land \neg D \land C$        & 10 & \texttt{hNotD} \\
+3 & $S \land \neg D \land C$        & 5  & \texttt{famCm} (\texttt{IndependenceAllN}) \\
 4 & $S \land \neg D \land \neg C$   & 3  & \texttt{frm3} (new) \\
 5 & $\neg S \land D \land C$        & 5  & \texttt{cell5} (new) \\
 6 & $\neg S \land D \land \neg C$   & 4  & \texttt{dNoS4} \\
@@ -989,9 +1022,9 @@ Each of the eight Boolean combinations of $(S, D, C)$ is realized by a Lean-veri
 \end{tabular}
 \end{center}
 
-Five cells are populated by witnesses that already appear in the pairwise-independence proof, after adding the missing capability annotations. Three required fresh constructions: cell~4 and cell~8 are minimal ($N\!=\!3$) FRM and E2PM witnessing ``S alone'' and ``no capability'' respectively; cell~5 (D and C without S) is the cube's most structurally constrained corner, an $N\!=\!5$ magma with two classifiers, one core-preserving non-classifier serving as the ICP's $b$, and no retraction pair. All verifications are machine-checked by \texttt{decide} or \texttt{native\_decide} in \texttt{BooleanCube.lean}.
+Four cells are populated by witnesses that already appear in the pairwise-independence proof, after adding the missing capability annotations; cell~3 is realized tightly at $N\!=\!5$ by the parametric family \texttt{famCm} (previously only an $N\!=\!10$ witness, \texttt{hNotD}, was known). Three required fresh constructions: cell~4 and cell~8 are minimal ($N\!=\!3$) FRM and E2PM witnessing ``S alone'' and ``no capability'' respectively; cell~5 (D and C without S) is the cube's most structurally constrained corner, an $N\!=\!5$ magma with two classifiers, one core-preserving non-classifier serving as the ICP's $b$, and no retraction pair. All verifications are machine-checked by \texttt{decide} or \texttt{native\_decide} in \texttt{BooleanCube.lean}.
 
-The cell sizes reveal an asymmetry: every cell containing C requires $N \geq 5$, while cells with only S and/or D are realized at $N = 3$ or $4$. C carries strictly more structural weight than S or D, consistent with the row-scarcity argument in Section~\ref{sec:discussion}: ICP's factorization demand $a \dotop x = c \dotop (b \dotop x)$ constrains three rows simultaneously and requires three pairwise-distinct core elements, which S and D do not.
+By Theorem~\ref{thm:scaling-nonimp}, every cell is in fact realized at \emph{every} size $n \geq 5$ (cells 6 and 8 from $n \geq 4$), so joint irredundance is not a small-size artifact either. The minimal cell sizes reveal an asymmetry: every cell containing C requires $N \geq 5$ --- and all four C-cells are realized exactly at $N = 5$, which is tight --- while cells with only S and/or D are realized at $N = 3$ or $4$. C carries strictly more structural weight than S or D, consistent with the row-scarcity argument in Section~\ref{sec:discussion}: ICP's factorization demand $a \dotop x = c \dotop (b \dotop x)$ constrains three rows simultaneously and requires three pairwise-distinct core elements, which S and D do not.
 
 \paragraph{Consequence.}
 If any capability were Boolean-equivalent to a combination of the other two, some cell would be empty. All cells are inhabited: no reduction of three predicates to two exists. S, D, and C therefore carry mutually irreducible information — jointly irredundant, not merely pairwise independent.
@@ -1037,7 +1070,7 @@ For $N \geq 5$, define $T_N : \Fin(N) \times \Fin(N) \to \Fin(N)$ by:
 
 \emph{D.} Rows $3$ and $4$ have values in $\{0, 1\}$ everywhere, so they are full classifiers. Rows $2$ and $k$ for $k \geq 5$ map $\core(S)$ into $\core(S)$ (verified by inspection), so they are non-classifiers. The dichotomy holds. Take $\tau = 3$ as the full classifier; the non-classifier $2$ exists.
 
-\emph{C.} The triple $(3, 2, 4)$ is an H-triple: the three indices are pairwise distinct in $\core(S)$; row $2$ is core-preserving; for $x \in \core(S)$, $T_N(3, x) = T_N(4, T_N(2, x))$ holds because row $2$ is identity, so $T_N(3, x) = T_N(4, T_N(2, x)) = T_N(4, x)$ reduces to row equality on core, which holds by direct comparison (both rows are constant $0$ on $\core \setminus \{3, 4\}$ and constant $1$ on $\{3, 4\}$); $T_N(3, \cdot)|_{\core(S)}$ takes both values $0$ and $1$ (at $x = 2$ and $x = 3$ respectively), so non-triviality holds.
+\emph{C.} The triple $(3, 2, 4)$ is a C-triple: the three indices are pairwise distinct in $\core(S)$; row $2$ is core-preserving; for $x \in \core(S)$, $T_N(3, x) = T_N(4, T_N(2, x))$ holds because row $2$ is identity, so $T_N(3, x) = T_N(4, T_N(2, x)) = T_N(4, x)$ reduces to row equality on core, which holds by direct comparison (both rows are constant $0$ on $\core \setminus \{3, 4\}$ and constant $1$ on $\{3, 4\}$); $T_N(3, \cdot)|_{\core(S)}$ takes both values $0$ and $1$ (at $x = 2$ and $x = 3$ respectively), so non-triviality holds.
 \end{proof}
 
 \begin{proposition}[Separated-Role Witness]
@@ -1055,12 +1088,80 @@ $N\!=\!5$ is the optimal minimum for S+D+C coexistence (Lean-verified; \texttt{W
 The $N\!=\!5$ witness reveals how thin the three properties can become simultaneously. The retraction pair is the identity on core ($s = r$, no actual encoding work), and the ICP factorization $a \dotop x = c \dotop (b \dotop x)$ collapses to $a \dotop x = c \dotop x$ (row equality on core between two classifiers differing only on absorber columns). The three capabilities are formally present but barely interacting. The $N\!=\!6$ witness with $s \neq r$ (\texttt{Witness6.lean}) is the more informative example: the retraction pair does genuine encoding, the ICP factorization is non-degenerate, and the roles do not trivially overlap. We retain the general definitions (allowing $s = r$) since the algebraic results (independence, injectivity, no-associativity) hold regardless.
 
 % ══════════════════════════════════════════════════════════════
+\section{Toward Connecting Axioms: Sorted Magmas}
+\label{sec:sorting}
+% ══════════════════════════════════════════════════════════════
+
+The independence and irredundance theorems say that S, D, and C never force one another: any system in which the capabilities cohere does so by \emph{additional} axioms. This section identifies and studies the first such connecting axiom.
+
+Under D, every core element is a classifier (boolean on core) or a non-classifier (core-valued on core), so the core carries a two-valued \emph{class map}. The dichotomy already makes classifier rows compositional for free: a classifier's core outputs land in the absorbers, whose status is fixed. What D leaves entirely open is the non-classifier rows: for $n \in N$ and core $x$, the output $n \dotop x$ is core, but whether it is a classifier or a non-classifier may depend arbitrarily on both $n$ and $x$.
+
+\begin{definition}[Sorting]
+\label{def:sorting}
+An extensional 2-pointed magma satisfying D is \emph{sorted} when the class of $n \dotop x$ depends only on the class of $x$, uniformly in the non-classifier $n$ and the representative $x$. Equivalently: the $Z/C/N$ decomposition is compositional on the core, i.e.\ the class map is a homomorphism-like abstraction of the operation --- which is what a type discipline is, algebraically. Lean: \texttt{Sorting.lean}, \texttt{Sorted}.
+\end{definition}
+
+Sorting is ``the other half'' of a type system: D sorts the classifier rows automatically, sorting sorts the rest. Three results locate the axiom precisely.
+
+\begin{theorem}[Sorted involution]
+\label{thm:sorted-involution}
+In a sorted dichotomic magma with a classifier, a non-classifier, and a retraction pair (whose members are non-classifiers, automatic by the placement theorem; only the one-sided equation is used), the induced class-action of the non-classifiers is an involution: either every non-classifier preserves both classes, or every non-classifier swaps them. Lean: \texttt{sorted\_involution} (algebraic, uniform in $N$).
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Sorting makes all non-classifiers share one class-action $f : \{C, N\} \to \{C, N\}$. The round trips $r \dotop (s \dotop \tau) = \tau$ and $r \dotop (s \dotop n_0) = n_0$ through the section force $f(f(t)) = t$ on both classes, and an involution on a two-element set is the identity or the swap.
+\end{proof}
+
+This is the first genuine interaction theorem between the capabilities: S constrains the shape of sorted D, cutting the four conceivable class-tables down to two ``sorted worlds.'' Neither is degenerate, and the axiom itself is genuinely new:
+
+\begin{proposition}[Independence and inhabitation]
+\label{prop:sorting-witnesses}
+(i) The canonical $N\!=\!5$ coexistence witness is sorted, in the class-preserving world (\texttt{witness5\_sorted}, \texttt{witness5\_class\_preserving}). (ii) Sorting is not implied by S+D+C, even at $N\!=\!5$ where the role assignment is otherwise completely forced: an $N\!=\!5$ S+D+C magma exists whose unique non-classifier acts as the transposition $(\tau_1\, b)$, sending the two classifiers to different classes (\texttt{sorting\_independent}). (iii) The class-swapping world is inhabited at $N\!=\!6$: an S+D+C magma with a non-degenerate retraction pair ($s \neq r$) whose section exchanges the classifier block with the non-classifier block (\texttt{swap\_world\_inhabited}, \texttt{swap6\_swaps}). The swap world cannot exist at $N\!=\!5$: the section must inject the classifiers into the non-classifiers, so $|N| \geq |C|$, while the structure theorem forces $|C| = 2$, $|N| = 1$. Cayley tables in Appendix~\ref{app:tables}.
+\end{proposition}
+
+The classification is complete: all four conceivable class-tables are realized, and S permits exactly the involutive two.
+
+\begin{proposition}[The four class-tables]
+\label{prop:four-tables}
+Each of the four class-actions $f : \{C, N\} \to \{C, N\}$ is realized by a sorted dichotomic magma: the identity by \texttt{witness5}, the swap by \texttt{swap6}, the constant-$C$ table by the tight $D \not\Rightarrow S$ witness \texttt{dNoS4} (its unique non-classifier sends everything to the classifier), and the constant-$N$ table by a new $N\!=\!4$ witness (\texttt{constN4}, Appendix~\ref{app:tables}). The two constant worlds \emph{force} $\neg S$: by the involution theorem, a sorted magma with a retraction pair lies in the identity or swap world, so any constant world excludes retraction pairs outright (\texttt{constC\_blocks\_retraction}, \texttt{constN\_blocks\_retraction} --- corollaries of Theorem~\ref{thm:sorted-involution}; both constant witnesses are also directly verified to admit no retraction pair). S is thus exactly the axiom that separates the involutive class-tables from the constant ones.
+\end{proposition}
+
+\begin{theorem}[Swap balance]
+\label{thm:swap-balance}
+In the class-swapping world, a retraction pair forces $|C| = |N|$: the section injects each class into the other, and injectivity in both directions balances the counts (\texttt{swap\_balance}; only the one-sided retraction equation is used). Under D the two classes partition the core, so the core has even size (\texttt{swap\_even\_core}). Consequently, within S+D+C the swap world can exist only at even $N \geq 6$, and \texttt{swap6} realizes its minimum; at every odd size the sorted S+D+C landscape is confined to the class-preserving world.
+\end{theorem}
+
+The two S-compatible worlds are then fully separated by size:
+
+\begin{proposition}[Size spectrum of the sorted worlds]
+\label{prop:sorted-spectrum}
+The class-preserving world exists at every $N \geq 5$: the canonical scaling family of Theorem~\ref{thm:scaling-witness} is itself sorted and class-preserving (\texttt{witnessAllN\_sorted}, \texttt{witnessAllN\_class\_preserving} --- algebraic, uniform in $N$, via the bridge lemmas \texttt{sorted\_of\_preserving} / \texttt{sorted\_of\_swapping} showing that either class-action implies sortedness). The class-swapping world exists only at even core sizes (Theorem~\ref{thm:swap-balance}), with minimum $N\!=\!6$.
+\end{proposition}
+
+The arc is progressive rigidification: D alone sorts the classifier rows; the sorting axiom makes the class map compositional; adding S cuts the sorted worlds from four to two (and parity can cut them to one); at $N\!=\!5$, cardinality forces the class-preserving world outright. Under the computational reading --- preserving as stratified typing, swapping as quotation --- the typed world is available at every size, while the quoting world demands an exact balance between judges and data.
+
+\subsection{Homoiconic introspection}
+\label{sec:homoiconic}
+
+The next connecting axiom after sorting is \emph{sort-introspection}: a classifier $\kappa$ that internally decides the $C/N$ partition itself ($\kappa \dotop y = z_1$ on classifiers, $z_2$ on non-classifiers --- \texttt{data?}/\texttt{judge?} in Lisp terms). A SAT sweep over sorted S+D+C magmas in both worlds ($N = 6, 8, 10, 16$) shows that introspection \emph{determines the quotation law}, and the determination is Lean-proved (\texttt{Homoiconic.lean}):
+
+\begin{theorem}[Introspection fixes the quotation law]
+\label{thm:introspection}
+Let a sorted dichotomic magma carry a retraction pair and a sort-introspective classifier $\kappa$. In the class-swapping world, $\kappa$ \emph{negates} under quotation: $\kappa \dotop (s \dotop x) \neq \kappa \dotop x$ for every core $x$ --- ``$x$ is a judge iff $s \dotop x$ is data'' --- and a quote-transparent introspective classifier is impossible (\texttt{introspection\_negates\_of\_swapping}; UNSAT at $N = 6, 8, 10, 16$). Dually, in the class-preserving world $\kappa$ is quote-transparent, and a quote-negating introspective classifier is impossible (\texttt{introspection\_transparent\_of\_preserving}).
+\end{theorem}
+
+A homoiconic system therefore does not choose its introspection law: typing forces transparency, quoting forces negation. The minimal magma carrying the full stack --- S, D, C, sorted swap world, introspection, negation, judge-closure --- exists at $N\!=\!6$ and reads as a complete Lisp kernel (Appendix~\ref{app:tables}): two halt states, \texttt{quote}, \texttt{eval}, \texttt{data?}, \texttt{judge?}, with the single internal composition being the homoiconicity law itself, $\texttt{judge?} = \texttt{data?} \circ \texttt{quote}$ (\texttt{canonical\_kernel}, \texttt{kernel6\_icp\_through\_quote}). In this kernel quotation has order $4$ on the core: $\texttt{quote}^2$ is a non-trivial involution and $\texttt{quote}^4 = \mathrm{id}$ (\texttt{kernel6\_quote\_order\_four}). One further SAT observation: in the preserving world, universal quote-negation is satisfiable exactly when the block size $(N-2)/2$ is even (UNSAT at $N\!=\!8$, SAT at $N = 6, 10$) --- an odd block admits no fixed-point-free alternating $2$-coloring of the quote orbits --- a third parity law, recorded here as a SAT result with a hand proof.
+
+\paragraph{The canonical $N\!=\!8$ artifact.}
+Extending the kernel by one free dual pair under a full law set --- faithfulness of the free operator, hygiene (commutation with quote and eval, involutivity), distinct action, and judge-closure --- yields a design space of exactly $228$ core tables at $N\!=\!8$ (SAT enumeration, \texttt{scripts/n8\_free\_pair\_search.py}). Its lexicographically minimal member is frozen and verified in \texttt{ArtifactN8.lean} (\texttt{canonical\_artifact\_N8}; Appendix~\ref{app:tables}): eight instructions reading as halt-true, halt-false, \texttt{quote}, \texttt{eval}, \texttt{shift}, \texttt{data?}, \texttt{judge?}, \texttt{shift?}. Three emergent regularities appear without being imposed: the duality pairing documents the instruction set (each operator's code \emph{is} its judge: $\texttt{quote} \dotop \texttt{quote} = \texttt{data?}$, $\texttt{quote} \dotop \texttt{eval} = \texttt{judge?}$, $\texttt{quote} \dotop \texttt{shift} = \texttt{shift?}$); the unconstrained judge slot resolves into the recognizer of exactly $\{\texttt{shift}, \texttt{quote} \dotop \texttt{shift}\}$; and quotation is an involution. Two further impossibility observations shape the artifact's architecture: a faithful constructor cannot have a non-trivial internal recognizer of its image (injectivity forces surjectivity on a finite core), and no element of any swap-world magma can realize $\texttt{quote}^2$ (block-preserving, hence expressible by no row) --- so data structure and derived actions necessarily live in the external driver, per the K-infinity architecture. The swap world first appearing at $N\!=\!6$ is one more face of the $N\!=\!5 \to N\!=\!6$ phase transition. In the class-swapping world the section literally encodes judges as data and data as judges --- the algebraic shadow of quotation exchanging program and value --- while the class-preserving world is the shadow of a stratified (typed) discipline in which encoding respects sorts. That the minimal connecting axiom already bifurcates into exactly these two shapes is, we believe, the beginning of an answer to what a type system is in this setting: sorting is the axiom, and the sorted worlds are its two consistent implementations.
+
+% ══════════════════════════════════════════════════════════════
 \section{Related Work}
 \label{sec:related}
 % ══════════════════════════════════════════════════════════════
 
 \paragraph{Partial and total combinatory algebras.}
-PCAs~\cite{vanoosten08,longley15} and TCAs~\cite{bethke88} provide the standard algebraic framework for realizability and computability. PCA theory has a rich structural theory: morphisms between PCAs, the lattice of PCA quotients, and totalizability~\cite{bethke96} all involve detailed analysis of the application operation. PCA theory does study which elements realize which functions. However, this analysis concerns representability and inter-PCA relationships, not the \emph{partition} of elements into behavioral types by their row structure. This question requires a finite total operation table to formulate; it does not arise in the PCA/TCA setting, where application is partial or the carrier is infinite. Bethke and Klop~\cite{bethke96} proved that some PCAs cannot be extended to total ones, a structural result about the relationship between partiality and totality. The K-infinity theorem (our Theorem~\ref{thm:k-infinity}) shows that nontrivial S+K algebras must be infinite, explaining why finite algebras fall outside this framework and why our setting requires a different combinator basis.
+PCAs~\cite{vanoosten08,longley15} and TCAs~\cite{bethke88} provide the standard algebraic framework for realizability and computability. PCA theory has a rich structural theory: morphisms between PCAs, the lattice of PCA quotients, and totalizability~\cite{bethke96} all involve detailed analysis of the application operation. PCA theory does study which elements realize which functions. However, this analysis concerns representability and inter-PCA relationships, not the \emph{partition} of elements into behavioral types by their row structure. This question requires a finite total operation table to formulate; it does not arise in the PCA/TCA setting, where application is partial or the carrier is infinite. Bethke and Klop~\cite{bethke96} proved that some PCAs cannot be extended to total ones, a structural result about the relationship between partiality and totality. The K-infinity theorem (our Theorem~\ref{thm:k-infinity}) shows that any nontrivial total magma with a $\mathbf{k}$-combinator must be infinite --- in particular, all combinatory algebras --- explaining why finite algebras fall outside this framework and why our setting requires a different combinator basis.
 
 \paragraph{Turing categories.}
 Cockett and Hofstra~\cite{cockett08} define a Turing category as a cartesian restriction category with a Turing object~$A$ and a Turing morphism $\bullet : A \times A \to A$ that universally simulates all morphisms in the category. The Structure Theorem establishes that PCAs and Turing categories are two views of the same concept. Turing objects have cardinality ``one or infinite''~\cite{cockett08}, ruling out nontrivial finite Turing objects. The Turing morphism is described as ``the heart of the whole structure'' but its algebraic properties (row structure, element classification, associativity constraints) are not studied. Where Turing categories distribute computational roles across distinct objects (programs, data, evaluators), our finite algebras develop the same roles internally as emergent behavioral regions within a single carrier set: absorbers encode failure, classifiers provide absorber-valued judgment, and the retraction pair provides encoding.
@@ -1104,13 +1205,13 @@ A Z3 canonicality probe (\texttt{scripts/canonicality/probe\_axioms.py}) tested 
 The core $\core(S)$ is a retract of the carrier via $(s, r)$ in the standard sense of~\cite{maclane71}; the three-category decomposition defines a functor from $\mathbf{E2PM}$ to three-block set partitions (Theorems~\ref{thm:functoriality},~\ref{thm:cap-invariance}); D is a codomain-purity condition on the row maps $\{L_a^{\core}\}$. The categorical analogy stops at composition: the row maps are \emph{not} closed under composition (the no-associativity theorem predicts this — associativity would be a prerequisite for the row family to form a monoid), so standard categorical constructions (internal hom, enrichment, Turing morphism) cannot be stated internally. The composition-closure failure is a consequence of the same obstruction that motivates the setting.
 
 \paragraph{Scope and limitations.}
-Whether the three-capability separation appears in other settings ($\lambda$-calculus, typed systems, infinite algebras) is the primary open question. Theorem~\ref{thm:no-assoc} constrains the target: any such translation must work without associativity or identity. Each capability admits multiple axiom forms; the independence result holds for all variants. The independence also implies that any system combining all three capabilities must introduce additional axioms beyond S, D, and C to connect them; the nature of these connecting axioms is a natural direction for further work.
+Whether the three-capability separation appears in other settings ($\lambda$-calculus, typed systems, infinite algebras) is the primary open question. Theorem~\ref{thm:no-assoc} constrains the target: any such translation must work without associativity or identity. Each capability admits multiple axiom forms; the independence result holds for all variants. The independence also implies that any system combining all three capabilities must introduce additional axioms beyond S, D, and C to connect them; Section~\ref{sec:sorting} takes the first step, identifying sorting (class-compositionality) as such an axiom, proving it independent of S+D+C even at the minimal coexistence size, and classifying the sorted worlds into exactly two shapes via the involution theorem.
 
 % ══════════════════════════════════════════════════════════════
 \section{Conclusion}
 % ══════════════════════════════════════════════════════════════
 
-Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorber collapse --- jointly narrow the candidate class of finite magmas that can carry the operational capabilities of splitting, dichotomy, and composition down to the setting of this paper: finite, non-associative, non-commutative, extensional 2-pointed magmas. Within it, we have identified three natural algebraic properties, internal splitting~(S), the classifier dichotomy~(D), and the Internal Composition Property~(C), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4. Joint irredundance strengthens this: all eight Boolean combinations of $(S, D, C)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}); most principal witnesses are role-rigid, with the canonical $N\!=\!5$ S+D+C witness as the deliberate exception (Proposition~\ref{prop:witness-rigid}, Remark~\ref{rem:canonical-witness}); at $N\!=\!5$ a structure theorem pins retraction, classifier, and C-triple onto the three core slots and rules out strong S altogether (Theorem~\ref{thm:N5-structure}), the mirror-row theorem (Theorem~\ref{thm:mirror-row}) bounds $|\mathrm{Aut}(M)| \leq 2$, while at $N \geq 6$ strong S returns and rigidity fails (Proposition~\ref{prop:N6-nonrigid}); and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). Lean-formalized results --- independence counterexamples, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witness (Theorem~\ref{thm:scaling-witness}), H-triple type-coherence (Theorem~\ref{thm:h-triple-coherence}), the $N\!=\!5$ structure theorem (Theorem~\ref{thm:N5-structure}), and the mirror-row theorem (Theorem~\ref{thm:mirror-row}) --- compile with zero \texttt{sorry}. The remaining universal-$N$ algebraic results of Section~\ref{sec:universal} not yet transcribed to Lean (most notably the P-witness identity of Theorem~\ref{thm:p-witness-identity} and the classifier-count bound of Theorem~\ref{thm:classifier-count-bound}) are proved by hand and supported by Z3 UNSAT certificates.
+Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorber collapse --- jointly narrow the candidate class of finite magmas that can carry the operational capabilities of splitting, dichotomy, and composition down to the setting of this paper: finite, non-associative, non-commutative, extensional 2-pointed magmas. Within it, we have identified three natural algebraic properties, internal splitting~(S), the classifier dichotomy~(D), and the Internal Composition Property~(C), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4, each at its provably minimal size. Joint irredundance strengthens this: all eight Boolean combinations of $(S, D, C)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two; parametric families realize every non-implication and every Boolean profile at every admissible carrier size (Theorem~\ref{thm:scaling-nonimp}), so neither result is a small-size artifact. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}); most principal witnesses are role-rigid, with the canonical $N\!=\!5$ S+D+C witness as the deliberate exception (Proposition~\ref{prop:witness-rigid}, Remark~\ref{rem:canonical-witness}); at $N\!=\!5$ a structure theorem pins retraction, classifier, and C-triple onto the three core slots and rules out strong S altogether (Theorem~\ref{thm:N5-structure}), the mirror-row theorem (Theorem~\ref{thm:mirror-row}) bounds $|\mathrm{Aut}(M)| \leq 2$, while at $N \geq 6$ strong S returns and rigidity fails (Proposition~\ref{prop:N6-nonrigid}); and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). Lean-formalized results --- independence counterexamples, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witnesses (Theorems~\ref{thm:scaling-witness} and~\ref{thm:scaling-nonimp}), the tight counterexamples (\texttt{TightWitnesses.lean}), C-triple type-coherence (Theorem~\ref{thm:h-triple-coherence}), the $N\!=\!5$ structure theorem (Theorem~\ref{thm:N5-structure}), and the mirror-row theorem (Theorem~\ref{thm:mirror-row}) --- compile with zero \texttt{sorry}. The remaining universal-$N$ algebraic results of Section~\ref{sec:universal} not yet transcribed to Lean (most notably the P-witness identity of Theorem~\ref{thm:p-witness-identity} and the classifier-count bound of Theorem~\ref{thm:classifier-count-bound}) are proved by hand and supported by Z3 UNSAT certificates.
 
 \paragraph{Open problems.}
 \begin{enumerate}
@@ -1266,8 +1367,50 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 \\\hline
 5 & 2 & 2 & 5 & 4 & 3 & 2 \\
 \end{tabular}}
 
-\paragraph{$N\!=\!8$: $S \not\Rightarrow D$ Counterexample.}
-Roles: $0 = z_1$, $1 = z_2$, $2 = s$, $3 = r$, $4 =$ classifier, $5, 7 =$ mixed (violate dichotomy). \quad Lean: \texttt{Countermodel.lean}.
+\paragraph{$N\!=\!5$: $S \not\Rightarrow D$ Counterexample (tight).}
+Roles: $0 = z_1$, $1 = z_2$, $2 = s = r$ (identity on core, pure non-classifier), $3 =$ classifier, $4 =$ MIXED ($4 \dotop 2 = 0$ but $4 \dotop 3 = 2$). Tight: a non-vacuous dichotomy failure needs 3 distinct core roles. \quad Lean: \texttt{TightWitnesses.lean} (\texttt{s\_not\_implies\_d\_tight}).
+
+\medskip
+{\small
+\begin{tabular}{c|ccccc}
+$\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
+0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 2 & 2 & 3 & 4 \\
+3 & 0 & 0 & 0 & 1 & 0 \\
+4 & 0 & 0 & 0 & 2 & 2 \\
+\end{tabular}}
+
+\paragraph{$N\!=\!5$: $S \not\Rightarrow C$ Counterexample (structural, tight).}
+Roles: $0 = z_1$, $1 = z_2$; core rows are the transpositions $L_2 = (3\;4)$, $L_3 = (2\;3)$, $L_4 = (2\;4)$; every core element is its own retraction pair. No composition of two distinct transpositions is a transposition, so no ICP triple exists. \quad Lean: \texttt{TightWitnesses.lean} (\texttt{s\_not\_implies\_icp\_structural\_tight}).
+
+\medskip
+{\small
+\begin{tabular}{c|ccccc}
+$\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
+0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 0 & 2 & 4 & 3 \\
+3 & 0 & 0 & 3 & 2 & 4 \\
+4 & 0 & 0 & 4 & 3 & 2 \\
+\end{tabular}}
+
+\paragraph{$N\!=\!5$: S+D $\not\Rightarrow$ C Counterexample (tight).}
+Roles: $0 = z_1$, $1 = z_2$, $2 = s = r$ (identity on core), $3 =$ classifier, $4 =$ non-classifier (constant $2$ on core). A full \texttt{DichotomicRetractMagma} with one classifier and two non-classifiers: ICP is structurally impossible. \quad Lean: \texttt{TightWitnesses.lean} (\texttt{sd\_not\_implies\_icp\_tight}).
+
+\medskip
+{\small
+\begin{tabular}{c|ccccc}
+$\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
+0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 2 & 2 & 3 & 4 \\
+3 & 0 & 0 & 0 & 1 & 0 \\
+4 & 0 & 4 & 2 & 2 & 2 \\
+\end{tabular}}
+
+\paragraph{$N\!=\!8$: $S \not\Rightarrow D$ Counterexample (superseded; separated roles).}
+Roles: $0 = z_1$, $1 = z_2$, $2 = s$, $3 = r$, $4 =$ classifier, $5, 7 =$ partially classifying (rows on core mix $\{z_1, z_2\}$ and non-absorber outputs, violating Definition~\ref{def:cd} clause~(ii)). \quad Lean: \texttt{Countermodel.lean}.
 
 \medskip
 {\small
@@ -1283,7 +1426,7 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\hline
 7 & 2 & 2 & 2 & 1 & 2 & 2 & 6 & 3 \\
 \end{tabular}}
 
-\paragraph{$N\!=\!6$: $S \not\Rightarrow C$ Counterexample (structural).}
+\paragraph{$N\!=\!6$: $S \not\Rightarrow C$ Counterexample (structural; superseded by the tight $N\!=\!5$ witness, retained for its 4-element core).}
 Roles: $0 = z_1$, $1 = z_2$, $2 = s = r$ (involution on core). Retraction pair holds; no triple satisfies $\ICP$ despite 4 core elements. \quad Lean: \texttt{E2PM.lean} (\texttt{sNoH6\_e2pm}).
 
 \medskip
@@ -1396,6 +1539,80 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\\hline
 9 & 3 & 4 & 7 & 3 & 9 & 2 & 2 & 9 & 2 & 3 \\
 \end{tabular}}
 
+\paragraph{$N\!=\!5$: Unsorted S+D+C witness.}
+Roles: $0 = z_1$, $1 = z_2$, $2 = s = r$ (involution $(2\;3)$ on core, non-classifier), $3, 4 =$ classifiers (ICP $a$, $c$). Not sorted: $2 \dotop 3 = 2 \in N$ but $2 \dotop 4 = 4 \in C$, though $3, 4$ share a class. \quad Lean: \texttt{Sorting.lean} (\texttt{sorting\_independent}).
+
+\medskip
+{\small
+\begin{tabular}{c|ccccc}
+$\dotop$ & 0 & 1 & 2 & 3 & 4 \\\hline
+0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 2 & 3 & 2 & 4 \\
+3 & 0 & 0 & 1 & 0 & 0 \\
+4 & 0 & 1 & 0 & 1 & 0 \\
+\end{tabular}}
+
+\paragraph{$N\!=\!4$: Constant-$N$ sorted witness (no retraction pair).}
+Roles: $0 = z_1$, $1 = z_2$, $2 =$ classifier, $3 =$ non-classifier sending both classes to $N$. The constant class-table forces $\neg S$ (Proposition~\ref{prop:four-tables}). The constant-$C$ table is realized by \texttt{dNoS4} (above). \quad Lean: \texttt{Sorting.lean} (\texttt{constN4\_constN}, \texttt{constN4\_no\_retract}).
+
+\medskip
+{\small
+\begin{tabular}{c|cccc}
+$\dotop$ & 0 & 1 & 2 & 3 \\\hline
+0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 1 & 1 & 1 \\
+3 & 0 & 3 & 3 & 3 \\
+\end{tabular}}
+
+\paragraph{$N\!=\!6$: The canonical homoiconic kernel.}
+Roles: $0, 1 =$ halt states, $2 = \texttt{quote}$ (the 4-cycle $(2\;5\;3\;4)$ on core), $3 = \texttt{eval}$ (its inverse), $4 = \texttt{data?}$ (sort-introspection $\kappa$), $5 = \texttt{judge?}$. Sorted, class-swapping, with $\texttt{judge?} = \texttt{data?} \circ \texttt{quote}$ as the ICP triple $(5, 2, 4)$. \quad Lean: \texttt{Homoiconic.lean} (\texttt{canonical\_kernel}).
+
+\medskip
+{\small
+\begin{tabular}{c|cccccc}
+$\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 \\\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 1 & 0 & 5 & 4 & 2 & 3 \\
+3 & 0 & 0 & 4 & 5 & 3 & 2 \\
+4 & 0 & 0 & 1 & 1 & 0 & 0 \\
+5 & 0 & 0 & 0 & 0 & 1 & 1 \\
+\end{tabular}}
+
+\paragraph{$N\!=\!8$: The canonical Stack-A artifact.}
+Roles: $0, 1 =$ halt states, $2 = \texttt{quote}$, $3 = \texttt{eval}$, $4 = \texttt{shift}$, $5 = \texttt{data?}$, $6 = \texttt{judge?}$, $7 = \texttt{shift?}$. Lexicographically minimal member of the 228-table law-determined design space. \quad Lean: \texttt{ArtifactN8.lean} (\texttt{canonical\_artifact\_N8}).
+
+\medskip
+{\small
+\begin{tabular}{c|cccccccc}
+$\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 0 & 5 & 6 & 7 & 2 & 3 & 4 \\
+3 & 0 & 1 & 5 & 6 & 7 & 2 & 3 & 4 \\
+4 & 0 & 0 & 5 & 7 & 6 & 2 & 4 & 3 \\
+5 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 \\
+6 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\
+7 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 \\
+\end{tabular}}
+
+\paragraph{$N\!=\!6$: Class-swapping sorted S+D+C witness.}
+Roles: $0 = z_1$, $1 = z_2$, $2 = s$, $3 = r$ (pairing $(2\;4)(3\;5)$: the section exchanges the non-classifier block $\{2,3\}$ with the classifier block $\{4,5\}$), $4, 5 =$ classifiers (ICP $a$, $c$). Sorted, in the class-swapping world. \quad Lean: \texttt{Sorting.lean} (\texttt{swap\_world\_inhabited}).
+
+\medskip
+{\small
+\begin{tabular}{c|cccccc}
+$\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 \\\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 2 & 4 & 5 & 2 & 3 \\
+3 & 0 & 3 & 4 & 5 & 2 & 3 \\
+4 & 0 & 0 & 1 & 0 & 0 & 0 \\
+5 & 0 & 1 & 0 & 0 & 1 & 0 \\
+\end{tabular}}
+
 \section{Proof Inventory}
 \label{app:inventory}
 
@@ -1418,8 +1635,14 @@ Witness10            &  6 & native\_dec. & S+D+C at $N\!=\!10$ \\
 Witness5             &  3 & decide & S+D+C at $N\!=\!5$, no ICP at $N\!=\!4$ \\
 Witness6             &  3 & decide & S+D+C at $N\!=\!6$ \\
 BooleanCube          & 25 & decide+nat. & Joint irredundance: all 8 cells of $(S,D,C)$ \\
+TightWitnesses       & 18 & decide & Tight $S \not\Rightarrow D$, $S \not\Rightarrow C$, S+D $\not\Rightarrow$ C (all $N\!=\!5$) \\
+IndependenceAllN     & 36 & Algebraic & All six non-implications and all 8 cube cells at every size \\
+CompletenessWall     &  7 & Algebraic & K-infinity; completeness excludes D (any cardinality) \\
+Sorting              & 28 & Alg.+decide & Sorted magmas: involution, four class-tables, balance, all-$N$ preserving world \\
+Homoiconic           & 14 & Alg.+decide & Introspection fixes the quotation law; canonical $N\!=\!6$ kernel \\
+ArtifactN8           & 16 & decide & Canonical $N\!=\!8$ artifact: kernel + hygienic shift + emergent \texttt{shift?} \\
 \hline
-\textbf{Total}       & \textbf{121} & & \\
+\textbf{Total}       & \textbf{240} & & \\
 \end{tabular}}
 
 \end{document}
