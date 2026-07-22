@@ -150,9 +150,15 @@ winding marks, environment representation, tag encodings, GC.
    (`Magma/Factorization.lean`, `eval_quote`): a driver whose only
    semantic step is a `dotA8` lookup satisfies `eval (quote p) = run p`
    for every program, by an induction whose base case is the artifact's
-   certified retraction (`eatom_qatom`). Remaining: extend the same
-   induction shape through environments, store, and control (§§4–6)
-   up to R7RS.
+   certified retraction (`eatom_qatom`). **Environments DONE**
+   (`Magma/FactorizationEnv.lean`): de Bruijn variables + the E
+   component; `eval ρ (quote p) = run ρ p` for every environment
+   (R7RS's two-argument eval), with representation adequacy proved
+   environment-free, the shift instruction as the variable tag
+   (`quote_var_succ` / `shift_cell_skips_binding` — one shift cell =
+   one binding skipped), and conservativity over the minimal form
+   (`run_embed`). Remaining: closures + control (β needs fuel or a
+   step relation), then the store (§§4–6) up to R7RS.
 2. **Size escalation criterion**: stay at N=8; move to N=10 only when a
    specific desired law returns UNSAT at 8 (candidate: a certified
    abort/continuation pair, if the exception path should be table-level).
