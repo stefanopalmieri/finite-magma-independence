@@ -1,7 +1,7 @@
 -- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 27 paper files (279 theorems) + 1 supplementary (5 theorems), zero sorry.
+-- 28 paper files (294 theorems) + 1 supplementary (5 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
@@ -64,3 +64,6 @@ import Magma.Factorization
 
 -- Factorization with environments: the E component, conservative over the minimal form
 import Magma.FactorizationEnv
+
+-- Factorization with closures: β, fuel, certified divergence (Ω), conservative again
+import Magma.FactorizationClos

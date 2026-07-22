@@ -157,8 +157,16 @@ winding marks, environment representation, tag encodings, GC.
    environment-free, the shift instruction as the variable tag
    (`quote_var_succ` / `shift_cell_skips_binding` — one shift cell =
    one binding skipped), and conservativity over the minimal form
-   (`run_embed`). Remaining: closures + control (β needs fuel or a
-   step relation), then the store (§§4–6) up to R7RS.
+   (`run_embed`). **Closures/β DONE** (`Magma/FactorizationClos.lean`):
+   λ + closures with a fuel-indexed `run`; `eval fuel ρ (quote p) =
+   run fuel ρ p` *uniformly in fuel* (converge together, diverge
+   together); fuel proved operational-not-semantic (`run_mono_le`);
+   Ω certified divergent at every fuel (`Omega_diverges` — K-infinity's
+   operational shadow); λ-free programs conservative at fuel ≥ depth
+   (`run_embed`); the duality pairing reached metacircularly by β
+   (`eval_quote_duality_demo`). Tags: quote (2) = λ, eval (3) = app,
+   shift (4) = var. Remaining: control operators (μ / `call/cc`) and
+   the store (§§4–6) up to R7RS.
 2. **Size escalation criterion**: stay at N=8; move to N=10 only when a
    specific desired law returns UNSAT at 8 (candidate: a certified
    abort/continuation pair, if the exception path should be table-level).
