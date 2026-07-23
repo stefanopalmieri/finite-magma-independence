@@ -9,7 +9,7 @@ Three algebraic properties of finite extensional 2-pointed magmas — internal s
 ## Building
 
 ```bash
-lake build          # builds all 31 files, verifies ~360 theorems, zero sorry
+lake build          # builds all 32 files, verifies ~360 theorems, zero sorry
 ```
 
 Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefile.lean`).
@@ -49,7 +49,8 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | StructureN5 | 8 | Algebraic | N=5 structure theorem: role lock-in, no strong S |
 | MirrorRow | 1 | Algebraic | N=5 automorphisms fix absorbers, \|Aut\| ≤ 2 |
 | SelfSimulation | 5 | Algebraic | Partial application injectivity (supplementary) |
-| **Total** | **362** | | |
+| KameaRef | 1 | Algebraic | Reference oracle for the Rust host: store-observing loop agrees with the certified loop (supplementary) |
+| **Total** | **363** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 
