@@ -191,7 +191,19 @@ winding marks, environment representation, tag encodings, GC.
    induction grounded in `eatom_qatom`. What remains toward R7RS (§6)
    is breadth, not architecture: data types, numeric tower,
    `syntax-rules`, ports — tape/driver engineering, no new algebraic
-   content.
+   content. **First breadth rung DONE**
+   (`Magma/FactorizationData.lean`): pairs on the tape (`cons`/`car`/
+   `cdr` build and read heap cells — pairing wall), `pairp` reads heap
+   structure (recognizer wall), `ite` as machine dispatch (Branch is
+   not a table capability; ff = the only false). Headline: **certified
+   homoiconicity** — `programs_build_their_own_quotations`: for every
+   program q there is a program computing `quoteD q`; with
+   `eval_quote`, eval of the built quotation runs q. Tag: shift? (7)
+   sub-tagged 2 cons / 3 car / 4 cdr / 5 pairp / 6 ite — the tag
+   space {2..7} is now exactly exhausted. Conservativity over the
+   store rung again a lockstep bisimulation. Next breadth: numerals /
+   lists conventions, `syntax-rules` (driver-side, hygiene via shift),
+   ports.
 2. **Size escalation criterion**: stay at N=8; move to N=10 only when a
    specific desired law returns UNSAT at 8 (candidate: a certified
    abort/continuation pair, if the exception path should be table-level).

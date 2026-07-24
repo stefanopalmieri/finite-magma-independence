@@ -1,4 +1,4 @@
-import Magma.FactorizationStore
+import Magma.FactorizationData
 
 /-!
 # The Kamea Reference Runner (supplementary)
@@ -33,16 +33,20 @@ Token grammar (shared with `kamea-diff` on the Rust side):
 
     PROG ::= a<k> | v<n> | l PROG | @ PROG PROG | k PROG
            | r PROG | d PROG | s PROG PROG
+           | c PROG PROG | h PROG | t PROG | y PROG | i PROG PROG PROG
     VAL  ::= E<k> | C VAL VAL | F PROG ENV | X KONT | L<n>
     ENV  ::= G<n> VAL*        KONT ::= H | AL PROG ENV KONT
                                      | AR VAL KONT | RK KONT | DK KONT
                                      | SL PROG ENV KONT | SR VAL KONT
+                                     | CL PROG ENV KONT | CR VAL KONT
+                                     | HK KONT | TK KONT | YK KONT
+                                     | IK PROG PROG ENV KONT
 -/
 
 set_option autoImplicit false
 
 namespace Dichotomic
-namespace FactorizationStore
+namespace FactorizationData
 
 /-- The store held by a state. -/
 def stateStore : State → Store
@@ -72,11 +76,11 @@ theorem loopFull_agrees : ∀ (n : Nat) (s : State),
     | inl s' => simpa using ih s'
     | inr v => rfl
 
-end FactorizationStore
+end FactorizationData
 
 namespace KameaRef
 
-open FactorizationStore
+open FactorizationData
 
 -- Printers (uncertified plumbing; grammar shared with kamea-diff).
 
@@ -89,6 +93,11 @@ partial def progS : Prog → String
   | .ref e => s!"r {progS e}"
   | .deref e => s!"d {progS e}"
   | .setref l e => s!"s {progS l} {progS e}"
+  | .cons a b => s!"c {progS a} {progS b}"
+  | .car e => s!"h {progS e}"
+  | .cdr e => s!"t {progS e}"
+  | .pairp e => s!"y {progS e}"
+  | .ite c t e => s!"i {progS c} {progS t} {progS e}"
 
 mutual
   partial def valS : Val → String
@@ -109,6 +118,12 @@ mutual
     | .derefK k => s!"DK {kontS k}"
     | .setL e ρ k => s!"SL {progS e} {envS ρ} {kontS k}"
     | .setR v k => s!"SR {valS v} {kontS k}"
+    | .consL b ρ k => s!"CL {progS b} {envS ρ} {kontS k}"
+    | .consR v k => s!"CR {valS v} {kontS k}"
+    | .carK k => s!"HK {kontS k}"
+    | .cdrK k => s!"TK {kontS k}"
+    | .pairK k => s!"YK {kontS k}"
+    | .iteK t e ρ k => s!"IK {progS t} {progS e} {envS ρ} {kontS k}"
 end
 
 partial def storeS (σ : Store) : String :=
@@ -144,6 +159,24 @@ partial def parseP (ts : Array String) (i : Nat) : Option (Prog × Nat) := do
     let (l, j) ← parseP ts (i + 1)
     let (e, j2) ← parseP ts j
     some (.setref l e, j2)
+  else if tok = "c" then
+    let (a, j) ← parseP ts (i + 1)
+    let (b, j2) ← parseP ts j
+    some (.cons a b, j2)
+  else if tok = "h" then
+    let (e, j) ← parseP ts (i + 1)
+    some (.car e, j)
+  else if tok = "t" then
+    let (e, j) ← parseP ts (i + 1)
+    some (.cdr e, j)
+  else if tok = "y" then
+    let (e, j) ← parseP ts (i + 1)
+    some (.pairp e, j)
+  else if tok = "i" then
+    let (c, j) ← parseP ts (i + 1)
+    let (t, j2) ← parseP ts j
+    let (e, j3) ← parseP ts j2
+    some (.ite c t e, j3)
   else none
 
 /-- Run one case on the certified machine (empty env, empty store). -/
