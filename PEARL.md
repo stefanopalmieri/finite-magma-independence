@@ -1,10 +1,22 @@
 # The Second Write-up: "Metacircularity as a Theorem"
 
-**Status**: proposal, 2026-07-22. The Lean artifact it describes is
-**already complete and pushed** (the five factorization files, ~71
-theorems, zero `sorry`); what remains is prose. Companion docs:
-`MACHINE.md` (architecture, why each rung exists), `CLONES.md` (the
-algebra-side calling card — different audience, do not merge the two).
+**Status**: DRAFTED, 2026-07-24 — `pearl/main.tex` (acmart, ~700
+lines; compiles with any TeX Live that has acmart; no TeX on this
+machine, so the draft is structurally linted but not yet compiled).
+The draft covers everything below plus what landed after this
+proposal was written: the data rung (certified homoiconicity), the
+Rust host with differential pinning (24k cases), the surface Lisp
+(letrec-as-knot, syntax-rules, extensionality-as-eqv?), and the
+metacircular evaluator with the adequacy corpus and the two-level
+tower — which serves as the closing section. Axiom footprint checked
+via `#print axioms`: **propext only** (no Classical.choice, no
+Quot.sound) — the abstract says so precisely. Remaining: compile the
+PDF, one polish pass, venue formatting (currently `acmsmall,review`).
+
+Original proposal below, kept for the planning record. Companion
+docs: `MACHINE.md` (architecture, why each rung exists), `CLONES.md`
+(the algebra-side calling card — different audience, do not merge
+the two).
 
 ---
 

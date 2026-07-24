@@ -1,0 +1,729 @@
+%% Metacircularity as a Theorem --- Functional Pearl
+%% Draft 1, 2026-07-24. Compile with a TeX Live that has acmart.
+%%   latexmk -pdf main.tex
+%% Code excerpts are lightly transliterated for typesetting
+%% (rho -> env, sigma -> sto); the mechanized sources are canonical.
+
+\documentclass[acmsmall,screen,review]{acmart}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  frame=none,
+  xleftmargin=1.5em,
+}
+
+\citestyle{acmauthoryear}
+\setcopyright{none}
+
+\begin{document}
+
+\title{Metacircularity as a Theorem}
+\subtitle{Functional Pearl: one law, six machines, and an eight-element algebra}
+
+\author{Stefano Palmieri}
+\affiliation{%
+  \institution{Independent researcher}
+  \country{}}
+\email{}
+
+\begin{abstract}
+Every Lisp rests on one law: evaluating a quotation recovers the
+program, \verb|(eval (quote p))| behaves as \verb|p|. The Scheme
+reports stipulate it, every implementation implements it, and every
+metacircular evaluator exhibits it --- but the law is always an axiom
+of the evaluator that satisfies it. We present a small language in
+which the metacircular law is a \emph{theorem}. Its quote and eval
+are underwritten by an eight-element algebra --- itself derived, by
+enumerating the models of a law set and taking the lexicographically
+minimal one --- whose certified retraction law becomes the base case
+of the metacircularity proof. We then rebuild the evaluator five
+times: adding environments, closures and the fuel that
+$\beta$-reduction forces, first-class continuations, a mutable store,
+and pairs with dispatch, ending in a call-by-value sequent-calculus
+machine on which quotations are first-class constructible data. Each
+extension is proved conservative over the last, and the metacircular
+law survives every restructuring unchanged, uniformly in fuel:
+programs and their quotations converge together, diverge together,
+and agree on every value. The development is mechanized in Lean~4
+(98 theorems for the ladder, zero \textsf{sorry}, no axiom beyond
+propositional extensionality) and transliterated to a running Rust
+host that is differentially pinned to the mechanized semantics; on
+top of it, a hygienic-macro Lisp with a self-interpreting
+metacircular evaluator closes the loop the paper opens: a reflective
+tower whose ground is a theorem.
+\end{abstract}
+
+\maketitle
+
+\section{The law everyone assumes}
+\label{sec:intro}
+
+McCarthy defined Lisp in Lisp~\cite{mccarthy60}: a page of
+S-expressions, \textsf{eval} and \textsf{apply}, and the discovery
+that a language can carry its own definition. Sixty-five years later
+the trick is infrastructure. The Scheme reports specify an
+\textsf{eval} procedure and a \textsf{quote} form
+\cite{r7rs}, and every conforming implementation satisfies the law
+that connects them:
+\[
+  \mathsf{eval}\;\ulcorner p \urcorner \;=\; \mathsf{run}\; p
+\]
+--- evaluating the quotation of $p$ computes what $p$ computes.
+
+Ask where this law comes from, however, and the answer is always the
+same: it is \emph{stipulated}. The evaluator is written so that the
+law holds; the law is then cited to justify the evaluator.
+Metacircular definitions are informative but circular
+\cite{reynolds72}: the tower of interpreters bottoms out in an
+implementation whose own quote/eval discipline is asserted, not
+derived. Verified Lisps tighten the screws without changing the
+shape --- Milawa, Jitawa, and CakeML
+\cite{myreen11,davis15,kumar14} prove implementations correct
+\emph{against} a semantics in which the reflective laws are
+definitional. Somebody, somewhere, always writes the law down first.
+
+This pearl derives it. We exhibit a small language whose
+$\mathsf{eval} \circ \mathsf{quote}$ law is a theorem with
+non-trivial content: its proof is a structural induction whose base
+case is a single kernel-checked fact about an independently certified
+$8 \times 8$ operation table. Perturb one cell of the table and the
+proof breaks at the base case; keep the table and the law propagates
+to programs of every size. The evaluator does not stipulate the law;
+the algebra imposes it.
+
+One derivation would be a curiosity. The pearl's actual subject is
+what happens next: we rebuild the evaluator five times --- adding
+environments (\S\ref{sec:env}), closures and fuel (\S\ref{sec:clos}),
+first-class continuations (\S\ref{sec:ctrl}), a mutable store
+(\S\ref{sec:store}), and pairs with dispatch (\S\ref{sec:data}) ---
+ending in a call-by-value sequent-calculus (CESK) machine. The law
+survives every restructuring \emph{verbatim}, with the same base
+case, and each extension is proved conservative over the one before.
+We keep swapping the machine out from under the law; the law keeps
+holding onto the same eight-element fact.
+
+Everything is mechanized in Lean~4: 98 theorems across the six
+machine files, zero \textsf{sorry}, and --- checked with
+\verb|#print axioms| --- no axiom beyond propositional
+extensionality: no classical choice, no quotient soundness. The
+mechanized machine is transliterated to a running Rust host pinned to
+the Lean semantics by differential testing (\S\ref{sec:lisp}), and on
+top of the certified core a recognizable Lisp grows --- hygienic
+macros, recursion, a REPL --- culminating in a metacircular evaluator
+that interprets its own quoted source: a reflective tower, grounded
+(\S\ref{sec:tower}).
+
+\paragraph{Contributions.} A metacircularity theorem whose base case
+is an independently certified algebraic law
+(\S\ref{sec:rung0}); a six-rung ladder of machines, each conservative
+over the last, carrying that theorem to a full CESK machine
+(\S\S\ref{sec:env}--\ref{sec:data}); a certified homoiconicity
+theorem --- every program's quotation is constructible by a program
+(\S\ref{sec:data}); and a running artifact in which the ladder's
+top is a self-interpreting Lisp whose adequacy is tested against the
+certified semantics (\S\S\ref{sec:lisp}--\ref{sec:tower}).
+
+\section{A found object: the algebra with quote and eval inside it}
+\label{sec:table}
+
+The pearl needs one imported artifact, which we treat as a found
+object and do not re-derive here: an $8\times 8$ operation table over
+elements $\{0,\dots,7\}$.
+
+\begin{lstlisting}
+       0  1  2  3  4  5  6  7
+  0 [  0, 0, 0, 0, 0, 0, 0, 0 ]   halt-true   (absorber)
+  1 [  1, 1, 1, 1, 1, 1, 1, 1 ]   halt-false  (absorber)
+  2 [  0, 0, 5, 6, 7, 2, 3, 4 ]   quote
+  3 [  0, 1, 5, 6, 7, 2, 3, 4 ]   eval
+  4 [  0, 0, 5, 7, 6, 2, 4, 3 ]   shift
+  5 [  0, 0, 1, 1, 1, 0, 0, 0 ]   data?
+  6 [  0, 0, 0, 0, 0, 1, 1, 1 ]   judge?
+  7 [  0, 0, 0, 0, 1, 0, 0, 1 ]   shift?
+\end{lstlisting}
+
+Writing $a \cdot b$ for the table entry at row $a$, column $b$, the
+laws that matter for this paper, all kernel-checked in Lean, are:
+
+\begin{itemize}
+\item \emph{Absorbers}: $0 \cdot x = 0$ and $1 \cdot x = 1$ --- two
+  halt channels (accept and reject).
+\item \emph{Extensionality}: distinct elements have distinct rows.
+  (In \S\ref{sec:tower} this austere axiom becomes an equality
+  predicate.)
+\item \emph{Retraction}: on the six non-absorber elements,
+  $3 \cdot (2 \cdot x) = x$ and $2 \cdot (3 \cdot x) = x$ ---
+  elements 2 and 3 are a quotation and its inverse, internal to the
+  table.
+\item \emph{Introspection with forced negation}: element 5 answers in
+  the halt channels and answers \emph{oppositely} on $x$ and
+  $2 \cdot x$ --- the table can ask ``is this a quotation?''
+\item \emph{Duality pairing}: $2 \cdot 2 = 5$, $2 \cdot 3 = 6$,
+  $2 \cdot 4 = 7$ --- each operator's code is its judge.
+\end{itemize}
+
+The table is derived, not designed: the full law set admits exactly
+228 tables, of which this is the lexicographically minimal one,
+extracted by SAT enumeration and then certified in Lean. The
+companion repository holds that derivation together with the theory
+it sits in --- an independence result for the three reflective
+capabilities and a family of impossibility theorems
+\cite{artifact-lean}. Here we need only two of those impossibility
+results, stated informally:
+
+\begin{description}
+\item[K-infinity.] No finite table contains a K~combinator: iteration
+  and universality cannot live inside the algebra. Whatever runs
+  programs is an \emph{external driver loop} whose only semantic step
+  is a table lookup.
+\item[The collapse wall.] A user-facing \textsf{quote} in the Lisp
+  sense maps everything --- code and data alike --- into data, and a
+  table whose quotation collapses in this way provably cannot also
+  contain an internal eval. Hence user-level \textsf{quote} and
+  \textsf{eval} must be \emph{driver-level} operations, underwritten
+  by (but distinct from) the table's internal duality.
+\end{description}
+
+Together the walls force a two-level architecture --- table as
+microcode, driver as machine --- and the rest of this pearl lives at
+the driver level. Two further walls (no faithful internal pairing; no
+internal recognizer of a faithful constructor) will place pairs and
+type predicates when we reach \S\ref{sec:data}.
+
+\section{Rung 0: metacircularity in miniature}
+\label{sec:rung0}
+
+The minimal driver has atoms and application, and its evaluator has
+exactly one semantic rule --- the table:
+
+\begin{lstlisting}
+inductive Prog | atom : Fin 8 -> Prog | app : Prog -> Prog -> Prog
+inductive Val  | elem : Fin 8 -> Val  | cell : Val -> Val -> Val
+
+def run : Prog -> Val
+  | .atom a  => .elem a
+  | .app f x => match run f, run x with
+    | .elem a, .elem b => .elem (dot a b)
+    | _, _             => .elem 0     -- errors cut to a halt channel
+\end{lstlisting}
+
+Quotation routes atoms through the table's internal duality --- rows
+2 and 3 --- with the two absorbers representing themselves (the
+reader may recognize Scheme's self-evaluating literals):
+
+\begin{lstlisting}
+def qatom (a : Fin 8) : Fin 8 := if a = 0 \/ a = 1 then a else dot 2 a
+def eatom (a : Fin 8) : Fin 8 := if a = 0 \/ a = 1 then a else dot 3 a
+
+theorem eatom_qatom : forall a, eatom (qatom a) = a := by decide
+\end{lstlisting}
+
+That one-line theorem --- discharged by \textsf{decide}, i.e.\ by the
+kernel running the table --- is the pearl's load-bearing wall. It is
+nothing other than the table's certified retraction law plus absorber
+self-representation. Compound programs quote structurally into inert
+heap cells (\textsf{quoteD}), decoding inverts
+(\textsf{decodeD}), and the metacircular law falls out of a
+structural induction whose leaves are \textsf{eatom\_qatom}:
+
+\begin{lstlisting}
+theorem decode_quote (p : Prog) : decodeD (quoteD p) = some p
+theorem eval_quote   (p : Prog) : evalD (quoteD p) = run p
+\end{lstlisting}
+
+This is the Scheme reports' defining law for \textsf{eval},
+derived rather than assumed. The dependency is real and brittle in
+exactly the right way: edit any cell of rows 2 or 3 and
+\textsf{eatom\_qatom} fails; the law's truth flows from the algebra,
+through the induction, to programs of every size.
+
+Rung 0 is, of course, a toy. The pearl's claim is that it is a toy
+with the right skeleton: \emph{adequacy at the leaves via a certified
+table law, congruence everywhere else}. Each of the next five rungs
+adds a feature that real evaluators have and toy proofs usually
+lack --- and the skeleton carries.
+
+\section{Rung 1: environments, and adequacy is static}
+\label{sec:env}
+
+The Scheme reports' \textsf{eval} takes two arguments: an expression
+and an environment. So does ours, from this rung on. Programs gain de
+Bruijn variables, \textsf{run} and \textsf{evalD} gain an environment
+$\rho$, and the law becomes
+\[
+  \forall \rho\, p.\;\; \mathsf{evalD}\;\rho\;(\mathsf{quoteD}\;p)
+  \;=\; \mathsf{run}\;\rho\;p .
+\]
+The proof's shape explains why the environment costs nothing:
+\emph{representation adequacy is static}. The lemma
+\textsf{decode\_quote} mentions no $\rho$ at all --- quotation and
+decoding never consult the environment; only the semantic step does.
+The law is uniform in $\rho$ because the representation layer cannot
+even see $\rho$.
+
+Two design facts arrive with this rung, both dictated rather than
+chosen. First, with two compound syntax classes (application,
+variable), representations must carry \emph{tags}; per the recognizer
+wall, tags live in heap cells, never in instruction identity --- this
+is why \textsf{pair?} in a real Lisp inspects the heap. Second,
+quoted de Bruijn indices are unary numerals built from
+\textsf{shift} cells, so one more shift cell on a representation
+\emph{is} one more binding skipped in the environment
+(\textsf{quote\_var\_succ}, \textsf{shift\_cell\_skips\_binding}) ---
+the table's certified renaming operator marking exactly the things
+renaming acts on.
+
+Finally, conservativity: variable-free programs embed, and under
+every environment the extended driver computes exactly the minimal
+driver's value (\textsf{run\_embed}). This pattern --- extend, then
+prove the extension changes nothing it does not mention --- repeats
+at every remaining rung, and we will stop remarking on it except
+where its form improves.
+
+\section{Rung 2: closures, and the fuel that \texorpdfstring{$\beta$}{beta} forces}
+\label{sec:clos}
+
+Programs gain $\lambda$; values gain closures; application of a
+closure is $\beta$ --- and evaluation is no longer total.
+K-infinity said universality lives in an external loop; this is the
+rung where the loop's non-termination becomes real. \textsf{run}
+becomes fuel-indexed: \textsf{none} means the loop was cut short;
+in-band errors still cut to a halt channel. The law strengthens to:
+\[
+  \forall\, \mathit{fuel}\;\rho\, p.\;\;
+  \mathsf{evalD}\;\mathit{fuel}\;\rho\;(\mathsf{quoteD}\;p)
+  \;=\; \mathsf{run}\;\mathit{fuel}\;\rho\;p
+\]
+uniformly in fuel --- so a program and its quotation \emph{converge
+together, diverge together, and agree on every value}. This is the
+precision partiality demands of the metacircular law, and it comes
+for free from the same static-adequacy structure.
+
+Three theorems put teeth in the fuel. \textsf{run\_mono}: a produced
+value is stable under more fuel, so \textsf{none} only ever means
+``not yet.'' \textsf{Omega\_diverges}: the term
+$\Omega = (\lambda x.\,x\,x)(\lambda x.\,x\,x)$ runs to \textsf{none}
+at \emph{every} fuel --- divergence is a theorem, not an anecdote,
+and the driver loop provably cannot be internalized. And a small
+delight, \textsf{eval\_quote\_duality\_demo}: applying
+$\lambda x.\,x \cdot x$ to the quote instruction and running it
+through $\mathsf{evalD} \circ \mathsf{quoteD}$ computes
+\textsf{data?} --- the table's duality pairing
+($2 \cdot 2 = 5$), reached by $\beta$-reduction through the
+quotation machinery, closed by \textsf{rfl}.
+
+\section{Rung 3: the machine becomes System L}
+\label{sec:ctrl}
+
+To host first-class continuations we replace the big-step evaluator
+with a machine in the CEK family \cite{felleisen86}, and here an
+old analogy becomes definitions. Curien and Herbelin's
+$\bar\lambda\mu\tilde\mu$-calculus presents computation as
+\emph{commands} --- a producer cut against a consumer
+\cite{curien00}; its call-by-value discipline, run as an abstract
+machine, is exactly a CEK machine. Our states are commands
+$\langle \mathit{focus} \parallel \mathit{kont} \rangle$, and four
+one-line theorems, each closing by \textsf{rfl} because the
+correspondence is now definitional, say the rest:
+
+\begin{itemize}
+\item \textsf{step\_halt}: halting is a cut against the toplevel
+  co-constant --- the machine's accept channel is the algebra's
+  absorber, doing its original job.
+\item \textsf{step\_mu}: \textsf{callcc} is binder-form $\mu$: it
+  binds the current consumer at de Bruijn index 0 and runs its body
+  against that same consumer.
+\item \textsf{step\_throw}: invoking a captured continuation cuts the
+  value against the captured consumer, \emph{discarding} the current
+  one.
+\item \textsf{step\_beta}: $\beta$ re-enters the body under the
+  \emph{same} continuation --- proper tail calls are machine shape,
+  not an optimization. (A Scheme requirement obtained structurally.)
+\end{itemize}
+
+The metacircular law survives the restructure verbatim (fuel now
+counts machine steps), because --- again --- adequacy is static:
+\textsf{decodeD} rejects closures and reified continuations, so
+representations never mention consumers. Procedures that cannot be
+\textsf{write}-n and \textsf{read} back are usually an
+implementation grumble; here they are a structural property of the
+driver.
+
+Conservativity earns its keep at this rung: it is a genuine big-step
+to small-step correspondence. The simulation theorem
+(\textsf{machine\_sim}) is proved continuation-polymorphically ---
+if returning the embedded value to $k$ eventually answers $w$, then
+evaluating the program in $k$ eventually answers $w$ --- and
+machine determinism closes the other side on $\mu$-free programs.
+$\Omega$'s divergence also sharpens into something finite: the
+machine enters a certified \emph{five-state cycle}
+(\textsf{machine\_delta\_cycle}), so non-termination is exhibited as
+a checkable loop rather than an infinite regress.
+
+\section{Rung 4: the store, threaded but never captured}
+\label{sec:store}
+
+The S of CESK: locations, allocation, read, write. The structural
+fact this rung certifies is an asymmetry that every Scheme
+implementor knows and no Scheme document proves: \emph{environments
+are captured, the store is threaded}. Closures carry their
+environment and never a store; every machine step carries the one
+store forward. Two consequences become theorems:
+
+\begin{itemize}
+\item \textsf{eval\_quote\_mutation}: a write performed in argument
+  position is observed by the function body --- no environment
+  connects them; the store arrived by threading.
+\item \textsf{step\_throw} (store form): the same $\sigma$ appears on
+  both sides of the throw rule, so jumping backward through a
+  captured continuation does not undo mutations. Scheme's
+  \textsf{call/cc}-plus-\textsf{set!} semantics, as one
+  \textsf{rfl}.
+\end{itemize}
+
+Conservativity strengthens once more, to a \emph{lockstep
+bisimulation}: on store-free programs the machine, carrying any
+store, performs exactly the previous machine's step and never
+touches $\sigma$; at the loop level the two machines' answers are
+equal under \verb|Option.map| --- values and divergence in a single
+equation, no determinism argument needed, with $\Omega$'s divergence
+transferring for free. (A practical dividend, outside the theorems:
+because the \textsf{Kont} type provably has no store component,
+the Rust host of \S\ref{sec:lisp} may hold its store as a single
+mutable vector. The representation choice is licensed by the shape
+of a type.)
+
+\section{Rung 5: pairs, dispatch, and certified homoiconicity}
+\label{sec:data}
+
+The final rung adds structured data --- \textsf{cons},
+\textsf{car}, \textsf{cdr}, the recognizer \textsf{pair?}, and the
+conditional \textsf{if} --- and every piece lands where the walls
+said it must. \textsf{cons} builds heap cells (the pairing wall
+forbids faithful pairing inside the table); \textsf{pair?} reads
+heap structure, never instruction identity (the recognizer wall);
+\textsf{if} is a machine form (branching is not a table capability),
+with the reject absorber as the only false value. With this rung the
+tag space closes with pleasing exactness: the six non-absorber
+elements now tag the six compound syntax groups, none unused, none
+missing.
+
+The headline is what \textsf{cons} does to quotation. Quotations are
+cells; \textsf{cons} builds cells; therefore \emph{programs can
+construct quotations}. Three theorems chain:
+
+\begin{lstlisting}
+def build : Val -> Option Prog        -- constructor program of a datum
+theorem build_sim   : build v = some p -> (running p computes v)
+theorem build_quote : forall q, exists p, build (quoteD q) = some p
+
+theorem programs_build_their_own_quotations :
+  forall q env sto, exists p fuel,
+    runM fuel env sto p = some (quoteD q)
+\end{lstlisting}
+
+For \emph{every} program $q$ there is a program that computes
+$\ulcorner q \urcorner$ --- in any environment, with any store, which
+it leaves untouched --- and composing with the metacircular law, eval
+of the built quotation runs $q$. Code as data and data as code, both
+directions theorems. A concrete instance closes by \textsf{rfl}:
+running $\mathsf{cons}\;3\;(\mathsf{cons}\;5\;6)$ produces exactly
+$\ulcorner\, 2 \cdot 3 \,\urcorner$, and evaluating that cell is
+running $2 \cdot 3$.
+
+\section{One law, six machines, one base case}
+\label{sec:punchline}
+
+\begin{table}[h]
+\caption{The ladder. Every row's law is proved by the same induction
+shape; every base case is \textsf{eatom\_qatom}; every rung is proved
+conservative over the one above it.}
+\label{tab:ladder}
+\begin{tabular}{lll}
+\toprule
+rung & machine & the law \\
+\midrule
+0 & big-step, atoms + application &
+  $\mathsf{evalD}\,(\mathsf{quoteD}\,p) = \mathsf{run}\,p$ \\
+1 & + environments &
+  $\forall \rho$ \\
+2 & + closures, fuel &
+  $\forall \mathit{fuel}\,\rho$ \emph{(uniformly: diverge together)} \\
+3 & CEK / System L commands, $\mu$ &
+  $\forall \mathit{fuel}\,\rho$ \emph{(fuel = machine steps)} \\
+4 & CESK: + store &
+  $\forall \mathit{fuel}\,\rho\,\sigma$ \\
+5 & + pairs, dispatch &
+  $\forall \mathit{fuel}\,\rho\,\sigma$, quotations constructible \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:ladder} is the pearl. Six machines of increasing
+realism; one law, strengthening but never changing shape; one base
+case, a single kernel-checked fact about an eight-element table. The
+usual metacircular story is a tower of trust that bottoms out in an
+implementation's say-so. This one bottoms out in
+\textsf{eatom\_qatom}, and \textsf{eatom\_qatom} bottoms out in
+sixty-four table cells the kernel can check by running them.
+
+The mechanization is 98 theorems across six Lean files; the whole
+repository it sits in --- the algebra, the walls, the enumeration ---
+is about 390 theorems, zero \textsf{sorry}, all of it depending on no
+axiom beyond propositional extensionality.
+
+\section{Above the core, a Lisp}
+\label{sec:lisp}
+
+Theorems about machines are best believed when the machine runs. The
+Lean development is transliterated, rule for rule with citations in
+comments, to a Rust host \cite{artifact-rust}; a reference oracle
+executes the \emph{certified} machine via Lean's interpreter (its
+store-observing loop proven to agree with the certified loop); and a
+differential harness generates seeded programs and demands
+bit-identical results --- value, in-band error, or divergence at
+exact fuel, plus the final store --- between the two. The standing
+runs hold at 24{,}000 cases with zero mismatches. The Rust core is
+not verified; it is \emph{pinned}, and every claim below should be
+read through that chain: surface behavior $\to$ Rust machine $\to$
+differential pinning $\to$ certified semantics $\to$ the table.
+
+On the pinned core a recognizable Lisp grows, and the striking thing
+is how little of it required new semantics:
+
+\begin{itemize}
+\item \textbf{Recursion} is Landin's knot on the store rung:
+  \textsf{letrec} desugars to fresh locations, $\eta$-expanded
+  forwarders, and backpatching. Mutual recursion through one shared
+  knot. Zero new core forms.
+\item \textbf{Lists and numerals} are the certified encodings
+  surfaced: nil is the accept absorber --- the same terminator the
+  certified de Bruijn numerals already use --- and \textsf{succ} is
+  one more shift cell. \textsf{zero?} is \textsf{pair?};
+  \textsf{pred} is \textsf{cdr}.
+\item \textbf{Hygienic-enough macros}: a \textsf{syntax-rules}
+  expander runs driver-side, before compilation, so macros add no
+  core semantics. Template-introduced binders are freshened with
+  names the tokenizer cannot produce; the classic \textsf{or}/%
+  \textsf{swap!} capture examples are regression tests. (Free
+  template identifiers resolve at use sites --- the known gap to full
+  hygiene, stated rather than fudged.)
+\item \textbf{Element equality needs no primitive.} The language has
+  no \textsf{eqv?}, and none was needed: extensionality --- distinct
+  elements have distinct rows --- means decision trees of
+  \emph{applications} separate all eight elements. The axiom that
+  powered the algebra's independence proofs resurfaces as the
+  operational fact that the language can identify its own atoms by
+  how they behave.
+\end{itemize}
+
+At the prompt, \verb|(fib 6)| evaluates to \verb|#8| by a doubly
+recursive \textsf{letrec} over unary numerals, every step of it a
+machine transition bottoming out in table lookups.
+
+\section{The tower, grounded}
+\label{sec:tower}
+
+The oldest demo in Lisp is the metacircular evaluator; the oldest
+anxiety about it is what it rests on \cite{smith84,wand88}. We close
+the pearl by closing the loop: a metacircular evaluator for the full
+core language, written in the surface language, adequacy-tested
+against the certified machine, and stacked two levels high.
+
+The evaluator \textsf{meta} is a \emph{closed} surface program ---
+no free globals, hence itself quotable, which is what makes the tower
+possible. It interprets quotations of all thirteen core syntax
+classes with a tagged value representation whose tags are elements
+(\textsf{quo} for elements, \textsf{evl} for closures, \textsf{shf}
+for continuations, \textsf{data?} for locations, \textsf{judge?} for
+cells); its tag and syntax dispatch is built entirely from the
+extensionality decision trees of \S\ref{sec:lisp}; object
+\textsf{callcc} absorbs into host \textsf{callcc} in the classic
+direct style; the object store shares the host tape exactly as the
+Scheme reports' \textsf{eval} shares the store; and environment
+lookup walks the quotations' own shift-cell numerals, which are the
+prelude's numerals.
+
+\emph{Adequacy}: for a corpus covering every syntax class ---
+shadowing, escapes, mutation sequencing, and recursion through
+\textsf{letrec}'s knot, meaning the evaluator interprets the refs,
+forwarders, and backpatching as object code --- reifying
+$\mathsf{meta}\;\ulcorner p \urcorner$ equals running $p$, as exact
+value equality on the pinned machine. This is
+$\mathsf{run}\,(E\,\ulcorner p\urcorner) = \mathsf{run}\,p$
+differentially; its theorem-shaped form (interpreter adequacy in
+Lean) is the natural sequel to this pearl, not part of it.
+
+\emph{The tower}: evaluate
+\begin{lstlisting}
+(reify (reify (meta '(META (cons 3 (cons 5 6))))))
+\end{lstlisting}
+where \textsf{META} is the evaluator's own source. Level 1 interprets
+the evaluator; level 2 interprets a program. The elegant part is the
+level boundary: the inner quotation is \textsf{cons}-built
+\emph{inside} the interpreted world, and by construction, evaluated
+data \emph{is} the injected representation --- the certified
+homoiconicity theorem of \S\ref{sec:data} doing load-bearing work at
+the join between levels. Two reifications unwrap the two
+representation layers; the answer is \textsf{judge?}, which is
+$2 \cdot 3$, which is what the two-node object program denotes. The
+whole tower runs in milliseconds --- small tables make cheap
+universes --- and every step of both levels is a transition of the
+machine whose law is the theorem of \S\ref{sec:rung0}.
+
+McCarthy's discovery was that the language can define itself. The
+tower's traditional embarrassment is that the self-definition rests
+on turtles. Here the turtles bottom out: two levels of
+interpretation, one pinned machine, one certified law, one table.
+
+\section{What is forced, and what is chosen}
+\label{sec:honest}
+
+A pearl about derivation owes the reader a precise account of what
+was derived. The claims, sorted:
+
+\emph{Theorems.} The atomic quote/eval duality and its retraction;
+the two-level architecture (walls); the necessity of heap tags; the
+metacircular law at every rung; conservativity of every extension;
+fuel monotonicity and $\Omega$'s divergence; the store/environment
+asymmetry; constructibility of all quotations; the System L
+correspondences of \S\ref{sec:ctrl}, each by \textsf{rfl}.
+
+\emph{Engineering, and labeled as such.} Which element tags which
+syntax class; the compound encodings and numerals; frame layouts;
+which value \textsf{setref} returns; the surface language's
+desugarings. The compound layer above the atoms is standard
+programming-language metatheory, cleanly done --- its connection to
+the algebra runs through the atoms and the walls, not through every
+constructor.
+
+\emph{The novelty claim, exactly.} We know of no other system in
+which the eval/quote law of a running language is a
+\emph{consequence} of an independently certified structure, rather
+than a property stipulated by --- or verified against --- the
+language's own semantics. We would welcome counterexamples.
+
+\section{Related work}
+\label{sec:related}
+
+McCarthy's metacircular definition \cite{mccarthy60} and Reynolds's
+analysis of definitional interpreters \cite{reynolds72} frame the
+problem this pearl inverts. Our ladder is a certified cousin of
+Danvy et al.'s functional correspondence \cite{ager03} --- where they
+derive machines from evaluators by program transformation, we derive
+the \emph{law} once and prove each machine conservative over the
+last; the CEK/CESK family is Felleisen and Friedman's
+\cite{felleisen86}, and the command reading is Curien--Herbelin's
+\cite{curien00}. Verified Lisps and MLs --- Jitawa \cite{myreen11},
+Milawa's trusted core \cite{davis15}, CakeML \cite{kumar14} ---
+verify implementations against semantics in which reflective laws
+are definitional; the contrast is the pearl's point rather than a
+gap in theirs. Reflective towers are Smith's \cite{smith84}, demystified
+by Wand and Friedman \cite{wand88}; our contribution to that
+conversation is a ground floor. The algebra itself, its independence
+theorems, and its impossibility walls are developed in the companion
+repository \cite{artifact-lean}; the contrast between the walls and
+the functional completeness of partial combinatory algebras
+\cite{vanoosten08} is developed there as well. The Rust host's
+engineering owes debts to Ribbit's tagged-cell discipline
+\cite{yvon21}.
+
+\section*{Artifact}
+
+The Lean development (the six-rung ladder, the algebra, and the
+walls; Lean 4.28, zero \textsf{sorry}) and the Rust host (machine,
+differential harness, Lisp, metacircular evaluator; \textsf{cargo
+test} runs everything in this paper) are available at
+\cite{artifact-lean,artifact-rust}.
+
+\begin{thebibliography}{99}
+
+\bibitem{mccarthy60}
+John McCarthy.
+\newblock Recursive functions of symbolic expressions and their
+  computation by machine, Part I.
+\newblock \emph{Communications of the ACM} 3(4), 1960.
+
+\bibitem{r7rs}
+Alex Shinn, John Cowan, and Arthur~A. Gleckler (eds.).
+\newblock \emph{Revised$^7$ Report on the Algorithmic Language
+  Scheme}. 2013.
+
+\bibitem{reynolds72}
+John~C. Reynolds.
+\newblock Definitional interpreters for higher-order programming
+  languages.
+\newblock \emph{Proceedings of the ACM Annual Conference}, 1972.
+
+\bibitem{ager03}
+Mads~Sig Ager, Dariusz Biernacki, Olivier Danvy, and Jan Midtgaard.
+\newblock A functional correspondence between evaluators and abstract
+  machines.
+\newblock \emph{PPDP}, 2003.
+
+\bibitem{felleisen86}
+Matthias Felleisen and Daniel~P. Friedman.
+\newblock Control operators, the SECD-machine, and the
+  $\lambda$-calculus.
+\newblock \emph{Formal Description of Programming Concepts III},
+  1986.
+
+\bibitem{curien00}
+Pierre-Louis Curien and Hugo Herbelin.
+\newblock The duality of computation.
+\newblock \emph{ICFP}, 2000.
+
+\bibitem{myreen11}
+Magnus~O. Myreen and Jared Davis.
+\newblock A verified runtime for a verified theorem prover.
+\newblock \emph{ITP}, 2011.
+
+\bibitem{davis15}
+Jared Davis and Magnus~O. Myreen.
+\newblock The reflective Milawa theorem prover is sound.
+\newblock \emph{Journal of Automated Reasoning} 55(2), 2015.
+
+\bibitem{kumar14}
+Ramana Kumar, Magnus~O. Myreen, Michael Norrish, and Scott Owens.
+\newblock CakeML: a verified implementation of ML.
+\newblock \emph{POPL}, 2014.
+
+\bibitem{smith84}
+Brian~Cantwell Smith.
+\newblock Reflection and semantics in Lisp.
+\newblock \emph{POPL}, 1984.
+
+\bibitem{wand88}
+Mitchell Wand and Daniel~P. Friedman.
+\newblock The mystery of the tower revealed: a non-reflective
+  description of the reflective tower.
+\newblock \emph{Lisp and Symbolic Computation} 1(1), 1988.
+
+\bibitem{vanoosten08}
+Jaap van Oosten.
+\newblock \emph{Realizability: An Introduction to its Categorical
+  Side}.
+\newblock Elsevier, 2008.
+
+\bibitem{yvon21}
+Samuel Yvon and Marc Feeley.
+\newblock A small Scheme VM, compiler, and REPL in 4K.
+\newblock \emph{VMIL}, 2021.
+
+\bibitem{artifact-lean}
+Anonymized for review.
+\newblock finite-magma-independence: Lean formalization.
+\newblock \url{https://github.com/stefanopalmieri/finite-magma-independence}.
+
+\bibitem{artifact-rust}
+Anonymized for review.
+\newblock kamea-machine: the certified core's Rust host.
+\newblock \url{https://github.com/stefanopalmieri/kamea-machine}.
+
+\end{thebibliography}
+
+\end{document}
