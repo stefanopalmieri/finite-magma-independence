@@ -212,7 +212,44 @@ winding marks, environment representation, tag encodings, GC.
    (currently SAT + hand proof); swap world at all even N (currently N=6
    witness + evenness necessity).
 
-## 10. File pointers
+## 10. I/O without atoms (design note, 2026-07-24)
+
+**Decision**: I/O adds **no table elements and no core forms**. The
+old Ψ-16 spent atoms on GET/PUT; the current architecture forbids the
+move (tag space {2..7} exactly exhausted, table frozen) and doesn't
+need it: K-infinity already places the loop outside the algebra, and
+I/O is the loop talking to the world. Three driver-level strata, none
+touching the certified core:
+
+1. **Batch** (works today, zero changes): driver pre-loads input into
+   the initial store/environment, runs to halt, reads output from the
+   result value and final store. The Lean semantics as-is.
+2. **Memory-mapped** (hardware-natural): designated store locations
+   act as device registers — `deref`/`set-ref!` on them reach the
+   world by *driver* convention. In discrete hardware this is free
+   (address decoder routes top store locations to a UART); on an MCU
+   it is the effect-handler table.
+3. **Request/resume via callcc** (the principled interactive one):
+   wrap programs in a toplevel continuation capture; `(read)`,
+   `(display e)`, `(gpio-set p v)`, … macro-expand to throwing
+   `(cons request-tag (cons payload k))` to the root. Driver loop:
+   run to halt; if the result is a request cell, perform the effect
+   and resume by invoking the carried continuation with the reply;
+   else done. Algebraic effects from certified parts: requests are
+   cells (data rung), yielding is μ (control rung), resumption is
+   `step_throw`, sugar is the expander. Zero new core forms; difftest
+   and all theorems untouched. Expected bonus: effects tunnel through
+   the metacircular tower, since `meta` absorbs object callcc into
+   host callcc — a level-2 `(read)` should reach the real driver
+   (verify the resume path with a test before relying on it).
+
+**Certification boundary**: all three strata are driver engineering —
+no theorem weakens. A *certified* I/O semantics (eval_quote over
+interaction traces, oracle stream threaded like σ) is a possible
+future Lean rung, needed only for theorems about interactive
+equivalence, not for I/O to work.
+
+## 11. File pointers
 
 - `scripts/psi_lambda_mu_n9.py`, `psi_lambda_mu_n9_v2.py`, `n9_church_2a.py`,
   `LAMBDA_MU_ON_N9.md`, `RESULT_2A.md` — **the driver seed**: a working
