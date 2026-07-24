@@ -172,14 +172,26 @@ extracted by SAT enumeration and then certified in Lean. The
 companion repository holds that derivation together with the theory
 it sits in --- an independence result for the three reflective
 capabilities and a family of impossibility theorems
-\cite{artifact-lean}. Here we need only two of those impossibility
+\cite{artifact-lean}. Here we need three of those impossibility
 results, stated informally:
 
 \begin{description}
-\item[K-infinity.] No finite table contains a K~combinator: iteration
-  and universality cannot live inside the algebra. Whatever runs
-  programs is an \emph{external driver loop} whose only semantic step
-  is a table lookup.
+\item[The completeness wall.] In \emph{every} applicative structure
+  with two absorbers and the classifier discipline above --- finite
+  or infinite --- some right translation is not a left translation:
+  there is a $b$ such that no $a$ satisfies $a \cdot x = x \cdot b$
+  for all $x$. Hence no such structure is combinatorially complete,
+  and in particular none carries a jointly adequate $(S,K)$ pair
+  (\textsf{d\_leaves\_a\_column\_unnamed} in the companion
+  development; the obstruction is counting-free and survives at every
+  cardinality). A structure that can judge itself cannot name all of
+  its own transformations --- and yet the quote/eval retraction above
+  fits comfortably inside this wall. This is the single theorem the
+  rest of the paper is shaped around.
+\item[K-infinity.] The finite sharpening: no finite table contains a
+  K~combinator at all, so iteration and universality cannot live
+  inside the algebra. Whatever runs programs is an \emph{external
+  driver loop} whose only semantic step is a table lookup.
 \item[The collapse wall.] A user-facing \textsf{quote} in the Lisp
   sense maps everything --- code and data alike --- into data, and a
   table whose quotation collapses in this way provably cannot also
@@ -192,7 +204,11 @@ Together the walls force a two-level architecture --- table as
 microcode, driver as machine --- and the rest of this pearl lives at
 the driver level. Two further walls (no faithful internal pairing; no
 internal recognizer of a faithful constructor) will place pairs and
-type predicates when we reach \S\ref{sec:data}.
+type predicates when we reach \S\ref{sec:data}. In slogan form: Lisp
+is what universality looks like from inside a system that can judge
+itself. Quotation survives the walls; $S$ and $K$ do not; and the
+ladder that follows is an account of everything that must, therefore,
+live outside.
 
 \section{Rung 0: metacircularity in miniature}
 \label{sec:rung0}
