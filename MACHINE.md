@@ -71,9 +71,20 @@ shift-commutes-with-quote, and eval-side judge-closure follows from
 quote-side closure by a finite-orbit argument
 (`eval_comm_of_quote_comm`, `eval_closure_of_quote_closure`;
 `n8_enumerate_lexmin.py` confirms empirically that dropping the
-eval-commutation law leaves the same 228 models). Still chosen:
-quote-commutation, the involution, quote-side judge-closure, shift
-distinctness, and the lex-min tie-break.
+eval-commutation law leaves the same 228 models). Further
+(`QuoteOrbit.lean`): reversibility of any faithful operator is free
+(finite core order, `faithful_finite_order` — iterated quotation
+always cycles, `quote_finite_order`); in the swap world the order is
+necessarily **even** (`swap_even_order`), so the involution law is
+just the choice of the minimal order — a tie-break, not an axiom;
+and judge-closure of the introspector's realized quote-orbit is
+automatic in both directions (`orbit_quote_closure`,
+`orbit_eval_closure`). **Final ledger — derived**: the world, the
+size, the eval side, reversibility, even order, orbit closure.
+**Still chosen**: quote-commutation (the definition of hygienic),
+order = minimum (tie-break), orbit-realization + closure for judges
+outside the orbit (at N=8: the one free judge), shift's
+action-distinctness, and the lex-min tie-break.
 
 Also certified: no element of any swap-world magma realizes quote²
 (block-preserving, hence expressible by no row) **[sat]** — derived actions

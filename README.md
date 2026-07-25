@@ -9,7 +9,7 @@ Three algebraic properties of finite extensional 2-pointed magmas — internal s
 ## Building
 
 ```bash
-lake build          # builds all 35 files, verifies ~400 theorems, zero sorry
+lake build          # builds all 36 files, verifies ~410 theorems, zero sorry
 ```
 
 Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefile.lean`).
@@ -40,6 +40,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **ArtifactN8** | 16 | decide | **The canonical N=8 artifact: kernel + hygienic shift, lex-min of a 228-table space** |
 | **StackAForced** | 4 | Algebraic | **The frame derived: observable quotation forces the swap world; the frame forces N ≥ 8 (sharp)** |
 | **EvalSideFree** | 8 | Algebraic | **Quote-side laws transport to eval through the retraction: hygiene's eval half and eval-side judge-closure are free** |
+| **QuoteOrbit** | 7 | Algebraic | **Reversibility free (finite order), order even in the swap world, judge-closure = orbit realization** |
 | **Factorization** | 7 | Alg.+decide | **Driver metacircularity: eval(quote p) = run p, base case = the certified table law** |
 | **FactorizationEnv** | 10 | Alg.+decide | **Metacircularity with environments (R7RS two-argument eval), conservative over the minimal form** |
 | **FactorizationClos** | 15 | Alg.+decide | **Metacircularity with closures: β, fuel, certified divergence (Ω), conservative again** |
@@ -53,7 +54,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | MirrorRow | 1 | Algebraic | N=5 automorphisms fix absorbers, \|Aut\| ≤ 2 |
 | SelfSimulation | 5 | Algebraic | Partial application injectivity (supplementary) |
 | KameaRef | 1 | Algebraic | Reference oracle for the Rust host: store-observing loop agrees with the certified loop (supplementary) |
-| **Total** | **402** | | |
+| **Total** | **409** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 

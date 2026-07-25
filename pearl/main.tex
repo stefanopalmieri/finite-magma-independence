@@ -617,8 +617,17 @@ derivable from the quote side --- commutation and judge-closure both
 transport through the retraction
 (\textsf{eval\_comm\_of\_quote\_comm},
 \textsf{eval\_closure\_of\_quote\_closure}, the latter by a
-finite-orbit argument). The choices of world, of size, and of the
-eval-side laws were choices only until they were derived.
+finite-orbit argument). Further: every faithful operator has finite
+core order (reversibility of renaming is free), that order is
+necessarily even in the swap world (so the involution law is the
+choice of the \emph{minimal} order --- a tie-break, not an axiom),
+and the introspector's realized quote-orbit is automatically closed
+under both quote and eval (\textsf{QuoteOrbit.lean}). What survives
+as genuine choice: that hygiene means commuting with quote (a
+definition), closure for judges outside the orbit, shift's
+distinctness, and two tie-breaks. The choices of world, of size, of
+the eval side, of reversibility, and of the order's parity were
+choices only until they were derived.
 
 \emph{Engineering, and labeled as such.} Which element tags which
 syntax class; the compound encodings and numerals; frame layouts;

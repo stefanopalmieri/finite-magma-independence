@@ -1,7 +1,7 @@
 -- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 33 paper files (372 theorems) + 2 supplementary (6 theorems), zero sorry.
+-- 34 paper files (379 theorems) + 2 supplementary (6 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
@@ -64,6 +64,9 @@ import Magma.StackAForced
 
 -- The eval side is free: quote-side laws transport to eval through the retraction
 import Magma.EvalSideFree
+
+-- The quote-side residue reduced: finite order free, evenness forced, closure = orbit realization
+import Magma.QuoteOrbit
 
 -- The factorization theorem: driver metacircularity certified against the table
 import Magma.Factorization
