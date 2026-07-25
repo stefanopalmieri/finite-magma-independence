@@ -668,6 +668,66 @@ the functional completeness of partial combinatory algebras
 engineering owes debts to Ribbit's tagged-cell discipline
 \cite{yvon21}.
 
+\section{Coda: the definition Scheme never had}
+\label{sec:coda}
+
+There is a wrong sentence nearby that this pearl must not say, and a
+right one it exists to say. The wrong one: \emph{this is the one true
+Scheme}. Truth is not a predicate that applies to definitions and
+tie-breaks, and our artifact, with its eight atoms and unary
+arithmetic, does not run R7RS. The right sentence has a shape
+mathematics knows well. Nobody claims the axioms of a complete
+ordered field \emph{are} the real numbers; everybody accepts that
+they say what the reals \emph{are} --- a short list of demands with a
+canonical model, unique up to the appropriate equivalence. Before
+Dedekind, the reals existed as practice: geometers used them
+fluently and could not say what they were. The characterization did
+not replace the practice. It told the practice what it had been
+talking about.
+
+Scheme has existed for fifty years as practice --- reports,
+implementations, folklore about why quote and eval and hygiene are
+the way they are. What the development in this pearl and its
+companion amounts to is the Dedekind step: an intensional definition
+the practice never had. Tally the ledger of \S\ref{sec:honest} and
+what remains outside the theorems is exactly this: \emph{one wager}
+(a finite system that judges itself, carrying its own
+representations under a type discipline); \emph{three definitions}
+(what representation, quotation-observing introspection, and hygiene
+mean); \emph{two completeness demands} (the introspector's orbit is
+askable; the one judge outside it closes); and \emph{five
+conventions} for picking the canonical representative. Everything
+else --- the two-level architecture, the swap world, the size, the
+tags' necessity, the eval side, the parity of renaming, the
+metacircular law itself --- is a theorem. Scheme-nature is the class
+of models of that short list; the table of \S\ref{sec:table} is its
+least model; and the price list of every convention used to pick it
+is finite, named, and public.
+
+Two objections deserve their answers on the record. \emph{You
+distilled the axioms from Lisp, so of course Lisp came out}: the
+rebuttal is the compression ratio and the surprises. The axioms are
+a few lines; the swap world, the heap tags, N = 8, and the free eval
+side were not put in --- and the walls could have falsified the
+enterprise. Nobody designing axioms to flatter Lisp would design the
+theorem that self-judgment excludes $S$ and $K$. When axioms fight
+back, they are describing something. \emph{The definition covers the
+skeleton, not the flesh}: correct, and ``complete ordered field''
+does not fix decimal notation either. But note which test has been
+running throughout this pearl: at every rung, some behavior specific
+to the Scheme reports fell out as a theorem --- \S6.12's law, tail
+calls as machine shape, \textsf{call/cc} not restoring the store,
+unwritable procedures. Each recovery is evidence that the
+characterization captures the language and not a toy resembling it;
+the day an essential behavior cannot be recovered without a new
+wager, the definition fails, and that falsifiability is what makes
+it worth stating.
+
+McCarthy showed the language could define itself. The tower of
+\S\ref{sec:tower} shows the self-definition can be grounded. This
+coda states what grounds the ground: not the one true Scheme --- the
+definition Scheme never had.
+
 \section*{Artifact}
 
 The Lean development (the six-rung ladder, the algebra, and the
