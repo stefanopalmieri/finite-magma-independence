@@ -63,6 +63,18 @@ eval, involutive, faithful), quote involution, and the emergent duality
 pairing: **each operator's code is its judge** (quote↦`data?`, eval↦`judge?`,
 shift↦`shift?`).
 
+Law-set reductions **[thm]** (`StackAForced.lean`, `EvalSideFree.lean`):
+the swap world and N=8 are *derived* from observable quotation plus a
+faithful third operator (`stack_a_frame_min`, sharp), and the eval side
+of the law set is free — shift-commutes-with-eval follows from
+shift-commutes-with-quote, and eval-side judge-closure follows from
+quote-side closure by a finite-orbit argument
+(`eval_comm_of_quote_comm`, `eval_closure_of_quote_closure`;
+`n8_enumerate_lexmin.py` confirms empirically that dropping the
+eval-commutation law leaves the same 228 models). Still chosen:
+quote-commutation, the involution, quote-side judge-closure, shift
+distinctness, and the lex-min tie-break.
+
 Also certified: no element of any swap-world magma realizes quote²
 (block-preserving, hence expressible by no row) **[sat]** — derived actions
 necessarily live driver-side.

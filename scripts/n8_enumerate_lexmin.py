@@ -42,7 +42,7 @@ RAW_A8 = [
 ]
 
 
-def law_set():
+def law_set(eval_comm=True):
     T = [[z3.Int(f"t{i}_{j}") for j in range(n)] for i in range(n)]
     S = z3.Solver()
     for i in range(n):
@@ -89,14 +89,17 @@ def law_set():
     # faithful shift: gamma = 4 injective on the core
     for x, y in itertools.combinations(core, 2):
         S.add(T[4][x] != T[4][y])
-    # hygiene: shift commutes with quote and with eval on the core
+    # hygiene: shift commutes with quote (and, if eval_comm, with eval —
+    # Magma/EvalSideFree.lean proves the eval half REDUNDANT given the
+    # mutual retraction; the run below verifies that empirically)
     for x in core:
         for v in core:
             for w in core:
                 S.add(z3.Implies(z3.And(T[2][x] == v, T[4][x] == w),
                                  T[4][v] == T[2][w]))
-                S.add(z3.Implies(z3.And(T[3][x] == v, T[4][x] == w),
-                                 T[4][v] == T[3][w]))
+                if eval_comm:
+                    S.add(z3.Implies(z3.And(T[3][x] == v, T[4][x] == w),
+                                     T[4][v] == T[3][w]))
     # hygiene: shift is an involution on the core
     for x in core:
         for v in core:
@@ -117,8 +120,8 @@ def law_set():
     return S, T
 
 
-def enumerate_core_tables():
-    S, T = law_set()
+def enumerate_core_tables(eval_comm=True):
+    S, T = law_set(eval_comm)
     count = 0
     while S.check() == z3.sat:
         m = S.model()
@@ -159,3 +162,10 @@ if __name__ == "__main__":
     assert count == 228, f"expected 228 core tables, got {count}"
     assert tbl == RAW_A8, "lex-min table does not match rawA8!"
     print("MATCH: count = 228 and lex-min table = rawA8 (ArtifactN8.lean)")
+    # Redundancy check (Magma/EvalSideFree.lean): dropping the
+    # shift-commutes-with-eval law must not change the model space.
+    count2 = enumerate_core_tables(eval_comm=False)
+    print(f"without the eval-commutation law: {count2} core tables")
+    assert count2 == 228, (
+        f"eval-commutation law is NOT redundant: {count2} != 228")
+    print("REDUNDANT: eval-commutation adds no constraint, as proved")
