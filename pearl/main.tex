@@ -514,7 +514,7 @@ sixty-four table cells the kernel can check by running them.
 The mechanization is 98 theorems across six Lean files, none
 depending on any axiom beyond propositional extensionality. The
 repository they sit in --- the algebra, the walls, the enumeration
---- is about 410 theorems, zero \textsf{sorry}, with a stratified
+--- is about 435 theorems, zero \textsf{sorry}, with a stratified
 trust base worth stating exactly: the completeness wall depends on no
 axioms at all; the ladder and the finite witnesses need only
 \textsf{propext}; the frame-derivation and structure theorems
@@ -547,8 +547,8 @@ is how little of it required new semantics:
 \begin{itemize}
 \item \textbf{Recursion} is Landin's knot on the store rung:
   \textsf{letrec} desugars to fresh locations, $\eta$-expanded
-  forwarders, and backpatching. Mutual recursion through one shared
-  knot. Zero new core forms.
+  for\-warders, and backpatching. Mutual recursion runs through one
+  shared knot. Zero new core forms.
 \item \textbf{Lists and numerals} are the certified encodings
   surfaced: nil is the accept absorber --- the same terminator the
   certified de Bruijn numerals already use --- and \textsf{succ} is
@@ -561,13 +561,19 @@ is how little of it required new semantics:
   \textsf{swap!} capture examples are regression tests. (Free
   template identifiers resolve at use sites --- the known gap to full
   hygiene, stated rather than fudged.)
-\item \textbf{Element equality needs no primitive.} The language has
-  no \textsf{eqv?}, and none was needed: extensionality --- distinct
-  elements have distinct rows --- means decision trees of
-  \emph{applications} separate all eight elements. The axiom that
-  powered the algebra's independence proofs resurfaces as the
-  operational fact that the language can identify its own atoms by
-  how they behave.
+\item \textbf{Element equality needs no primitive.} Extensionality
+  --- distinct elements have distinct rows --- means decision trees
+  of \emph{applications} separate all eight elements, and the whole
+  language of this section, metacircular evaluator included, runs on
+  that discipline alone. The axiom that powered the algebra's
+  independence proofs resurfaces as the operational fact that the
+  language can identify its own atoms by how they behave. (An
+  \textsf{eqv?} core form has since been added as a seventh,
+  post-paper rung --- same law, same base case, same conservativity
+  --- and its correctness on elements is certified to \emph{agree}
+  with extensionality: two instructions are \textsf{eqv?}-identical
+  iff their rows coincide. The primitive adds speed; the decision
+  trees remain the proof that it adds nothing else.)
 \end{itemize}
 
 At the prompt, \verb|(fib 6)| evaluates to \verb|#8| by a doubly
@@ -597,7 +603,7 @@ Scheme reports' \textsf{eval} shares the store; and environment
 lookup walks the quotations' own shift-cell numerals, which are the
 prelude's numerals.
 
-\emph{Adequacy}: for a corpus covering every syntax class ---
+\emph{Adequacy}: for a 17-program corpus covering every syntax class ---
 shadowing, escapes, mutation sequencing, and recursion through
 \textsf{letrec}'s knot, meaning the evaluator interprets the refs,
 forwarders, and backpatching as object code --- reifying
