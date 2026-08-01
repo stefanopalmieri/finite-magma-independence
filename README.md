@@ -37,7 +37,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **CompletenessWall** | 7 | Algebraic | **K-infinity; combinatorial completeness excludes D (any cardinality)** |
 | **Sorting** | 28 | Alg.+decide | **Sorted magmas (the first connecting axiom): involution, four class-tables, balance, preserving world at every N** |
 | **Homoiconic** | 14 | Alg.+decide | **Introspection fixes the quotation law; the canonical N=6 Lisp kernel** |
-| **ArtifactN8** | 16 | decide | **The canonical N=8 artifact: kernel + hygienic shift, lex-min of a 228-table space** |
+| **ArtifactN8** | 16 | decide | **The canonical N=8 artifact: kernel + hygienic shift, lex-min of a 168-table space (law set incl. no-internal-dispatch)** |
 | **StackAForced** | 4 | Algebraic | **The frame derived: observable quotation forces the swap world; the frame forces N ≥ 8 (sharp)** |
 | **EvalSideFree** | 8 | Algebraic | **Quote-side laws transport to eval through the retraction: hygiene's eval half and eval-side judge-closure are free** |
 | **QuoteOrbit** | 7 | Algebraic | **Reversibility free (finite order), order even in the swap world, judge-closure = orbit realization** |

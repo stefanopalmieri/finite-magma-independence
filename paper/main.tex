@@ -62,7 +62,7 @@ Internal splitting~(S), the classifier dichotomy~(D), and internal composition~(
 
 The setting is fixed by four universal obstructions: any nontrivial total magma with a $\mathbf{k}$-combinator must be infinite; associativity is incompatible with combining a classifier and a retraction pair; commutativity is incompatible with two distinct left-absorbers; and a single left-absorber collapses any classifier. What survives is finite, non-associative, non-commutative, extensional 2-pointed magmas.
 
-Further structural results: the three-category decomposition induced by $D$ is an isomorphism invariant; the automorphism group of any $N\!=\!5$ S+D+C magma has order at most $2$, with the unique possible non-trivial element being the classifier transposition $(\tau_1\,\tau_2)$; a size-driven phase transition takes the role-shape from a single forced configuration at $N\!=\!5$ (every retraction pair satisfies $s = r$, every C-triple has the form $(\tau_1, g, \tau_2)$) to a heterogeneous landscape at $N \geq 6$ where strong S re-opens and multiple shape classes coexist; and the ICP is logically equivalent to the standard Compose+Inert axioms. A connecting-axiom programme follows: sorting (compositionality of the classifier/non-classifier partition) is independent of S+D+C and, with S, admits exactly two worlds --- class-preserving and class-swapping; sort-introspection fixes the quotation law in each world; and a canonical eight-element model, the lexicographically minimal member of a law-determined $228$-model space, is derived rather than designed --- observable quotation forces the swap world and the carrier size (sharp), the eval side of its law set is provably redundant, and reversibility, parity, and orbit closure are free, leaving a finite, named residue of definitions and tie-breaks. Lean-verified results --- independence counterexamples with tight bounds, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witnesses (coexistence, all six non-implications, and all eight cube cells), C-triple type-coherence, the $N\!=\!5$ structure theorem, the mirror-row theorem, and the frame-derivation and law-reduction theorems --- compile with zero \texttt{sorry}; the remaining universal-$N$ algebraic results in Section~\ref{sec:universal} not yet transcribed to Lean have hand proofs supported by Z3 UNSAT certificates.
+Further structural results: the three-category decomposition induced by $D$ is an isomorphism invariant; the automorphism group of any $N\!=\!5$ S+D+C magma has order at most $2$, with the unique possible non-trivial element being the classifier transposition $(\tau_1\,\tau_2)$; a size-driven phase transition takes the role-shape from a single forced configuration at $N\!=\!5$ (every retraction pair satisfies $s = r$, every C-triple has the form $(\tau_1, g, \tau_2)$) to a heterogeneous landscape at $N \geq 6$ where strong S re-opens and multiple shape classes coexist; and the ICP is logically equivalent to the standard Compose+Inert axioms. A connecting-axiom programme follows: sorting (compositionality of the classifier/non-classifier partition) is independent of S+D+C and, with S, admits exactly two worlds --- class-preserving and class-swapping; sort-introspection fixes the quotation law in each world; and a canonical eight-element model, the lexicographically minimal member of a law-determined $168$-model space, is derived rather than designed --- observable quotation forces the swap world and the carrier size (sharp), the eval side of its law set is provably redundant, and reversibility, parity, and orbit closure are free, leaving a finite, named residue of definitions and tie-breaks. Lean-verified results --- independence counterexamples with tight bounds, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witnesses (coexistence, all six non-implications, and all eight cube cells), C-triple type-coherence, the $N\!=\!5$ structure theorem, the mirror-row theorem, and the frame-derivation and law-reduction theorems --- compile with zero \texttt{sorry}; the remaining universal-$N$ algebraic results in Section~\ref{sec:universal} not yet transcribed to Lean have hand proofs supported by Z3 UNSAT certificates.
 \end{abstract}
 
 \maketitle
@@ -1180,7 +1180,7 @@ requires.
 \subsection{The derivation ledger: forced, free, and chosen}
 \label{sec:ledger}
 
-The law set that carves out the $228$-model space contains candidate
+The law set that carves out the $168$-model space contains candidate
 axioms of unequal status. Three groups of theorems, all algebraic and
 uniform in $N$, reduce the set: the first derives the model's frame
 (world and size) from a single semantic requirement, the second shows
@@ -1234,7 +1234,7 @@ realized by the sequence (\texttt{eval\_closure\_of\_quote\_closure};
 canonical model's law set are redundant: shift-commutes-with-eval
 follows from shift-commutes-with-quote, and eval-side judge-closure
 from quote-side. Deleting the former is empirically re-verified to
-leave the $228$-model space unchanged
+leave the model space unchanged
 (\texttt{scripts/n8\_enumerate\_lexmin.py}).
 \end{theorem}
 

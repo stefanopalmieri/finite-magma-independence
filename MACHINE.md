@@ -38,9 +38,9 @@ re-litigated. Everything marked **[thm]** is Lean-verified in this repository
 ## 2. The certified instruction table
 
 `Magma/ArtifactN8.lean` (`canonical_artifact_N8`) freezes the canonical N=8
-Stack-A artifact: the lexicographically minimal member of the **228**-table
+Stack-A artifact: the lexicographically minimal member of the **168**-table
 design space determined by the full law set (kernel + faithful shift +
-hygiene + judge-closure; enumeration in `scripts/n8_free_pair_search.py`
+hygiene + judge-closure + no-internal-dispatch; enumeration in `scripts/n8_free_pair_search.py`
 **[sat]**).
 
 ```
@@ -71,7 +71,7 @@ shift-commutes-with-quote, and eval-side judge-closure follows from
 quote-side closure by a finite-orbit argument
 (`eval_comm_of_quote_comm`, `eval_closure_of_quote_closure`;
 `n8_enumerate_lexmin.py` confirms empirically that dropping the
-eval-commutation law leaves the same 228 models). Further
+eval-commutation law leaves the model space unchanged). Further
 (`QuoteOrbit.lean`): reversibility of any faithful operator is free
 (finite core order, `faithful_finite_order` — iterated quotation
 always cycles, `quote_finite_order`); in the swap world the order is
@@ -84,7 +84,9 @@ size, the eval side, reversibility, even order, orbit closure.
 **Still chosen**: quote-commutation (the definition of hygienic),
 order = minimum (tie-break), orbit-realization + closure for judges
 outside the orbit (at N=8: the one free judge), shift's
-action-distinctness, and the lex-min tie-break.
+action-distinctness, **no-internal-dispatch** (¬W — dispatch is machine
+work, adopted 2026-08-01 when the W-probe showed lex-min was silently
+deciding it; the artifact is unchanged), and the lex-min tie-break.
 
 Also certified: no element of any swap-world magma realizes quote²
 (block-preserving, hence expressible by no row) **[sat]** — derived actions
@@ -94,10 +96,10 @@ dispatch (W — a generic row glued from two handler rows along a core test;
 60 of the 228 models satisfy it (`w_over_228.py`); the canonical artifact is
 among the 168 that do not. "Branching is not a table capability" is therefore
 a property of the lex-min *choice*, not of the laws — driver-side `ite` was
-bought by the tie-break, unpriced until now. Resolution options: adopt ¬W as
-an explicit law (the artifact is already lex-min of the ¬W subspace, so
-nothing changes except the ledger gains an honest entry), or adopt W and
-re-derive. Decide before the next artifact-level claim.
+bought by the tie-break, unpriced until now. **Resolved (same day)**: ¬W adopted
+into the law set (`n8_enumerate_lexmin.py`: 168 models, lex-min still
+rawA8; pre-adoption 228 kept as the derivation record). The tie-break
+is again semantically inert w.r.t. every capability named so far.
 
 ## 3. Why the sequent-machine family (System L / λ̄μμ̃)
 

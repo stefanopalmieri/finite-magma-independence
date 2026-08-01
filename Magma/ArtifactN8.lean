@@ -18,7 +18,9 @@ dual pair, closed under the full law set
   * shift acts differently from quote and from eval;
   * judge-closure under quote.
 
-SAT enumeration shows this law set admits exactly **228** distinct core
+SAT enumeration shows this law set — including the no-internal-dispatch
+law adopted 2026-08-01 (`scripts/canonicality/probe_dispatch.py`) —
+admits exactly **168** distinct core
 tables at N=8; the artifact below is the canonical one — the
 lexicographically minimal table, extracted by greedy minimization, so it
 is *derived*, not designed (`scripts/n8_free_pair_search.py`).
@@ -144,7 +146,7 @@ theorem artifactA8_shift_recognizer :
 /-- **The canonical N=8 artifact**: eight instructions — halt-true,
     halt-false, quote, eval, shift, `data?`, `judge?`, `shift?` —
     carrying S, D, C, the sorted swap world, introspection, and the
-    hygiene laws; the lexicographically minimal member of the 228-table
+    hygiene laws; the lexicographically minimal member of the 168-table
     design space determined by the full law set. -/
 theorem canonical_artifact_N8 :
     ∃ (_ : FaithfulRetractMagma 8),

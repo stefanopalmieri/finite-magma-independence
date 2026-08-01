@@ -1,8 +1,9 @@
 """Reproducibility closure for the canonical N=8 artifact (Stack A).
 
-`Magma/ArtifactN8.lean` claims: the full law set admits exactly 228
+`Magma/ArtifactN8.lean` claims: the full law set (including the
+no-internal-dispatch law adopted 2026-08-01) admits exactly 168
 distinct core tables, and `rawA8` is the lexicographically minimal
-one. The probe script (`n8_free_pair_search.py`) caps its model count
+one; the pre-adoption law set admits 228 with the same lex-min. The probe script (`n8_free_pair_search.py`) caps its model count
 at 200 and does not perform the minimization, so this script is the
 committed, uncapped derivation:
 
@@ -42,7 +43,7 @@ RAW_A8 = [
 ]
 
 
-def law_set(eval_comm=True):
+def law_set(eval_comm=True, no_dispatch=True):
     T = [[z3.Int(f"t{i}_{j}") for j in range(n)] for i in range(n)]
     S = z3.Solver()
     for i in range(n):
@@ -117,11 +118,35 @@ def law_set(eval_comm=True):
                     conj.append(z3.Implies(T[2][x] == v, T[t2][x] == T[t][v]))
             opts.append(z3.And(conj))
         S.add(z3.Or(opts))
+    if no_dispatch:
+        # The no-internal-dispatch law (adopted 2026-08-01 after the
+        # W-probe, scripts/canonicality/probe_dispatch.py): no core row
+        # is glued from two distinct core rows along an absorber-valued
+        # core test with both branches realized where the handlers
+        # disagree. Before adoption this was an unpriced consequence of
+        # the lex-min tie-break (60 of the 228 pre-adoption models have
+        # such a gluing); moving it into the law set restores the
+        # tie-break to semantic inertness. The artifact is unchanged.
+        gluings = []
+        for d, h1, h2 in itertools.permutations(core, 3):
+            for g in core:
+                test = z3.And(*[z3.Or(T[g][x] == 0, T[g][x] == 1)
+                                for x in core])
+                route = z3.And(*[z3.And(
+                    z3.Or(T[g][x] != 0, T[d][x] == T[h1][x]),
+                    z3.Or(T[g][x] != 1, T[d][x] == T[h2][x]))
+                    for x in core])
+                live1 = z3.Or(*[z3.And(T[g][x] == 0, T[h1][x] != T[h2][x])
+                                for x in core])
+                live2 = z3.Or(*[z3.And(T[g][x] == 1, T[h1][x] != T[h2][x])
+                                for x in core])
+                gluings.append(z3.And(test, route, live1, live2))
+        S.add(z3.Not(z3.Or(*gluings)))
     return S, T
 
 
-def enumerate_core_tables(eval_comm=True):
-    S, T = law_set(eval_comm)
+def enumerate_core_tables(eval_comm=True, no_dispatch=True):
+    S, T = law_set(eval_comm, no_dispatch)
     count = 0
     while S.check() == z3.sat:
         m = S.model()
@@ -159,13 +184,18 @@ if __name__ == "__main__":
     print("lexicographically minimal table (greedy, row-major):")
     for row in tbl:
         print("  ", row)
-    assert count == 228, f"expected 228 core tables, got {count}"
+    assert count == 168, f"expected 168 core tables, got {count}"
     assert tbl == RAW_A8, "lex-min table does not match rawA8!"
-    print("MATCH: count = 228 and lex-min table = rawA8 (ArtifactN8.lean)")
+    print("MATCH: count = 168 and lex-min table = rawA8 (ArtifactN8.lean)")
+    # Pre-adoption record: without the no-dispatch law the space is 228
+    # with the same lex-min (the historical derivation path).
+    count0 = enumerate_core_tables(no_dispatch=False)
+    print(f"without the no-dispatch law: {count0} core tables")
+    assert count0 == 228, f"expected 228 pre-adoption, got {count0}"
     # Redundancy check (Magma/EvalSideFree.lean): dropping the
     # shift-commutes-with-eval law must not change the model space.
     count2 = enumerate_core_tables(eval_comm=False)
     print(f"without the eval-commutation law: {count2} core tables")
-    assert count2 == 228, (
-        f"eval-commutation law is NOT redundant: {count2} != 228")
+    assert count2 == 168, (
+        f"eval-commutation law is NOT redundant: {count2} != 168")
     print("REDUNDANT: eval-commutation adds no constraint, as proved")
