@@ -4,6 +4,11 @@
 %% Code excerpts are lightly transliterated for typesetting
 %% (rho -> env, sigma -> sto); the mechanized sources are canonical.
 
+%% For a double-blind submission: add the `anonymous' class option
+%% (which suppresses the author block), and replace the two artifact
+%% URLs in the bibliography with anonymized mirrors --- the GitHub
+%% usernames identify the author. As distributed, this draft is
+%% de-anonymized and self-consistent about it.
 \documentclass[acmsmall,screen,review]{acmart}
 
 \usepackage{listings}
@@ -32,7 +37,7 @@
 
 \begin{abstract}
 Every Lisp rests on one law: evaluating a quotation recovers the
-program, \verb|(eval (quote p))| behaves as \verb|p|. The Scheme
+program, \texttt{(eval (quote p))} behaves as \texttt{p}. The Scheme
 reports stipulate it, every implementation implements it, and every
 metacircular evaluator exhibits it --- but the law is always an axiom
 of the evaluator that satisfies it. We present a small language in
@@ -256,6 +261,18 @@ derived rather than assumed. The dependency is real and brittle in
 exactly the right way: edit any cell of rows 2 or 3 and
 \textsf{eatom\_qatom} fails; the law's truth flows from the algebra,
 through the induction, to programs of every size.
+
+It is worth being exact about where the content of this theorem
+lives, because the induction itself is deliberately unremarkable.
+The compound layer is definitional: cells quote structurally and
+decode by structural recursion, and the pairing wall left no other
+design available. Every gram of semantic content therefore sits at
+the atoms --- and there the clauses do not stipulate a round trip;
+they route through rows 2 and 3 of a table that was certified before
+this file existed, found by an enumeration that could have come back
+empty. The claim is not that the proof is clever; it is that its
+base case is imported rather than written --- and \S\ref{sec:honest}
+prices exactly what the import cost.
 
 Rung 0 is, of course, a toy. The pearl's claim is that it is a toy
 with the right skeleton: \emph{adequacy at the leaves via a certified
@@ -487,10 +504,17 @@ implementation's say-so. This one bottoms out in
 \textsf{eatom\_qatom}, and \textsf{eatom\_qatom} bottoms out in
 sixty-four table cells the kernel can check by running them.
 
-The mechanization is 98 theorems across six Lean files; the whole
-repository it sits in --- the algebra, the walls, the enumeration ---
-is about 390 theorems, zero \textsf{sorry}, all of it depending on no
-axiom beyond propositional extensionality.
+The mechanization is 98 theorems across six Lean files, none
+depending on any axiom beyond propositional extensionality. The
+repository they sit in --- the algebra, the walls, the enumeration
+--- is about 410 theorems, zero \textsf{sorry}, with a stratified
+trust base worth stating exactly: the completeness wall depends on no
+axioms at all; the ladder and the finite witnesses need only
+\textsf{propext}; the frame-derivation and structure theorems
+additionally use classical choice through Mathlib's finiteness
+machinery; and the $N\!=\!10$ enumeration witnesses are checked by
+\textsf{native\_decide}, which trusts Lean's compiler. The law this
+pearl is about never leaves the first stratum.
 
 \section{Above the core, a Lisp}
 \label{sec:lisp}
@@ -738,85 +762,85 @@ test} runs everything in this paper) are available at
 
 \begin{thebibliography}{99}
 
-\bibitem{mccarthy60}
+\bibitem[McCarthy(1960)]{mccarthy60}
 John McCarthy.
 \newblock Recursive functions of symbolic expressions and their
   computation by machine, Part I.
 \newblock \emph{Communications of the ACM} 3(4), 1960.
 
-\bibitem{r7rs}
+\bibitem[Shinn et~al.(2013)]{r7rs}
 Alex Shinn, John Cowan, and Arthur~A. Gleckler (eds.).
 \newblock \emph{Revised$^7$ Report on the Algorithmic Language
   Scheme}. 2013.
 
-\bibitem{reynolds72}
+\bibitem[Reynolds(1972)]{reynolds72}
 John~C. Reynolds.
 \newblock Definitional interpreters for higher-order programming
   languages.
 \newblock \emph{Proceedings of the ACM Annual Conference}, 1972.
 
-\bibitem{ager03}
+\bibitem[Ager et~al.(2003)]{ager03}
 Mads~Sig Ager, Dariusz Biernacki, Olivier Danvy, and Jan Midtgaard.
 \newblock A functional correspondence between evaluators and abstract
   machines.
 \newblock \emph{PPDP}, 2003.
 
-\bibitem{felleisen86}
+\bibitem[Felleisen and Friedman(1986)]{felleisen86}
 Matthias Felleisen and Daniel~P. Friedman.
 \newblock Control operators, the SECD-machine, and the
   $\lambda$-calculus.
 \newblock \emph{Formal Description of Programming Concepts III},
   1986.
 
-\bibitem{curien00}
+\bibitem[Curien and Herbelin(2000)]{curien00}
 Pierre-Louis Curien and Hugo Herbelin.
 \newblock The duality of computation.
 \newblock \emph{ICFP}, 2000.
 
-\bibitem{myreen11}
+\bibitem[Myreen and Davis(2011)]{myreen11}
 Magnus~O. Myreen and Jared Davis.
 \newblock A verified runtime for a verified theorem prover.
 \newblock \emph{ITP}, 2011.
 
-\bibitem{davis15}
+\bibitem[Davis and Myreen(2015)]{davis15}
 Jared Davis and Magnus~O. Myreen.
 \newblock The reflective Milawa theorem prover is sound.
 \newblock \emph{Journal of Automated Reasoning} 55(2), 2015.
 
-\bibitem{kumar14}
+\bibitem[Kumar et~al.(2014)]{kumar14}
 Ramana Kumar, Magnus~O. Myreen, Michael Norrish, and Scott Owens.
 \newblock CakeML: a verified implementation of ML.
 \newblock \emph{POPL}, 2014.
 
-\bibitem{smith84}
+\bibitem[Smith(1984)]{smith84}
 Brian~Cantwell Smith.
 \newblock Reflection and semantics in Lisp.
 \newblock \emph{POPL}, 1984.
 
-\bibitem{wand88}
+\bibitem[Wand and Friedman(1988)]{wand88}
 Mitchell Wand and Daniel~P. Friedman.
 \newblock The mystery of the tower revealed: a non-reflective
   description of the reflective tower.
 \newblock \emph{Lisp and Symbolic Computation} 1(1), 1988.
 
-\bibitem{vanoosten08}
+\bibitem[van Oosten(2008)]{vanoosten08}
 Jaap van Oosten.
 \newblock \emph{Realizability: An Introduction to its Categorical
   Side}.
 \newblock Elsevier, 2008.
 
-\bibitem{yvon21}
+\bibitem[Yvon and Feeley(2021)]{yvon21}
 Samuel Yvon and Marc Feeley.
 \newblock A small Scheme VM, compiler, and REPL in 4K.
 \newblock \emph{VMIL}, 2021.
 
-\bibitem{artifact-lean}
-Anonymized for review.
+\bibitem[Palmieri(2026a)]{artifact-lean}
+Stefano Palmieri.
 \newblock finite-magma-independence: Lean formalization.
 \newblock \url{https://github.com/stefanopalmieri/finite-magma-independence}.
 
-\bibitem{artifact-rust}
-Anonymized for review.
+\bibitem[Palmieri(2026b)]{artifact-rust}
+Stefano Palmieri.
 \newblock kamea-machine: the certified core's Rust host.
 \newblock \url{https://github.com/stefanopalmieri/kamea-machine}.
 

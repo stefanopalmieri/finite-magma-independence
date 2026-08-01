@@ -1,6 +1,8 @@
-% Pairwise Independence of Internal Splitting, Dichotomy, and Composition
-% in Finite Extensional Magmas
-% arXiv preprint
+% Splitting, Dichotomy, and Composition in Finite Extensional Magmas:
+% Independence, Connecting Axioms, and a Canonical Eight-Element Model
+% arXiv preprint (retitled from "Pairwise Independence of Internal
+% Splitting, Dichotomy, and Composition in Finite Extensional Magmas"
+% when the connecting-axiom and derivation-ledger material landed)
 \documentclass[sigconf,screen]{acmart}
 
 % Suppress ACM-specific metadata (default placeholders)
@@ -42,7 +44,7 @@
 
 \begin{document}
 
-\title{Pairwise Independence of Internal Splitting, Dichotomy, and Composition in Finite Extensional Magmas}
+\title{Splitting, Dichotomy, and Composition in Finite Extensional Magmas: Independence, Connecting Axioms, and a Canonical Eight-Element Model}
 \thanks{Preprint version. The Lean proofs, SAT search scripts, and manuscript text were developed with assistance from Claude (Anthropic). All results have been independently verified: Lean proofs compile with \texttt{lake build} (zero \texttt{sorry}), and SAT counterexamples are frozen in the repository for reproducibility. The author takes full responsibility for all contents.}
 
 \author{Stefano Palmieri}
@@ -53,14 +55,14 @@
   \country{USA}
 }
 
-\keywords{finite extensional magma, pairwise independence, classifier dichotomy, internal composition, Lean~4, machine-checked proofs}
+\keywords{finite extensional magma, pairwise independence, classifier dichotomy, internal composition, sorted magmas, canonical model, Lean~4, machine-checked proofs}
 
 \begin{abstract}
 Internal splitting~(S), the classifier dichotomy~(D), and internal composition~(C) are three natural algebraic properties of finite extensional 2-pointed magmas. We prove they are pairwise independent: no one implies any other. Lean-verified finite counterexamples at sizes $4$ and $5$ establish all six non-implications, each with a provably tight bound. A joint irredundance result strengthens this: all eight Boolean combinations of $(S, D, C)$ are realized, so no property is a Boolean function of the other two. Neither result is a small-size artifact: explicit parametric families realize every non-implication and every Boolean profile at every admissible carrier size. The minimum coexistence witness has $N\!=\!5$ and is optimal, since the ICP requires $3$ pairwise distinct core elements.
 
 The setting is fixed by four universal obstructions: any nontrivial total magma with a $\mathbf{k}$-combinator must be infinite; associativity is incompatible with combining a classifier and a retraction pair; commutativity is incompatible with two distinct left-absorbers; and a single left-absorber collapses any classifier. What survives is finite, non-associative, non-commutative, extensional 2-pointed magmas.
 
-Further structural results: the three-category decomposition induced by $D$ is an isomorphism invariant; the automorphism group of any $N\!=\!5$ S+D+C magma has order at most $2$, with the unique possible non-trivial element being the classifier transposition $(\tau_1\,\tau_2)$; a size-driven phase transition takes the role-shape from a single forced configuration at $N\!=\!5$ (every retraction pair satisfies $s = r$, every C-triple has the form $(\tau_1, g, \tau_2)$) to a heterogeneous landscape at $N \geq 6$ where strong S re-opens and multiple shape classes coexist; and the ICP is logically equivalent to the standard Compose+Inert axioms. Lean-verified results --- independence counterexamples with tight bounds, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witnesses (coexistence, all six non-implications, and all eight cube cells), C-triple type-coherence, the $N\!=\!5$ structure theorem, and the mirror-row theorem --- compile with zero \texttt{sorry}; the remaining universal-$N$ algebraic results in Section~\ref{sec:universal} not yet transcribed to Lean have hand proofs supported by Z3 UNSAT certificates.
+Further structural results: the three-category decomposition induced by $D$ is an isomorphism invariant; the automorphism group of any $N\!=\!5$ S+D+C magma has order at most $2$, with the unique possible non-trivial element being the classifier transposition $(\tau_1\,\tau_2)$; a size-driven phase transition takes the role-shape from a single forced configuration at $N\!=\!5$ (every retraction pair satisfies $s = r$, every C-triple has the form $(\tau_1, g, \tau_2)$) to a heterogeneous landscape at $N \geq 6$ where strong S re-opens and multiple shape classes coexist; and the ICP is logically equivalent to the standard Compose+Inert axioms. A connecting-axiom programme follows: sorting (compositionality of the classifier/non-classifier partition) is independent of S+D+C and, with S, admits exactly two worlds --- class-preserving and class-swapping; sort-introspection fixes the quotation law in each world; and a canonical eight-element model, the lexicographically minimal member of a law-determined $228$-model space, is derived rather than designed --- observable quotation forces the swap world and the carrier size (sharp), the eval side of its law set is provably redundant, and reversibility, parity, and orbit closure are free, leaving a finite, named residue of definitions and tie-breaks. Lean-verified results --- independence counterexamples with tight bounds, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witnesses (coexistence, all six non-implications, and all eight cube cells), C-triple type-coherence, the $N\!=\!5$ structure theorem, the mirror-row theorem, and the frame-derivation and law-reduction theorems --- compile with zero \texttt{sorry}; the remaining universal-$N$ algebraic results in Section~\ref{sec:universal} not yet transcribed to Lean have hand proofs supported by Z3 UNSAT certificates.
 \end{abstract}
 
 \maketitle
@@ -456,20 +458,12 @@ results (Theorems~\ref{thm:independence}, \ref{thm:cube}) confirm these
 are three questions, jointly irredundant.
 
 \paragraph{Other structural questions.} The slice $(S, D, C)$ is one
-choice within a broader axiom landscape. A Z3 canonicality probe
-(\texttt{scripts/canonicality/probe\_axioms.py}) tested thirteen
-candidate operational axioms on extensional 2-pointed magmas at
-$N \in \{5, 6\}$ via pairwise directional implication queries against
-$S$, $D$, $C$; ten are pairwise independent of $(S, D, C)$ in both
-directions at both sizes, three collapse into derived consequences
-(retraction pair gives one-sided retraction and left-cancellation; both
-$D$ and $C$ imply $P$ via Theorem~\ref{thm:d-factorization}). $(S, D, C)$
-is therefore one structurally selectable slice among many. What
-distinguishes it is that the canonical $N = 5$ S+D+C witness is fully
-determined by the topos-theoretic indicator reading of $D$ together with
-the requirement that the magma's automorphism be internalised in its
-operation (Remark~\ref{rem:canonical-witness}); the other ten probe
-axioms have no such joint structural characterisation.
+choice within a broader axiom landscape: a Z3 canonicality probe tested
+thirteen candidate operational axioms against $S$, $D$, $C$ and found
+ten independent of the triple in both directions, three collapsing into
+derived consequences. What distinguishes the $(S, D, C)$ slice --- and
+the precise sense in which it is structurally selectable --- is taken up
+in Section~\ref{sec:discussion}.
 
 \paragraph{The internalisation frame.}
 The magma operation $\dotop$ is taken as given throughout --- the
@@ -1088,7 +1082,7 @@ $N\!=\!5$ is the optimal minimum for S+D+C coexistence (Lean-verified; \texttt{W
 The $N\!=\!5$ witness reveals how thin the three properties can become simultaneously. The retraction pair is the identity on core ($s = r$, no actual encoding work), and the ICP factorization $a \dotop x = c \dotop (b \dotop x)$ collapses to $a \dotop x = c \dotop x$ (row equality on core between two classifiers differing only on absorber columns). The three capabilities are formally present but barely interacting. The $N\!=\!6$ witness with $s \neq r$ (\texttt{Witness6.lean}) is the more informative example: the retraction pair does genuine encoding, the ICP factorization is non-degenerate, and the roles do not trivially overlap. We retain the general definitions (allowing $s = r$) since the algebraic results (independence, injectivity, no-associativity) hold regardless.
 
 % ══════════════════════════════════════════════════════════════
-\section{Toward Connecting Axioms: Sorted Magmas}
+\section{Connecting Axioms: Sorting, Introspection, and the Canonical Model}
 \label{sec:sorting}
 % ══════════════════════════════════════════════════════════════
 
@@ -1152,8 +1146,151 @@ Let a sorted dichotomic magma carry a retraction pair and a sort-introspective c
 
 A homoiconic system therefore does not choose its introspection law: typing forces transparency, quoting forces negation. The minimal magma carrying the full stack --- S, D, C, sorted swap world, introspection, negation, judge-closure --- exists at $N\!=\!6$ and reads as a complete Lisp kernel (Appendix~\ref{app:tables}): two halt states, \texttt{quote}, \texttt{eval}, \texttt{data?}, \texttt{judge?}, with the single internal composition being the homoiconicity law itself, $\texttt{judge?} = \texttt{data?} \circ \texttt{quote}$ (\texttt{canonical\_kernel}, \texttt{kernel6\_icp\_through\_quote}). In this kernel quotation has order $4$ on the core: $\texttt{quote}^2$ is a non-trivial involution and $\texttt{quote}^4 = \mathrm{id}$ (\texttt{kernel6\_quote\_order\_four}). One further SAT observation: in the preserving world, universal quote-negation is satisfiable exactly when the block size $(N-2)/2$ is even (UNSAT at $N\!=\!8$, SAT at $N = 6, 10$) --- an odd block admits no fixed-point-free alternating $2$-coloring of the quote orbits --- a third parity law, recorded here as a SAT result with a hand proof.
 
-\paragraph{The canonical $N\!=\!8$ artifact.}
-Extending the kernel by one free dual pair under a full law set --- faithfulness of the free operator, hygiene (commutation with quote and eval, involutivity), distinct action, and judge-closure --- yields a design space of exactly $228$ core tables at $N\!=\!8$ (SAT enumeration, \texttt{scripts/n8\_free\_pair\_search.py}). Its lexicographically minimal member is frozen and verified in \texttt{ArtifactN8.lean} (\texttt{canonical\_artifact\_N8}; Appendix~\ref{app:tables}): eight instructions reading as halt-true, halt-false, \texttt{quote}, \texttt{eval}, \texttt{shift}, \texttt{data?}, \texttt{judge?}, \texttt{shift?}. Three emergent regularities appear without being imposed: the duality pairing documents the instruction set (each operator's code \emph{is} its judge: $\texttt{quote} \dotop \texttt{quote} = \texttt{data?}$, $\texttt{quote} \dotop \texttt{eval} = \texttt{judge?}$, $\texttt{quote} \dotop \texttt{shift} = \texttt{shift?}$); the unconstrained judge slot resolves into the recognizer of exactly $\{\texttt{shift}, \texttt{quote} \dotop \texttt{shift}\}$; and quotation is an involution. Two further impossibility observations shape the artifact's architecture: a faithful constructor cannot have a non-trivial internal recognizer of its image (injectivity forces surjectivity on a finite core), and no element of any swap-world magma can realize $\texttt{quote}^2$ (block-preserving, hence expressible by no row) --- so data structure and derived actions necessarily live in the external driver, per the K-infinity architecture. The swap world first appearing at $N\!=\!6$ is one more face of the $N\!=\!5 \to N\!=\!6$ phase transition. In the class-swapping world the section literally encodes judges as data and data as judges --- the algebraic shadow of quotation exchanging program and value --- while the class-preserving world is the shadow of a stratified (typed) discipline in which encoding respects sorts. That the minimal connecting axiom already bifurcates into exactly these two shapes is, we believe, the beginning of an answer to what a type system is in this setting: sorting is the axiom, and the sorted worlds are its two consistent implementations.
+\subsection{The canonical eight-element model}
+\label{sec:canonical-model}
+
+Extending the kernel by one free dual pair under a full law set ---
+faithfulness of the free operator, hygiene (commutation with quote and
+eval, involutivity), distinct action, and judge-closure --- yields a
+design space of exactly $228$ core tables at $N\!=\!8$ (SAT
+enumeration, \texttt{scripts/n8\_free\_pair\_search.py}). Its
+lexicographically minimal member is frozen and verified in
+\texttt{ArtifactN8.lean} (\texttt{canonical\_artifact\_N8};
+Appendix~\ref{app:tables}): eight instructions reading as halt-true,
+halt-false, \texttt{quote}, \texttt{eval}, \texttt{shift},
+\texttt{data?}, \texttt{judge?}, \texttt{shift?}. Three emergent
+regularities appear without being imposed: the duality pairing
+documents the instruction set (each operator's code \emph{is} its
+judge: $\texttt{quote} \dotop \texttt{quote} = \texttt{data?}$,
+$\texttt{quote} \dotop \texttt{eval} = \texttt{judge?}$,
+$\texttt{quote} \dotop \texttt{shift} = \texttt{shift?}$); the
+unconstrained judge slot resolves into the recognizer of exactly
+$\{\texttt{shift}, \texttt{quote} \dotop \texttt{shift}\}$; and
+quotation is an involution.
+
+Two further impossibility observations shape the model's architecture:
+a faithful constructor cannot have a non-trivial internal recognizer of
+its image (injectivity forces surjectivity on a finite core), and no
+element of any swap-world magma can realize $\texttt{quote}^2$
+(block-preserving, hence expressible by no row) --- so data structure
+and derived actions necessarily live outside the algebra, in the
+external driver that K-infinity (Theorem~\ref{thm:k-infinity}) already
+requires.
+
+\subsection{The derivation ledger: forced, free, and chosen}
+\label{sec:ledger}
+
+The law set that carves out the $228$-model space contains candidate
+axioms of unequal status. Three groups of theorems, all algebraic and
+uniform in $N$, reduce the set: the first derives the model's frame
+(world and size) from a single semantic requirement, the second shows
+the eval side of the law set is redundant, and the third reduces the
+reversibility and closure laws to tie-breaks. These are the provenance
+results that the companion machine-level write-up imports when it
+treats the model as a found object.
+
+\begin{theorem}[Observable quotation forces the frame]
+\label{thm:frame-forced}
+Let $M$ be a sorted dichotomic magma with a retraction pair
+$(s, r)$ (members non-classifiers, automatic by the placement theorem;
+only the one-sided equation is used) and a sort-introspective
+classifier $\kappa$ that
+\emph{observes quotation}: $\kappa \dotop (s \dotop x) \neq \kappa
+\dotop x$ for every core $x$. Then $M$ lies in the class-swapping
+world (\texttt{swap\_of\_observable\_quotation}). If $M$ moreover
+carries a faithful core operator $\gamma$ (injective on core) with
+$s$, $r$, $\gamma$ pairwise distinct, then $|S| \geq 8$, and the
+canonical model attains the bound, so it is sharp
+(\texttt{stack\_a\_frame\_min}, \texttt{stack\_a\_frame\_attained};
+\texttt{StackAForced.lean}).
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+By the involution theorem (Theorem~\ref{thm:sorted-involution}) the
+world is preserving or swapping, and the determination theorem
+(Theorem~\ref{thm:introspection}) makes preserving worlds
+quote-transparent, contradicting observability --- so the world swaps.
+A faithful operator cannot sit on the classifier side once the core has
+three distinct elements (two absorber values cannot receive three core
+elements injectively), so $s$, $r$, $\gamma$ are three distinct
+non-classifiers; swap balance (Theorem~\ref{thm:swap-balance}) forces
+at least three classifiers to match; the two absorbers complete the
+count: $3 + 3 + 2 = 8$.
+\end{proof}
+
+\begin{theorem}[The eval side of the law set is free]
+\label{thm:eval-side-free}
+Let $(s, r)$ be a mutual retraction pair on core, both core-preserving.
+(i)~Any core-preserving operator $\gamma$ that commutes with $s$ on
+core commutes with $r$ on core, by conjugation through the retraction
+(\texttt{eval\_comm\_of\_quote\_comm}). (ii)~If the
+quote-precomposition $t \circ s$ of every judge $t$ is realized by a
+judge, then so is the eval-precomposition $t \circ r$ of every judge:
+iterating the closure hypothesis realizes $t \circ s^m$ for every $m$,
+pigeonhole on the finite carrier yields $t \equiv t \circ s^d$ on core
+for some $d \geq 1$, and then $t \circ r \equiv t \circ s^{d-1}$,
+realized by the sequence (\texttt{eval\_closure\_of\_quote\_closure};
+\texttt{EvalSideFree.lean}). Consequently two eval-side laws of the
+canonical model's law set are redundant: shift-commutes-with-eval
+follows from shift-commutes-with-quote, and eval-side judge-closure
+from quote-side. Deleting the former is empirically re-verified to
+leave the $228$-model space unchanged
+(\texttt{scripts/n8\_enumerate\_lexmin.py}).
+\end{theorem}
+
+\begin{theorem}[Reversibility, parity, and orbit closure are free]
+\label{thm:orbit}
+(i)~Every faithful core-preserving operator $\gamma$ has finite order
+on the core: some $d \geq 1$ satisfies $\gamma^d = \mathrm{id}$ on
+core (\texttt{faithful\_finite\_order}); in particular iterated
+quotation always cycles (\texttt{quote\_finite\_order}) --- a hygienic
+renaming operator is automatically undoable, by iterating itself.
+(ii)~In the class-swapping world that order is necessarily \emph{even}:
+odd powers swap the classifier blocks, so no odd power is the identity
+(\texttt{swap\_even\_order}). The canonical model's involution law is
+therefore exactly the choice of the \emph{minimal} order --- a
+tie-break in the same family as lex-min, not an axiom of substance.
+(iii)~If quotation has core order $d$ and the $d$ actions
+$\kappa \circ s^m$ ($m < d$) of the introspector's quote-orbit are
+realized by judges, that family is closed under precomposition with
+both quote and eval --- modular arithmetic on the orbit
+(\texttt{orbit\_quote\_closure}, \texttt{orbit\_eval\_closure};
+\texttt{QuoteOrbit.lean}). The residual content of the judge-closure
+law concerns only judges \emph{outside} the introspector's orbit ---
+at $N\!=\!8$ with involutive quote, exactly one free judge, which
+lex-minimality resolves into the recognizer \texttt{shift?}.
+\end{theorem}
+
+\paragraph{The ledger.}
+After these reductions the canonical model's law set separates cleanly.
+\emph{Derived}: the class-swapping world, the carrier size ($N \geq 8$,
+sharp), the entire eval side, reversibility of the hygiene operator,
+the evenness of its order, and closure of the realized quote-orbit.
+\emph{Chosen}: quote-commutation (the \emph{definition} of hygienic),
+order $=$ minimum (a tie-break), orbit-realization plus closure for
+judges outside the orbit, shift's action-distinctness, and the
+lexicographic tie-break itself. The residue of arbitrariness is finite,
+named, and public; everything that shrank is now labeled theorem
+rather than choice. (Axiom footprint: unlike the \texttt{decide}-checked
+finite witnesses, Theorems~\ref{thm:frame-forced}--\ref{thm:orbit} go
+through Mathlib's finiteness machinery and so additionally depend on
+\texttt{Classical.choice} and \texttt{Quot.sound}.)
+
+\paragraph{Computational reading.}
+The swap world first appearing at $N\!=\!6$ is one more face of the
+$N\!=\!5 \to N\!=\!6$ phase transition. In the class-swapping world the
+section literally encodes judges as data and data as judges --- the
+algebraic shadow of quotation exchanging program and value --- while
+the class-preserving world is the shadow of a stratified (typed)
+discipline in which encoding respects sorts. That the minimal
+connecting axiom already bifurcates into exactly these two shapes is,
+we believe, the beginning of an answer to what a type system is in
+this setting: sorting is the axiom, and the sorted worlds are its two
+consistent implementations. The machine-level consequences ---
+two-level driver architecture, heap tags, driver-side user quotation
+--- are developed in the companion write-up, which imports the
+canonical model of Section~\ref{sec:canonical-model} together with the
+ledger above as its found object.
 
 % ══════════════════════════════════════════════════════════════
 \section{Related Work}
@@ -1190,13 +1327,19 @@ D organizes elements into coherent categories: classifiers that test and non-cla
 Extensionality (distinct elements have distinct rows) is load-bearing throughout. Without it, the no-associativity proof fails: Step~4 derives $\tau = v$ from identical rows. Without it, any constant-row element trivially satisfies both classifier and non-classifier conditions, making the three-category decomposition degenerate. Extensionality is not merely a convenience but the condition that makes element-level classification meaningful. An element's identity \emph{is} its row in the Cayley table; extensionality formalizes this.
 
 \paragraph{Why these three properties?}
-Extensionality identifies each element with its row in the Cayley table. The elements of a finite extensional 2-pointed magma are therefore a family of typed maps $\{L_a^{\core} : \core \to \core \cup Z\}$, one per element, with the absorber maps $L_{z_1}, L_{z_2}$ being constant. S, D, and C correspond to the three fundamental structural questions about such a family:
-\begin{itemize}
-  \item \emph{Splitting} (S): does the identity on core split through the family? That is, do some $L_s, L_r$ satisfy $L_r \circ L_s = \mathrm{id}_{\core}$? This is a section-retraction pair~\cite{maclane71}.
-  \item \emph{Codomain purity} (D): does each map hit $\core$ or $Z$, never both? This is the unique coarsest non-trivial isomorphism-invariant partition of core (Corollary~\ref{cor:canonicity}).
-  \item \emph{Factorization} (C): does the family contain a non-trivial composition, $L_a = L_c \circ L_b$ with $L_b$ core-preserving and $L_a$ non-constant? This is the weakest factorization condition that is not vacuously satisfiable: weakening either the pairwise-distinctness or the non-triviality requirement makes every retraction-equipped magma satisfy it trivially (Lean-verified separations in \texttt{ICP.lean}).
-\end{itemize}
-Each property is minimal in its own sense. S is the standard notion of splitting. D is the coarsest invariant partition. C is the weakest non-degenerate factorization. The independence and joint-irredundance results (Theorems~\ref{thm:independence},~\ref{thm:cube}) confirm these are three questions jointly irredundant, not reducible to two. The precise categorical status of D and C is discussed further in the categorical connections paragraph below; whether either corresponds to a known universal property remains open.
+Section~\ref{sec:definitions} motivated S, D, and C as the three
+fundamental structural questions about the row-map family
+$\{L_a^{\core}\}$ --- splitting, codomain purity, and factorization ---
+each minimal in its own sense: the standard section-retraction notion,
+the coarsest invariant partition, and the weakest non-degenerate
+factorization (weakening either ICP guard condition makes every
+retraction-equipped magma satisfy it trivially; Lean-verified
+separations in \texttt{ICP.lean}). The independence and
+joint-irredundance results (Theorems~\ref{thm:independence},~\ref{thm:cube})
+confirm these are three questions jointly irredundant, not reducible to
+two. The precise categorical status of D and C is discussed in the
+categorical connections paragraph below; whether either corresponds to
+a known universal property remains open.
 
 \paragraph{$(S, D, C)$ as a structurally distinguished slice.}
 A Z3 canonicality probe (\texttt{scripts/canonicality/probe\_axioms.py}) tested thirteen candidate operational axioms on E2PM at $N \in \{5, 6\}$ via pairwise directional implication queries against $S, D, C$; ten are pairwise independent of $(S, D, C)$ in both directions at both sizes, three collapse ($S$ subsumes one-sided retraction and left-cancellation; both $D$ and $C$ imply the common substructure $P$ via Theorem~\ref{thm:d-factorization}). So $(S, D, C)$ is one slice of a structurally fertile axiom landscape, not an exhaustive axiomatisation. What distinguishes this particular slice is that it is structurally selectable: at $N\!=\!5$ the canonical S+D+C witness (Remark~\ref{rem:canonical-witness}, Appendix~\ref{app:tables}) is fully determined by the topos-theoretic indicator reading of D plus the requirement that the magma's automorphism be internalised in its operation. The other ten probe axioms have no such joint structural characterisation.
@@ -1211,7 +1354,7 @@ Whether the three-capability separation appears in other settings ($\lambda$-cal
 \section{Conclusion}
 % ══════════════════════════════════════════════════════════════
 
-Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorber collapse --- jointly narrow the candidate class of finite magmas that can carry the operational capabilities of splitting, dichotomy, and composition down to the setting of this paper: finite, non-associative, non-commutative, extensional 2-pointed magmas. Within it, we have identified three natural algebraic properties, internal splitting~(S), the classifier dichotomy~(D), and the Internal Composition Property~(C), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4, each at its provably minimal size. Joint irredundance strengthens this: all eight Boolean combinations of $(S, D, C)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two; parametric families realize every non-implication and every Boolean profile at every admissible carrier size (Theorem~\ref{thm:scaling-nonimp}), so neither result is a small-size artifact. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}); most principal witnesses are role-rigid, with the canonical $N\!=\!5$ S+D+C witness as the deliberate exception (Proposition~\ref{prop:witness-rigid}, Remark~\ref{rem:canonical-witness}); at $N\!=\!5$ a structure theorem pins retraction, classifier, and C-triple onto the three core slots and rules out strong S altogether (Theorem~\ref{thm:N5-structure}), the mirror-row theorem (Theorem~\ref{thm:mirror-row}) bounds $|\mathrm{Aut}(M)| \leq 2$, while at $N \geq 6$ strong S returns and rigidity fails (Proposition~\ref{prop:N6-nonrigid}); and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). Lean-formalized results --- independence counterexamples, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witnesses (Theorems~\ref{thm:scaling-witness} and~\ref{thm:scaling-nonimp}), the tight counterexamples (\texttt{TightWitnesses.lean}), C-triple type-coherence (Theorem~\ref{thm:h-triple-coherence}), the $N\!=\!5$ structure theorem (Theorem~\ref{thm:N5-structure}), and the mirror-row theorem (Theorem~\ref{thm:mirror-row}) --- compile with zero \texttt{sorry}. The remaining universal-$N$ algebraic results of Section~\ref{sec:universal} not yet transcribed to Lean (most notably the P-witness identity of Theorem~\ref{thm:p-witness-identity} and the classifier-count bound of Theorem~\ref{thm:classifier-count-bound}) are proved by hand and supported by Z3 UNSAT certificates.
+Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorber collapse --- jointly narrow the candidate class of finite magmas that can carry the operational capabilities of splitting, dichotomy, and composition down to the setting of this paper: finite, non-associative, non-commutative, extensional 2-pointed magmas. Within it, we have identified three natural algebraic properties, internal splitting~(S), the classifier dichotomy~(D), and the Internal Composition Property~(C), and proved they are pairwise independent. The six non-implications are machine-checked in Lean~4, each at its provably minimal size. Joint irredundance strengthens this: all eight Boolean combinations of $(S, D, C)$ are realized (Theorem~\ref{thm:cube}), so no capability is a Boolean function of the other two; parametric families realize every non-implication and every Boolean profile at every admissible carrier size (Theorem~\ref{thm:scaling-nonimp}), so neither result is a small-size artifact. The optimal coexistence witness has $N\!=\!5$ (Theorem~\ref{thm:bound}). The three-category decomposition induced by D is a functorial invariant (Theorem~\ref{thm:functoriality}); most principal witnesses are role-rigid, with the canonical $N\!=\!5$ S+D+C witness as the deliberate exception (Proposition~\ref{prop:witness-rigid}, Remark~\ref{rem:canonical-witness}); at $N\!=\!5$ a structure theorem pins retraction, classifier, and C-triple onto the three core slots and rules out strong S altogether (Theorem~\ref{thm:N5-structure}), the mirror-row theorem (Theorem~\ref{thm:mirror-row}) bounds $|\mathrm{Aut}(M)| \leq 2$, while at $N \geq 6$ strong S returns and rigidity fails (Proposition~\ref{prop:N6-nonrigid}); and the ICP is logically equivalent to Compose+Inert (Theorem~\ref{thm:icp-equiv}). Beyond independence, sorting begins the connecting-axiom programme (Section~\ref{sec:sorting}), and the canonical eight-element model is derived rather than designed: its frame is forced by observable quotation (Theorem~\ref{thm:frame-forced}), the eval side of its law set is free (Theorem~\ref{thm:eval-side-free}), and its reversibility, parity, and orbit-closure laws reduce to tie-breaks (Theorem~\ref{thm:orbit}). Lean-formalized results --- independence counterexamples, joint-irredundance witnesses, decomposition invariance, the ICP equivalence, the all-$N$ scaling witnesses (Theorems~\ref{thm:scaling-witness} and~\ref{thm:scaling-nonimp}), the tight counterexamples (\texttt{TightWitnesses.lean}), C-triple type-coherence (Theorem~\ref{thm:h-triple-coherence}), the $N\!=\!5$ structure theorem (Theorem~\ref{thm:N5-structure}), the mirror-row theorem (Theorem~\ref{thm:mirror-row}), and the frame-derivation and law-reduction theorems (Theorems~\ref{thm:frame-forced}--\ref{thm:orbit}) --- compile with zero \texttt{sorry}. The remaining universal-$N$ algebraic results of Section~\ref{sec:universal} not yet transcribed to Lean (most notably the P-witness identity of Theorem~\ref{thm:p-witness-identity} and the classifier-count bound of Theorem~\ref{thm:classifier-count-bound}) are proved by hand and supported by Z3 UNSAT certificates.
 
 \paragraph{Open problems.}
 \begin{enumerate}
@@ -1616,33 +1759,62 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 \\\hline
 \section{Proof Inventory}
 \label{app:inventory}
 
-All Lean files compile with \texttt{lake build}, zero \texttt{sorry}. Proof styles: \emph{Algebraic} = pure equational reasoning (no \texttt{decide}); \emph{decide} = verified by kernel computation ($N \leq 8$); \emph{native\_decide} = verified by compiled native code ($N = 10$).
+All 36 Lean files compile with \texttt{lake build}, zero \texttt{sorry}.
+Proof styles: \emph{Algebraic} = pure equational reasoning (no
+\texttt{decide}); \emph{decide} = verified by kernel computation
+($N \leq 8$); \emph{native\_decide} = verified by compiled native code
+($N = 10$ and permutation searches), which additionally trusts the Lean
+compiler (\texttt{Lean.ofReduceBool}). Algebraic and \texttt{decide}
+proofs depend on \texttt{propext} at most; files marked $\dagger$ use
+\texttt{Classical.choice} and \texttt{Quot.sound} through Mathlib's
+finiteness machinery. The files below the rule constitute the machine
+ladder developed in the companion write-up; they are proved in this
+repository and treated there as imported results.
 
 \medskip
 {\small
 \begin{tabular}{lrcl}
 \textbf{File} & \textbf{Thms} & \textbf{Style} & \textbf{Content} \\
 \hline
-Dichotomic & 20 & Algebraic & Decomposition, bounds, classifier dichotomy \\
-NoCommutativity      &  3 & Algebraic & Asymmetry \\
+Dichotomic & 20 & Algebraic & Decomposition, bounds, dichotomy boundary \\
+NoCommutativity      &  4 & Algebraic & Asymmetry \\
+OneSidedSeparation   &  3 & decide & One-sided vs mutual-inverse retraction \\
 Functoriality        &  4 & Algebraic & Decomposition invariance \\
 CapabilityInvariance &  4 & Algebraic & S, D, C each invariant \\
-ICP                  & 20 & Alg.+decide & ICP $\Leftrightarrow$ Compose+Inert \\
-Countermodel         &  5 & decide & $S \not\Rightarrow D$ ($N\!=\!8$) \\
-Countermodels10      &  9 & native\_dec. & $D \not\Rightarrow C$, $C \not\Rightarrow D$ \\
-E2PM                 & 19 & decide & $D \not\Rightarrow S$, $C \not\Rightarrow S$, $C \not\Rightarrow D$, $S \not\Rightarrow C$ (tight) \\
-Witness10            &  6 & native\_dec. & S+D+C at $N\!=\!10$ \\
+ICP                  & 20 & Alg.+native & ICP $\Leftrightarrow$ Compose+Inert \\
+DStruct              &  1 & Algebraic & Axiom reduction: $D_{\mathrm{struct}}$ + ICP \\
+Countermodel         &  5 & decide & $S \not\Rightarrow D$ ($N\!=\!8$; superseded) \\
+Countermodels10      &  9 & native\_dec. & $D \not\Rightarrow C$, $C \not\Rightarrow D$ ($N\!=\!10$) \\
+E2PM                 & 19 & decide & $D \not\Rightarrow S$, $C \not\Rightarrow S$, $C \not\Rightarrow D$ (tight) \\
+TightWitnesses       & 18 & decide & $S \not\Rightarrow D$, $S \not\Rightarrow C$, S+D $\not\Rightarrow$ C (tight, $N\!=\!5$) \\
 Witness5             &  3 & decide & S+D+C at $N\!=\!5$, no ICP at $N\!=\!4$ \\
-Witness6             &  3 & decide & S+D+C at $N\!=\!6$ \\
+Witness6             &  3 & decide & S+D+C at $N\!=\!6$ ($s \neq r$) \\
+Witness10            &  6 & native\_dec. & S+D+C at $N\!=\!10$ \\
+WitnessAllN          & 25 & Algebraic & S+D+C at every $N \geq 5$ \\
+IndependenceAllN     & 36 & Algebraic & All six non-implications, all 8 cells, every size \\
+CompletenessWall     &  7 & Algebraic$^\dagger$ & K-infinity; completeness excludes D \\
+Sorting              & 28 & Alg.+decide & Involution, four class-tables, balance, all-$N$ \\
+Homoiconic           & 14 & Alg.+decide & Introspection fixes the quotation law; $N\!=\!6$ kernel \\
+ArtifactN8           & 16 & decide & Canonical $N\!=\!8$ model: kernel + hygienic shift \\
+StackAForced         &  4 & Algebraic$^\dagger$ & Frame derived: swap world forced, $N \geq 8$ sharp \\
+EvalSideFree         &  8 & Algebraic$^\dagger$ & Eval side of the law set free (Thm~\ref{thm:eval-side-free}) \\
+QuoteOrbit           &  7 & Algebraic$^\dagger$ & Finite order, even order, orbit closure (Thm~\ref{thm:orbit}) \\
 BooleanCube          & 25 & decide+nat. & Joint irredundance: all 8 cells of $(S,D,C)$ \\
-TightWitnesses       & 18 & decide & Tight $S \not\Rightarrow D$, $S \not\Rightarrow C$, S+D $\not\Rightarrow$ C (all $N\!=\!5$) \\
-IndependenceAllN     & 36 & Algebraic & All six non-implications and all 8 cube cells at every size \\
-CompletenessWall     &  7 & Algebraic & K-infinity; completeness excludes D (any cardinality) \\
-Sorting              & 28 & Alg.+decide & Sorted magmas: involution, four class-tables, balance, all-$N$ preserving world \\
-Homoiconic           & 14 & Alg.+decide & Introspection fixes the quotation law; canonical $N\!=\!6$ kernel \\
-ArtifactN8           & 16 & decide & Canonical $N\!=\!8$ artifact: kernel + hygienic shift + emergent \texttt{shift?} \\
+Rigidity             &  6 & decide+nat. & Role rigidity of principal witnesses \\
+RigidityPartial      &  1 & Algebraic & Partial rigidity maps \\
+StructureN5          &  8 & Algebraic$^\dagger$ & $N\!=\!5$ structure theorem: role lock-in \\
+MirrorRow            &  1 & Algebraic$^\dagger$ & $N\!=\!5$ automorphisms: $|\mathrm{Aut}| \leq 2$ \\
+SelfSimulation       &  5 & Algebraic & Partial application injectivity (suppl.) \\
+KameaRef             &  1 & Algebraic & Reference oracle for the Rust host (suppl.) \\
 \hline
-\textbf{Total}       & \textbf{240} & & \\
+Factorization        &  7 & Alg.+decide & Driver metacircularity, minimal form \\
+FactorizationEnv     & 10 & Alg.+decide & + environments (two-argument eval) \\
+FactorizationClos    & 15 & Alg.+decide & + closures, fuel, certified divergence \\
+FactorizationCtrl    & 20 & Alg.+decide & + control: System L machine, $\mu$ \\
+FactorizationStore   & 19 & Alg.+decide & + store: CESK, lockstep bisimulation \\
+FactorizationData    & 27 & Alg.+decide & + pairs, dispatch, certified homoiconicity \\
+\hline
+\textbf{Total}       & \textbf{409} & & \\
 \end{tabular}}
 
 \end{document}

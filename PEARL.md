@@ -9,9 +9,15 @@ Rust host with differential pinning (24k cases), the surface Lisp
 (letrec-as-knot, syntax-rules, extensionality-as-eqv?), and the
 metacircular evaluator with the adequacy corpus and the two-level
 tower — which serves as the closing section. Axiom footprint checked
-via `#print axioms`: **propext only** (no Classical.choice, no
-Quot.sound) — the abstract says so precisely. Remaining: compile the
-PDF, one polish pass, venue formatting (currently `acmsmall,review`).
+via `#print axioms`: the **ladder's 98 theorems use propext only**
+(no Classical.choice, no Quot.sound) — the abstract's claim is scoped
+to the ladder and is exact. Repo-wide the trust base is stratified
+(completeness wall: no axioms at all; frame-derivation and structure
+theorems: classical choice via Mathlib's finiteness machinery; N=10
+enumeration witnesses: `native_decide`, i.e. compiler trust); §7 of
+the draft states this precisely — do not claim propext-only for the
+whole repo. Remaining: one polish pass, venue formatting (currently
+`acmsmall,review`).
 
 Original proposal below, kept for the planning record. Companion
 docs: `MACHINE.md` (architecture, why each rung exists), `CLONES.md`

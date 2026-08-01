@@ -1,4 +1,4 @@
-# Pairwise Independence of Splitting, Dichotomy, and Composition in Finite Extensional Magmas
+# Splitting, Dichotomy, and Composition in Finite Extensional Magmas: Independence, Connecting Axioms, and a Canonical Eight-Element Model
 
 Lean 4 formalization and SAT reproduction scripts for the paper.
 
@@ -23,7 +23,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | OneSidedSeparation | 3 | decide | One-sided vs mutual-inverse retraction |
 | Functoriality | 4 | Algebraic | Invariance under isomorphism |
 | CapabilityInvariance | 4 | Algebraic | S, D, C each invariant |
-| ICP | 20 | Alg.+decide | ICP ↔ Compose+Inert |
+| ICP | 20 | Alg.+native | ICP ↔ Compose+Inert |
 | DStruct | 1 | Algebraic | Axiom reduction: D_struct + ICP |
 | Countermodel | 5 | decide | S ⊬ D (N=8, separated roles; superseded) |
 | Countermodels10 | 9 | native_decide | D ⊬ C, C ⊬ D (N=10) |
@@ -48,7 +48,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **FactorizationStore** | 19 | Alg.+decide | **CESK completed: store threaded vs env captured, mutation-through-β, lockstep bisimulation conservativity** |
 | **FactorizationData** | 27 | Alg.+decide | **Pairs on the tape, dispatch, certified homoiconicity: programs build their own quotations** |
 | BooleanCube | 25 | decide+native | Joint irredundance: all 8 cells of (S,D,C) |
-| Rigidity | 6 | decide | Role rigidity of principal witnesses |
+| Rigidity | 6 | decide+native | Role rigidity of principal witnesses |
 | RigidityPartial | 1 | Algebraic | Partial rigidity maps |
 | StructureN5 | 8 | Algebraic | N=5 structure theorem: role lock-in, no strong S |
 | MirrorRow | 1 | Algebraic | N=5 automorphisms fix absorbers, \|Aut\| ≤ 2 |
@@ -106,7 +106,7 @@ The paper is in `paper/main.tex` ([PDF](paper/main.pdf)).
 ## Companion repositories
 
 - [**kamea-machine**](https://github.com/stefanopalmieri/kamea-machine) — the running artifact: a Rust host for the certified CESK machine (`Magma/Factorization*.lean`), differentially pinned to the Lean semantics, with a REPL, `syntax-rules`, and a self-interpreting metacircular evaluator. Lean is upstream: semantic changes land here first.
-- The pearl write-up of the machine ladder is in `pearl/main.tex`; the machine architecture rationale is in `MACHINE.md`.
+- The pearl write-up of the machine ladder ("Metacircularity as a Theorem") is in `pearl/main.tex` ([PDF](pearl/main.pdf)); the machine architecture rationale is in `MACHINE.md`.
 - [Kamea](https://github.com/stefanopalmieri/Kamea) (historical) — the project's original home, now trimmed to the Ψ-16 compiled reflective tower demo; its theory was the ancestor of this formalization.
 
 ## License

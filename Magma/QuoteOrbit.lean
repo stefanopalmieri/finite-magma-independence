@@ -113,7 +113,7 @@ theorem swap_even_order (n : Nat) (dot : Fin n → Fin n → Fin n)
     (hswap : ClassSwapping n dot z₁ z₂)
     (γ : Fin n) (hγ1 : γ ≠ z₁) (hγ2 : γ ≠ z₂) (hγN : NclSide n dot z₁ z₂ γ)
     (τ : Fin n) (hτ1 : τ ≠ z₁) (hτ2 : τ ≠ z₂) (hτC : ClsSide n dot z₁ z₂ τ)
-    (d : Nat) (hd : 1 ≤ d)
+    (d : Nat) (_hd : 1 ≤ d)
     (hord : ∀ x : Fin n, x ≠ z₁ → x ≠ z₂ → actPow n dot γ d x = x) :
     d % 2 = 0 := by
   -- parity invariant: even iterates keep τ a classifier, odd make it
