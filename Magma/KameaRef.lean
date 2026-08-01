@@ -1,7 +1,7 @@
-import Magma.FactorizationData
+import Magma.FactorizationEqv
 
 /-!
-# The Kamea Reference Runner (supplementary)
+# The Kamea Reference Runner (supplementary) — pinned to the identity rung
 
 Differential-testing support for the Rust host
 (`kamea-machine`, Phase 1): this file makes the **certified machine
@@ -34,6 +34,7 @@ Token grammar (shared with `kamea-diff` on the Rust side):
     PROG ::= a<k> | v<n> | l PROG | @ PROG PROG | k PROG
            | r PROG | d PROG | s PROG PROG
            | c PROG PROG | h PROG | t PROG | y PROG | i PROG PROG PROG
+           | q PROG PROG
     VAL  ::= E<k> | C VAL VAL | F PROG ENV | X KONT | L<n>
     ENV  ::= G<n> VAL*        KONT ::= H | AL PROG ENV KONT
                                      | AR VAL KONT | RK KONT | DK KONT
@@ -41,12 +42,13 @@ Token grammar (shared with `kamea-diff` on the Rust side):
                                      | CL PROG ENV KONT | CR VAL KONT
                                      | HK KONT | TK KONT | YK KONT
                                      | IK PROG PROG ENV KONT
+                                     | QK PROG ENV KONT | QR VAL KONT
 -/
 
 set_option autoImplicit false
 
 namespace Dichotomic
-namespace FactorizationData
+namespace FactorizationEqv
 
 /-- The store held by a state. -/
 def stateStore : State → Store
@@ -76,11 +78,11 @@ theorem loopFull_agrees : ∀ (n : Nat) (s : State),
     | inl s' => simpa using ih s'
     | inr v => rfl
 
-end FactorizationData
+end FactorizationEqv
 
 namespace KameaRef
 
-open FactorizationData
+open FactorizationEqv
 
 -- Printers (uncertified plumbing; grammar shared with kamea-diff).
 
@@ -98,6 +100,7 @@ partial def progS : Prog → String
   | .cdr e => s!"t {progS e}"
   | .pairp e => s!"y {progS e}"
   | .ite c t e => s!"i {progS c} {progS t} {progS e}"
+  | .eqv a b => s!"q {progS a} {progS b}"
 
 mutual
   partial def valS : Val → String
@@ -124,6 +127,8 @@ mutual
     | .cdrK k => s!"TK {kontS k}"
     | .pairK k => s!"YK {kontS k}"
     | .iteK t e ρ k => s!"IK {progS t} {progS e} {envS ρ} {kontS k}"
+    | .eqvL b ρ k => s!"QK {progS b} {envS ρ} {kontS k}"
+    | .eqvR v k => s!"QR {valS v} {kontS k}"
 end
 
 partial def storeS (σ : Store) : String :=
@@ -177,6 +182,10 @@ partial def parseP (ts : Array String) (i : Nat) : Option (Prog × Nat) := do
     let (t, j2) ← parseP ts j
     let (e, j3) ← parseP ts j2
     some (.ite c t e, j3)
+  else if tok = "q" then
+    let (a, j) ← parseP ts (i + 1)
+    let (b, j2) ← parseP ts j
+    some (.eqv a b, j2)
   else none
 
 /-- Run one case on the certified machine (empty env, empty store). -/

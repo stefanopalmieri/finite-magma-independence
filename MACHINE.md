@@ -239,9 +239,11 @@ winding marks, environment representation, tag encodings, GC.
    under shift? now exactly exhausted too. `eval_quote` at 14 syntax
    classes, homoiconicity carried, conservativity over the data rung
    a lockstep bisimulation again; all propext-only. Unblocks the
-   kamea-machine README's top remaining item; propagate to the Rust
-   host next (enum arm, step arms, (7,7) tag in quote/decode, surface
-   `eqv?`/`null?`, difftest). Next breadth after that:
+   kamea-machine README's top remaining item; propagated to the Rust
+   host (enum arm, step arms, (7,7) tag in quote/decode, surface
+   `eqv?`/`null?`), and `KameaRef.lean` is re-pinned to this rung as
+   the difftest oracle — standing run 24,000 cases bit-identical with
+   `Eqv` in the fuzz grammar. Next breadth after that:
    `syntax-rules` ports/devices, numeric tower as tape data.
 2. **Size escalation criterion**: stay at N=8; move to N=10 only when a
    specific desired law returns UNSAT at 8 (candidate: a certified
