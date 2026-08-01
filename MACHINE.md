@@ -88,7 +88,16 @@ action-distinctness, and the lex-min tie-break.
 
 Also certified: no element of any swap-world magma realizes quote²
 (block-preserving, hence expressible by no row) **[sat]** — derived actions
-necessarily live driver-side.
+necessarily live driver-side. **Correction (2026-08-01, W-probe)**: internal
+dispatch (W — a generic row glued from two handler rows along a core test;
+`scripts/canonicality/probe_dispatch.py`) is *not* excluded by the law set:
+60 of the 228 models satisfy it (`w_over_228.py`); the canonical artifact is
+among the 168 that do not. "Branching is not a table capability" is therefore
+a property of the lex-min *choice*, not of the laws — driver-side `ite` was
+bought by the tie-break, unpriced until now. Resolution options: adopt ¬W as
+an explicit law (the artifact is already lex-min of the ¬W subspace, so
+nothing changes except the ledger gains an honest entry), or adopt W and
+re-derive. Decide before the next artifact-level claim.
 
 ## 3. Why the sequent-machine family (System L / λ̄μμ̃)
 
