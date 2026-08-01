@@ -141,9 +141,9 @@ theorem actPow_actPow' (n : Nat) (dot : Fin n → Fin n → Fin n)
     both pigeonhole orderings can use it. -/
 theorem eval_closure_step (n : Nat)
     (dot : Fin n → Fin n → Fin n) (z₁ z₂ : Fin n) (s r : Fin n)
-    (hsN : NclSide n dot z₁ z₂ s) (hrN : NclSide n dot z₁ z₂ r)
+    (_hsN : NclSide n dot z₁ z₂ s) (hrN : NclSide n dot z₁ z₂ r)
     (hsr : ∀ x : Fin n, x ≠ z₁ → x ≠ z₂ → dot s (dot r x) = x)
-    (t : Fin n) (ht1 : t ≠ z₁) (ht2 : t ≠ z₂)
+    (t : Fin n) (_ht1 : t ≠ z₁) (_ht2 : t ≠ z₂)
     (g : Nat → Fin n)
     (hgP : ∀ m, g m ≠ z₁ ∧ g m ≠ z₂ ∧ ClsSide n dot z₁ z₂ (g m))
     (hgA : ∀ m (x : Fin n), x ≠ z₁ → x ≠ z₂ →

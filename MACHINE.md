@@ -224,9 +224,25 @@ winding marks, environment representation, tag encodings, GC.
    `eval_quote`, eval of the built quotation runs q. Tag: shift? (7)
    sub-tagged 2 cons / 3 car / 4 cdr / 5 pairp / 6 ite — the tag
    space {2..7} is now exactly exhausted. Conservativity over the
-   store rung again a lockstep bisimulation. Next breadth: numerals /
-   lists conventions, `syntax-rules` (driver-side, hygiene via shift),
-   ports.
+   store rung again a lockstep bisimulation. **Second breadth rung
+   DONE** (`Magma/FactorizationEqv.lean`): the `eqv?` core form —
+   atomic identity. Element identity **is** observational equality by
+   the table's extensionality (`eqv_elem_observational`: two
+   instructions are eqv?-identical iff their rows coincide — the
+   primitive adds speed, not power); location identity is R7RS's
+   "same location" (`eqv_fresh_refs`, `eqv_same_ref`), previously
+   unobservable. Compounds are never eqv?-identical by design: cells
+   are immutable tape values with no location — structural comparison
+   is `equal?`'s surface derivation, identity-bearing mutable
+   structure is `ref`'s job. `null?` definable at last (`nullp` =
+   eqv-with-nil). Tag: shift? sub-tag 7 — the sub-tag space {2..7}
+   under shift? now exactly exhausted too. `eval_quote` at 14 syntax
+   classes, homoiconicity carried, conservativity over the data rung
+   a lockstep bisimulation again; all propext-only. Unblocks the
+   kamea-machine README's top remaining item; propagate to the Rust
+   host next (enum arm, step arms, (7,7) tag in quote/decode, surface
+   `eqv?`/`null?`, difftest). Next breadth after that:
+   `syntax-rules` ports/devices, numeric tower as tape data.
 2. **Size escalation criterion**: stay at N=8; move to N=10 only when a
    specific desired law returns UNSAT at 8 (candidate: a certified
    abort/continuation pair, if the exception path should be table-level).

@@ -85,6 +85,7 @@ import Magma.FactorizationStore
 
 -- Factorization with data: pairs on the tape, dispatch, certified homoiconicity
 import Magma.FactorizationData
+import Magma.FactorizationEqv
 
 -- Supplementary: reference runner for differential testing against the Rust host
 import Magma.KameaRef

@@ -9,7 +9,7 @@ Three algebraic properties of finite extensional 2-pointed magmas — internal s
 ## Building
 
 ```bash
-lake build          # builds all 36 files, verifies ~410 theorems, zero sorry
+lake build          # builds all 37 files, verifies ~435 theorems, zero sorry
 ```
 
 Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefile.lean`).
@@ -47,6 +47,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **FactorizationCtrl** | 20 | Alg.+decide | **The System L machine: μ/call-cc, escape demo, big-step→machine simulation, Ω as a 5-state cycle** |
 | **FactorizationStore** | 19 | Alg.+decide | **CESK completed: store threaded vs env captured, mutation-through-β, lockstep bisimulation conservativity** |
 | **FactorizationData** | 27 | Alg.+decide | **Pairs on the tape, dispatch, certified homoiconicity: programs build their own quotations** |
+| **FactorizationEqv** | 26 | Alg.+decide | **The eqv? core form: atomic identity — element identity = observational equality (table extensionality), location identity = R7RS "same location"; null? definable; conservative again** |
 | BooleanCube | 25 | decide+native | Joint irredundance: all 8 cells of (S,D,C) |
 | Rigidity | 6 | decide+native | Role rigidity of principal witnesses |
 | RigidityPartial | 1 | Algebraic | Partial rigidity maps |
@@ -54,7 +55,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | MirrorRow | 1 | Algebraic | N=5 automorphisms fix absorbers, \|Aut\| ≤ 2 |
 | SelfSimulation | 5 | Algebraic | Partial application injectivity (supplementary) |
 | KameaRef | 1 | Algebraic | Reference oracle for the Rust host: store-observing loop agrees with the certified loop (supplementary) |
-| **Total** | **409** | | |
+| **Total** | **435** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 

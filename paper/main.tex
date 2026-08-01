@@ -1759,7 +1759,7 @@ $\dotop$ & 0 & 1 & 2 & 3 & 4 & 5 \\\hline
 \section{Proof Inventory}
 \label{app:inventory}
 
-All 36 Lean files compile with \texttt{lake build}, zero \texttt{sorry}.
+All 37 Lean files compile with \texttt{lake build}, zero \texttt{sorry}.
 Proof styles: \emph{Algebraic} = pure equational reasoning (no
 \texttt{decide}); \emph{decide} = verified by kernel computation
 ($N \leq 8$); \emph{native\_decide} = verified by compiled native code
@@ -1813,8 +1813,9 @@ FactorizationClos    & 15 & Alg.+decide & + closures, fuel, certified divergence
 FactorizationCtrl    & 20 & Alg.+decide & + control: System L machine, $\mu$ \\
 FactorizationStore   & 19 & Alg.+decide & + store: CESK, lockstep bisimulation \\
 FactorizationData    & 27 & Alg.+decide & + pairs, dispatch, certified homoiconicity \\
+FactorizationEqv     & 26 & Alg.+decide & + \texttt{eqv?}: atomic identity, \texttt{null?} \\
 \hline
-\textbf{Total}       & \textbf{409} & & \\
+\textbf{Total}       & \textbf{435} & & \\
 \end{tabular}}
 
 \end{document}
