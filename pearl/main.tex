@@ -1,4 +1,7 @@
-%% Metacircularity as a Theorem --- Functional Pearl
+%% WispyScheme: Metacircularity as a Theorem --- Functional Pearl
+%% (retitled from "Metacircularity as a Theorem" at the naming pass:
+%% the language is WispyScheme; the Rust host keeps the artifact
+%% ecosystem's name, the Kamea machine.)
 %% Draft 1, 2026-07-24. Compile with a TeX Live that has acmart.
 %%   latexmk -pdf main.tex
 %% Code excerpts are lightly transliterated for typesetting
@@ -26,7 +29,7 @@
 
 \begin{document}
 
-\title{Metacircularity as a Theorem}
+\title{WispyScheme: Metacircularity as a Theorem}
 \subtitle{Functional Pearl: one law, six machines, and an eight-element algebra}
 
 \author{Stefano Palmieri}
@@ -40,8 +43,9 @@ Every Lisp rests on one law: evaluating a quotation recovers the
 program, \texttt{(eval (quote p))} behaves as \texttt{p}. The Scheme
 reports stipulate it, every implementation implements it, and every
 metacircular evaluator exhibits it --- but the law is always an axiom
-of the evaluator that satisfies it. We present a small language in
-which the metacircular law is a \emph{theorem}. Its quote and eval
+of the evaluator that satisfies it. We present a small Scheme
+dialect, WispyScheme, in which the metacircular law is a
+\emph{theorem}. Its quote and eval
 are underwritten by an eight-element algebra --- itself derived, by
 enumerating the models of a law set and taking the lexicographically
 minimal one --- whose certified retraction law becomes the base case
@@ -91,9 +95,9 @@ shape --- Milawa, Jitawa, and CakeML
 \emph{against} a semantics in which the reflective laws are
 definitional. Somebody, somewhere, always writes the law down first.
 
-This pearl derives it. We exhibit a small language whose
-$\mathsf{eval} \circ \mathsf{quote}$ law is a theorem with
-non-trivial content: its proof is a structural induction whose base
+This pearl derives it. We exhibit a small Scheme dialect,
+WispyScheme, whose $\mathsf{eval} \circ \mathsf{quote}$ law is a
+theorem with non-trivial content: its proof is a structural induction whose base
 case is a single kernel-checked fact about an independently certified
 $8 \times 8$ operation table. Perturb one cell of the table and the
 proof breaks at the base case; keep the table and the law propagates
@@ -115,7 +119,10 @@ Everything is mechanized in Lean~4: 98 theorems across the six
 machine files, zero \textsf{sorry}, and --- checked with
 \verb|#print axioms| --- no axiom beyond propositional
 extensionality: no classical choice, no quotient soundness. The
-mechanized machine is transliterated to a running Rust host pinned to
+mechanized machine is transliterated to a running Rust host --- the
+Kamea machine\footnote{A \emph{kamea} is a talismanic number square:
+a small table carried as an object of power. The machine is named
+for its table.} --- pinned to
 the Lean semantics by differential testing (\S\ref{sec:lisp}), and on
 top of the certified core a recognizable Lisp grows --- hygienic
 macros, recursion, a REPL --- culminating in a metacircular evaluator
@@ -521,7 +528,8 @@ pearl is about never leaves the first stratum.
 
 Theorems about machines are best believed when the machine runs. The
 Lean development is transliterated, rule for rule with citations in
-comments, to a Rust host \cite{artifact-rust}; a reference oracle
+comments, to a Rust host, the Kamea machine \cite{artifact-rust}; a
+reference oracle
 executes the \emph{certified} machine via Lean's interpreter (its
 store-observing loop proven to agree with the certified loop); and a
 differential harness generates seeded programs and demands
@@ -532,7 +540,8 @@ not verified; it is \emph{pinned}, and every claim below should be
 read through that chain: surface behavior $\to$ Rust machine $\to$
 differential pinning $\to$ certified semantics $\to$ the table.
 
-On the pinned core a recognizable Lisp grows, and the striking thing
+On the pinned core a recognizable Scheme grows --- WispyScheme, the
+language of this paper's title --- and the striking thing
 is how little of it required new semantics:
 
 \begin{itemize}
@@ -755,10 +764,10 @@ definition Scheme never had.
 \section*{Artifact}
 
 The Lean development (the six-rung ladder, the algebra, and the
-walls; Lean 4.28, zero \textsf{sorry}) and the Rust host (machine,
-differential harness, Lisp, metacircular evaluator; \textsf{cargo
-test} runs everything in this paper) are available at
-\cite{artifact-lean,artifact-rust}.
+walls; Lean 4.28, zero \textsf{sorry}) and the Kamea machine (the
+Rust host: machine, differential harness, Lisp, metacircular
+evaluator; \textsf{cargo test} runs everything in this paper) are
+available at \cite{artifact-lean,artifact-rust}.
 
 \begin{thebibliography}{99}
 

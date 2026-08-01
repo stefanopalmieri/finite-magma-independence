@@ -1,4 +1,4 @@
-# The Second Write-up: "Metacircularity as a Theorem"
+# The Second Write-up: "WispyScheme: Metacircularity as a Theorem"
 
 **Status**: DRAFTED, 2026-07-24 — `pearl/main.tex` (acmart, ~700
 lines; compiles with any TeX Live that has acmart; no TeX on this
@@ -16,8 +16,14 @@ to the ladder and is exact. Repo-wide the trust base is stratified
 theorems: classical choice via Mathlib's finiteness machinery; N=10
 enumeration witnesses: `native_decide`, i.e. compiler trust); §7 of
 the draft states this precisely — do not claim propext-only for the
-whole repo. Remaining: one polish pass, venue formatting (currently
-`acmsmall,review`).
+whole repo. Naming pass DONE (2026-08-01): the language is named
+**WispyScheme** (author's choice — it is recognizably a Scheme
+dialect; §7's Kamea candidate was rejected for the language); the
+Rust host keeps the artifact ecosystem's name, **the Kamea machine**
+(kamea-machine / kamea-table / kamea-scheme), with *kamea* glossed in
+a footnote at the machine's first mention. Title is now "WispyScheme:
+Metacircularity as a Theorem". Remaining: one polish pass, venue
+formatting (currently `acmsmall,review`).
 
 Original proposal below, kept for the planning record. Companion
 docs: `MACHINE.md` (architecture, why each rung exists), `CLONES.md`

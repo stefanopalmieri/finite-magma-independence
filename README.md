@@ -106,7 +106,7 @@ The paper is in `paper/main.tex` ([PDF](paper/main.pdf)).
 ## Companion repositories
 
 - [**kamea-machine**](https://github.com/stefanopalmieri/kamea-machine) — the running artifact: a Rust host for the certified CESK machine (`Magma/Factorization*.lean`), differentially pinned to the Lean semantics, with a REPL, `syntax-rules`, and a self-interpreting metacircular evaluator. Lean is upstream: semantic changes land here first.
-- The pearl write-up of the machine ladder ("Metacircularity as a Theorem") is in `pearl/main.tex` ([PDF](pearl/main.pdf)); the machine architecture rationale is in `MACHINE.md`.
+- The pearl write-up of the machine ladder ("WispyScheme: Metacircularity as a Theorem") is in `pearl/main.tex` ([PDF](pearl/main.pdf)); the machine architecture rationale is in `MACHINE.md`.
 - [Kamea](https://github.com/stefanopalmieri/Kamea) (historical) — the project's original home, now trimmed to the Ψ-16 compiled reflective tower demo; its theory was the ancestor of this formalization.
 
 ## License
