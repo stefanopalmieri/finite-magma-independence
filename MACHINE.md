@@ -100,6 +100,11 @@ bought by the tie-break, unpriced until now. **Resolved (same day)**: ¬W adopte
 into the law set (`n8_enumerate_lexmin.py`: 168 models, lex-min still
 rawA8; pre-adoption 228 kept as the derivation record). The tie-break
 is again semantically inert w.r.t. every capability named so far.
+(Lex-min-as-canonical-form is the finite-model community's own naming
+practice — Janota et al., *SAT-Based Techniques for Lexicographically
+Smallest Finite Models*, AAAI 2024, compute exactly this normal form
+for magmas, there as an isomorphism invariant, here as a tie-break
+over the already-pinned 168-model law-set space.)
 
 ## 3. Why the sequent-machine family (System L / λ̄μμ̃)
 

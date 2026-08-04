@@ -326,7 +326,70 @@ Remarks:
 
 ---
 
-## 7. Candidate pearl paragraph (not yet inserted)
+## 7. Neighboring results (web sweep, 2026-08-03)
+
+A targeted sweep to connect this note's claims to the literature.
+Four findings, in decreasing order of surprise:
+
+**Montague 1963 completes a pattern this note started.** Montague's
+theorem (*Syntactical treatments of modality*; survey: Stern 2014)
+extends Tarski from truth to necessity: any predicate *on sentence
+codes* satisfying the modal laws is inconsistent with modest
+arithmetic. So the classical ledger reads: truth-on-codes explodes
+(Tarski), necessity-on-codes explodes (Montague) — *semantic*
+predicates on quotations die by the diagonal. The Kamea system now
+supplies the surviving column of that table: **sort-on-codes lives**,
+totally and consistently — and the price, rather than inconsistency,
+is the swap world (the predicate is *forced to negate* under
+quotation) plus the walls (the world that hosts it must refuse
+internalization). §4's Tarski contrast should be read as a three-row
+table: Tarski / Montague / this system. The dividing line is
+decidability of the predicated property: sort is decidable, truth and
+necessity are not.
+
+**The lex-min tie-break is a recognized canonical-form practice.**
+Janota et al., *SAT-Based Techniques for Lexicographically Smallest
+Finite Models* (AAAI 2024) — and the follow-up *Complete Symmetry
+Breaking for Finite Models* (2025) — compute lexicographically
+smallest representatives of finite structures *with a single binary
+operation* (magmas!) as normal forms for cataloging: two structures
+are isomorphic iff their lex-min forms coincide. This is the
+algorithmics of exactly our tie-break's genre. Difference in role:
+there lex-min quotients by isomorphism; here it selects one labeled
+table from the 168-model law-set space with roles already pinned.
+Same practice, different quotient — and a citable answer to "why
+lex-min?": because it is what the finite-model community itself uses
+to name a canonical object. Recorded in MACHINE.md.
+
+**Brown–Palsberg escape their wall the same way we escape ours.**
+*Breaking Through the Normalization Barrier* (POPL 2016): a
+self-interpreter for strongly-normalizing Fω, evading the classical
+impossibility ("no total universal function for the total computable
+functions") because — their own framing — **static typing excludes
+the proof's diagonalization gadget**. That is structurally the
+two-level architecture's move: escape a diagonal wall by making the
+diagonal gadget inexpressible in the layer that must survive it.
+Three escape routes from diagonal walls are now on record: stratify
+the predicate (Tarski's hierarchy), type the gadget away
+(Brown–Palsberg), refuse internalization algebraically and put the
+power one level up (here). Also relevant for the adequacy campaign's
+related work: Rendel–Ostermann–Hofer's typed self-recognizer (the
+first for a typed λ-calculus), and Bauer's System T self-interpreter
+note. META is a *deep* self-interpreter in their taxonomy (tagged
+representation, structural dispatch), over an algebraic quotation —
+a combination none of these systems has.
+
+**The tower line ends where we pick it up.** Amin–Rompf, *Collapsing
+Towers of Interpreters* (POPL 2018; Pink/Purple, stage polymorphism
+as the collapse mechanism) is the modern endpoint of the
+Smith/Wand–Friedman reflective-tower line — no 2024–25 successor
+surfaced in this sweep. Their towers collapse by *staging*; ours
+collapses by *adequacy* (each level provably equals direct
+execution — demonstrated now, theorem after the campaign). The pearl
+now cites them (\S Related work; added this pass — the most likely
+reviewer-demanded citation that was missing).
+
+## 8. Candidate pearl paragraph (inserted 2026-08-03, adapted)
 
 > **Relation to diagonal arguments.** The completeness wall belongs to
 > the family Lawvere identified as the common skeleton of Cantor,
