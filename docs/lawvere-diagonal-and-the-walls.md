@@ -146,13 +146,23 @@ transposition-engine obstruction is outside its scope, which supports
 the species claim. On the semigroup side, the translation literature
 (Tamura, *On translations of a semigroup*, 1950s; Petrich's
 translational-hull papers; the translational hull λ/ρ apparatus) is the
-right vocabulary neighborhood — inner left/right translations and
-their containments are its objects — but no statement of the finite
-flip wall ("finite + two distinct left zeros ⟹ some inner right
-translation is no inner left translation") surfaced. Not yet
-conclusive: a proper pass through Tamura's paper and Petrich's *The
-Translational Hull in Semigroups and Rings* is still owed before any
-novelty claim in print.
+right vocabulary neighborhood. **Tamura's foundational paper (*On
+translations of a semigroup*, Kodai Math. Sem. Rep., recv. 1955) has
+now been read in full** (it is four pages): it defines inner left/right
+translations, proves zeros-invariance lemmas, and characterizes
+singular and null semigroups by their translation semigroups — and the
+flip wall statement is not in it. Two findings from the close read:
+(1) his Lemma 4 (*a right translation maps a left zero to itself*) is
+the 1955 ancestor of the flip wall's opening move (names must fix both
+absorbers, `F ⊆ core`) — the ingredient existed, the question didn't;
+(2) his entire setting is associative, while the flip wall is
+magma-level, and in this repo's landscape associativity is separately
+excluded (no-associativity theorem) — so the wall's natural habitat is
+one the classical translation literature never entered. The containment
+question it does study (bitranslations: *linked* left/right pairs, the
+hull) is orthogonal to `Im(R) ⊆ Im(L)`. Remaining before a novelty
+claim in print: a pass through Petrich's hull monograph and a
+MathOverflow-style expert sanity check.
 
 (K-infinity **[lean]** is a third species again: its engine is an
 injection missing a point on a finite carrier — pigeonhole, no
