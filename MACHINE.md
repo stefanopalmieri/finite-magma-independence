@@ -317,5 +317,7 @@ equivalence, not for I/O to work.
 - `Magma/Homoiconic.lean` — introspection determines the quotation law; N=6 kernel
 - `Magma/Sorting.lean` — sorting, involution theorem, four class-tables, swap balance
 - `Magma/CompletenessWall.lean` — K-infinity + completeness wall + finite flip wall (the three walls)
+- `ADEQUACY.md` + `Magma/AdequacyTags.lean` — the interpreter-adequacy
+  campaign (the sequel theorem: META proved correct in Lean); rung 0 done
 - `scripts/n8_free_pair_search.py`, `scripts/homoiconic_search.py` — SAT probes/enumeration
 - `paper/main.tex` — §Sorted Magmas, §Homoiconic introspection, appendix tables

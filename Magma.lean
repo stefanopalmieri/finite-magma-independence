@@ -1,7 +1,7 @@
 -- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 34 paper files (382 theorems) + 2 supplementary (6 theorems), zero sorry.
+-- 34 paper files (382 theorems) + 3 supplementary (17 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
@@ -89,3 +89,6 @@ import Magma.FactorizationEqv
 
 -- Supplementary: reference runner for differential testing against the Rust host
 import Magma.KameaRef
+
+-- Adequacy campaign (ADEQUACY.md), rung 0: META's tag discrimination trees
+import Magma.AdequacyTags
