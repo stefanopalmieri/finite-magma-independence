@@ -311,6 +311,6 @@ equivalence, not for I/O to work.
 - `Magma/ArtifactN8.lean` — the canonical artifact and its 16 certified laws
 - `Magma/Homoiconic.lean` — introspection determines the quotation law; N=6 kernel
 - `Magma/Sorting.lean` — sorting, involution theorem, four class-tables, swap balance
-- `Magma/CompletenessWall.lean` — K-infinity + completeness wall (the two walls)
+- `Magma/CompletenessWall.lean` — K-infinity + completeness wall + finite flip wall (the three walls)
 - `scripts/n8_free_pair_search.py`, `scripts/homoiconic_search.py` — SAT probes/enumeration
 - `paper/main.tex` — §Sorted Magmas, §Homoiconic introspection, appendix tables

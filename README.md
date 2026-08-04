@@ -34,7 +34,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | Witness10 | 6 | native_decide | S+D+C at N=10 |
 | WitnessAllN | 25 | Algebraic | S+D+C at every N ≥ 5 |
 | **IndependenceAllN** | 36 | Algebraic | **All six non-implications and all 8 cube cells at every size** |
-| **CompletenessWall** | 7 | Algebraic | **K-infinity; combinatorial completeness excludes D (any cardinality)** |
+| **CompletenessWall** | 10 | Algebraic | **K-infinity; combinatorial completeness excludes D (any cardinality); the finite flip wall: two absorbers alone exclude column-naming finitely** |
 | **Sorting** | 28 | Alg.+decide | **Sorted magmas (the first connecting axiom): involution, four class-tables, balance, preserving world at every N** |
 | **Homoiconic** | 14 | Alg.+decide | **Introspection fixes the quotation law; the canonical N=6 Lisp kernel** |
 | **ArtifactN8** | 16 | decide | **The canonical N=8 artifact: kernel + hygienic shift, lex-min of a 168-table space (law set incl. no-internal-dispatch)** |
@@ -55,7 +55,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | MirrorRow | 1 | Algebraic | N=5 automorphisms fix absorbers, \|Aut\| ≤ 2 |
 | SelfSimulation | 5 | Algebraic | Partial application injectivity (supplementary) |
 | KameaRef | 1 | Algebraic | Reference oracle for the Rust host: store-observing loop agrees with the certified loop (supplementary) |
-| **Total** | **435** | | |
+| **Total** | **438** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 
@@ -82,7 +82,7 @@ Counterexample details:
 | C ⊬ S | N=5 | tight (ICP needs N ≥ 5) | E2PM.lean |
 | C ⊬ D | N=5 | tight (ICP needs N ≥ 5) | E2PM.lean |
 
-The two walls: `CompletenessWall.lean` formalizes K-infinity (no finite carrier with ≥ 2 elements admits a k-combinator) and the completeness wall (no total applicative structure of *any* cardinality with two absorbers and s/k combinators satisfies the dichotomy — D's own axioms provide a mixed column, and completeness transposes it into a mixed row). Finite worlds cannot be complete; complete worlds cannot be dichotomic: the S/D/C landscape is precisely the sub-complete regime, which is why it is invisible from inside the λ-calculus.
+The three walls: `CompletenessWall.lean` formalizes K-infinity (no finite carrier with ≥ 2 elements admits a k-combinator), the completeness wall (no total applicative structure of *any* cardinality with two absorbers and s/k combinators satisfies the dichotomy — D's own axioms provide a mixed column, and completeness transposes it into a mixed row), and the finite flip wall (a finite magma with two *distinct* left absorbers cannot internalize every column as a row — at finite scale the transposition hypothesis is itself unsatisfiable, no dichotomy needed; engine: finite-orbit pigeonhole + transposition, no diagonal; see `docs/lawvere-diagonal-and-the-walls.md` for how this positions the walls against Lawvere's fixed-point theorem). Finite worlds cannot be complete — with two halt channels they cannot even name their own columns; complete worlds cannot be dichotomic: the S/D/C landscape is precisely the sub-complete regime, which is why it is invisible from inside the λ-calculus.
 
 Scaling: `IndependenceAllN.lean` proves — algebraically, uniformly in n — that each of the six non-implications has a witness of size exactly n for every n ≥ 5, and that each of the eight (S, D, C) Boolean profiles is realized at every admissible size (`independence_all_N`, `boolean_cube_all_N`). Together with `WitnessAllN.lean` (S+D+C at every N ≥ 5), this settles the scaling conjecture.
 

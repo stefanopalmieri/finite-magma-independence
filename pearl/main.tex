@@ -196,10 +196,14 @@ results, stated informally:
   and in particular none carries a jointly adequate $(S,K)$ pair
   (\textsf{d\_leaves\_a\_column\_unnamed} in the companion
   development; the obstruction is counting-free and survives at every
-  cardinality). A structure that can judge itself cannot name all of
-  its own transformations --- and yet the quote/eval retraction above
-  fits comfortably inside this wall. This is the single theorem the
-  rest of the paper is shaped around.
+  cardinality). At finite size the refusal is starker still: two
+  absorbers alone --- no classifier discipline needed --- already
+  leave a column unnamed
+  (\textsf{finite\_leaves\_a\_column\_unnamed}), and the artifact
+  above names none of its eight. A structure that can judge itself
+  cannot name all of its own transformations --- and yet the
+  quote/eval retraction above fits comfortably inside this wall. This
+  is the single theorem the rest of the paper is shaped around.
 \item[K-infinity.] The finite sharpening: no finite table contains a
   K~combinator at all, so iteration and universality cannot live
   inside the algebra. Whatever runs programs is an \emph{external
@@ -707,6 +711,33 @@ the functional completeness of partial combinatory algebras
 engineering owes debts to Ribbit's tagged-cell discipline
 \cite{yvon21}.
 
+The completeness wall invites comparison with Lawvere's fixed-point
+theorem \cite{lawvere69}, the categorical skeleton common to the
+diagonal arguments of Cantor, G\"odel, Tarski, and Turing
+\cite{yanofsky03} --- like them, a counting-free theorem saying a
+structure cannot internalize its own function space in the presence
+of an incompatible observable. It is not an instance: Lawvere's
+engine is the diagonal $x \cdot x$, the wall's is transposition
+$x \cdot b$, its proof forms no self-application, and Lawvere's
+hypothesis --- point-surjectivity onto $Y^A$ --- fails in every
+structure the wall covers. Where Lawvere does enter this development,
+he enters with reversed polarity: quotation-observing introspection
+is precisely the demand that quotation descend to a fixed-point-free
+map on the two-element object of sorts --- Cantor's negation,
+stipulated as an axiom rather than deployed as a refuter --- and that
+demand is what forces the swap world. The two-level architecture is
+then Lawvere's dilemma held stratified. The algebra keeps the
+fixed-point-free observable and provably refuses internalization
+(K-infinity; the wall). The machine keeps internalization and
+supplies exactly the fixed points Lawvere's theorem predicts ---
+\textsf{letrec} as Landin's knot --- while hosting no total
+behavioral classifier. Staged metaprogramming in the
+Davies--Pfenning line \cite{davies01} resolves the same dilemma with
+the opposite choice: quotation without judgment declines the
+fixed-point-free observable and keeps one combinatorially complete
+world. Both are consistent postures before the same theorem; the
+ledger of \S\ref{sec:honest} prices ours.
+
 \section{Coda: the definition Scheme never had}
 \label{sec:coda}
 
@@ -848,6 +879,23 @@ Jaap van Oosten.
 Samuel Yvon and Marc Feeley.
 \newblock A small Scheme VM, compiler, and REPL in 4K.
 \newblock \emph{VMIL}, 2021.
+
+\bibitem[Lawvere(1969)]{lawvere69}
+F.~William Lawvere.
+\newblock Diagonal arguments and cartesian closed categories.
+\newblock \emph{Category Theory, Homology Theory and their
+  Applications II}, Springer LNM 92, 1969.
+
+\bibitem[Yanofsky(2003)]{yanofsky03}
+Noson~S. Yanofsky.
+\newblock A universal approach to self-referential paradoxes,
+  incompleteness and fixed points.
+\newblock \emph{Bulletin of Symbolic Logic} 9(3), 2003.
+
+\bibitem[Davies and Pfenning(2001)]{davies01}
+Rowan Davies and Frank Pfenning.
+\newblock A modal analysis of staged computation.
+\newblock \emph{Journal of the ACM} 48(3), 2001.
 
 \bibitem[Palmieri(2026a)]{artifact-lean}
 Stefano Palmieri.

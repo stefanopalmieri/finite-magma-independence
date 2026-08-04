@@ -1,12 +1,14 @@
 import Magma.Dichotomic
 import Magma.E2PM
+import Mathlib.Data.Fintype.Pigeonhole
 
 /-!
 # The Completeness Wall: Combinatorial Completeness Excludes the Dichotomy
 
-Two "wall" theorems delimiting the setting of this repository from the
-world of combinatory algebras and the λ-calculus, both formalized here
-for arbitrary carriers (no finiteness, no `Fin n`, no `decide`):
+Three "wall" theorems delimiting the setting of this repository from
+the world of combinatory algebras and the λ-calculus (no `Fin n`, no
+`decide`; the second holds at arbitrary cardinality, the first and
+third are finite by necessity):
 
 1. **K-infinity** (`k_collapse_of_finite`, `no_k_combinator_on_fin`):
    a total magma on a finite carrier with ≥ 2 elements admits no
@@ -18,11 +20,24 @@ for arbitrary carriers (no finiteness, no `Fin n`, no `decide`):
    combinators cannot satisfy the classifier dichotomy. Completeness
    excludes the dichotomy.
 
-Together: finite worlds cannot be combinatorially complete, and complete
+3. **The finite flip wall** (`flip_orbit_collapse`,
+   `flip_collapse_of_finite`, `finite_leaves_a_column_unnamed`): a
+   total magma on a finite carrier with two *distinct* left absorbers
+   cannot internalize every column as a row — at finite scale the
+   transposition hypothesis of wall 2 is itself unsatisfiable, with no
+   dichotomy in sight. Two halt channels alone refuse the flip.
+   (Found 2026-08-03 while testing wall 2 against Lawvere's
+   fixed-point theorem; see `docs/lawvere-diagonal-and-the-walls.md`.
+   Probe: `scripts/canonicality/probe_flip_absorbers.py` — UNSAT for
+   n ≤ 8, and the canonical N=8 artifact names none of its columns.)
+
+Together: finite worlds cannot be combinatorially complete — with two
+halt channels they cannot even name their own columns — and complete
 worlds cannot be dichotomic. The finite dichotomic magmas of this
 repository live strictly below combinatorial completeness — and that is
 not an artifact of finiteness, since the second wall stands at every
-cardinality.
+cardinality (the λ-calculus with two sinks satisfies the flip, so the
+third wall is finite by necessity, exactly like the first).
 
 ## The transposition argument
 
@@ -47,8 +62,10 @@ deciders", programs that abort on some inputs and return on others) are
 always definable. The S/D/C landscape of this paper is the regime that
 computational completeness forbids.
 
-Neither extensionality nor `no_other_zeros` nor the distinctness of the
-two absorbers is used in either wall.
+Neither extensionality nor `no_other_zeros` is used in any wall; the
+distinctness of the two absorbers is used only in the third (where it
+must be: with `z₁ = z₂` a one-absorber commutative-looking flip is not
+obstructed).
 -/
 
 set_option autoImplicit false
@@ -207,6 +224,110 @@ theorem d_leaves_a_column_unnamed {A : Type*} (dot : A → A → A) (z₁ z₂ :
   by_contra h
   push_neg at h
   exact flip_blocks_dichotomy dot z₁ z₂ hz₁ hz₂ h hD
+
+-- ═══════════════════════════════════════════════════════════════════
+-- Wall 3: the finite flip wall (two absorbers exclude column-naming)
+-- ═══════════════════════════════════════════════════════════════════
+
+/-- **Descent engine for the finite flip wall.** Given a naming
+    operator ν (`ν a` internalizes the column of `a` as a row), a
+    repeat in the ν-orbit of `z₁` at positive indices collapses the two
+    absorbers. The descent: column-agreement of two orbit points at
+    height `j + 1` becomes row-agreement (evaluate the columns at
+    names, which transposes), which becomes column-agreement at height
+    `j`; at height `0` the row of the orbit point at height `p + 1` is
+    revealed to be constant `z₁`, while every ν-image must fix `z₂`.
+    No finiteness is used here — finiteness only supplies the repeat.
+    No self-application is formed anywhere: the engine is
+    transposition and orbit-periodicity, not diagonalization. -/
+theorem flip_orbit_collapse {A : Type*} (dot : A → A → A) (z₁ z₂ : A)
+    (hz₁ : ∀ x : A, dot z₁ x = z₁) (hz₂ : ∀ x : A, dot z₂ x = z₂)
+    (ν : A → A) (hν : ∀ a x : A, dot (ν a) x = dot x a)
+    (k p : ℕ) (hrep : ν^[k + 1] z₁ = ν^[k + 1 + (p + 1)] z₁) :
+    z₁ = z₂ := by
+  have hsucc : ∀ j : ℕ, ν^[j + 1] z₁ = ν (ν^[j] z₁) := fun j =>
+    Function.iterate_succ_apply' ν j z₁
+  -- columns agreeing at height j forces rows agreeing at height j
+  have rows_of_cols : ∀ j : ℕ,
+      (∀ x, dot x (ν^[j] z₁) = dot x (ν^[j + (p + 1)] z₁)) →
+      ∀ b, dot (ν^[j] z₁) b = dot (ν^[j + (p + 1)] z₁) b := by
+    intro j hc b
+    have h := hc (ν b)
+    rwa [hν b (ν^[j] z₁), hν b (ν^[j + (p + 1)] z₁)] at h
+  -- and rows agreeing at height j + 1 forces columns agreeing at j
+  have cols_step : ∀ j : ℕ,
+      (∀ x, dot x (ν^[j + 1] z₁) = dot x (ν^[j + 1 + (p + 1)] z₁)) →
+      ∀ x, dot x (ν^[j] z₁) = dot x (ν^[j + (p + 1)] z₁) := by
+    intro j hc x
+    have hr := rows_of_cols (j + 1) hc x
+    have e : j + 1 + (p + 1) = j + (p + 1) + 1 := by omega
+    rw [hsucc j, e, hsucc (j + (p + 1))] at hr
+    rwa [hν (ν^[j] z₁) x, hν (ν^[j + (p + 1)] z₁) x] at hr
+  -- the repeat seeds the descent at height k
+  have base : ∀ x, dot x (ν^[k] z₁) = dot x (ν^[k + (p + 1)] z₁) := by
+    refine cols_step k fun x => ?_
+    rw [hrep]
+  -- descend to height 0
+  have cols0 : ∀ x, dot x (ν^[0] z₁) = dot x (ν^[0 + (p + 1)] z₁) := by
+    have desc : ∀ j : ℕ,
+        (∀ x, dot x (ν^[j] z₁) = dot x (ν^[j + (p + 1)] z₁)) →
+        ∀ x, dot x (ν^[0] z₁) = dot x (ν^[0 + (p + 1)] z₁) := by
+      intro j
+      induction j with
+      | zero => exact fun h => h
+      | succ n ih => exact fun h => ih (cols_step n h)
+    exact desc k base
+  -- endgame: the row of the height-(p+1) point is constant z₁,
+  -- yet as a ν-image it must send z₂ to z₂
+  have h := rows_of_cols 0 cols0 z₂
+  rw [Function.iterate_zero_apply, hz₁ z₂] at h
+  have e : 0 + (p + 1) = p + 1 := by omega
+  rw [e, hsucc p, hν (ν^[p] z₁) z₂, hz₂ (ν^[p] z₁)] at h
+  exact h
+
+/-- **The finite flip wall, collapse form.** A total magma on a finite
+    carrier with two left absorbers that internalizes every column as a
+    row identifies the two absorbers. Contrapositive: with `z₁ ≠ z₂`,
+    the transposition hypothesis of `flip_blocks_dichotomy` is not
+    merely dichotomy-blocking but *unsatisfiable* — at finite scale the
+    completeness wall needs no dichotomy. At infinite cardinality the
+    hypothesis is satisfiable (the λ-calculus with two sinks has the
+    thrush), so wall 2 remains the sharp statement there: finiteness is
+    essential, exactly as in K-infinity, and the engine is the same
+    pigeonhole species — a finite orbit must repeat, and transposition
+    turns the repeat into a constant row. -/
+theorem flip_collapse_of_finite {A : Type*} [Finite A] (dot : A → A → A)
+    (z₁ z₂ : A)
+    (hz₁ : ∀ x : A, dot z₁ x = z₁) (hz₂ : ∀ x : A, dot z₂ x = z₂)
+    (hflip : ∀ a : A, ∃ m : A, ∀ x : A, dot m x = dot x a) :
+    z₁ = z₂ := by
+  choose ν hν using hflip
+  obtain ⟨i, j, hij, hrep⟩ :=
+    Finite.exists_ne_map_eq_of_infinite (fun t : ℕ => ν^[t + 1] z₁)
+  have hrep' : ν^[i + 1] z₁ = ν^[j + 1] z₁ := hrep
+  rcases lt_or_gt_of_ne hij with hlt | hlt
+  · refine flip_orbit_collapse dot z₁ z₂ hz₁ hz₂ ν hν i (j - i - 1) ?_
+    have e : i + 1 + (j - i - 1 + 1) = j + 1 := by omega
+    rw [e]
+    exact hrep'
+  · refine flip_orbit_collapse dot z₁ z₂ hz₁ hz₂ ν hν j (i - j - 1) ?_
+    have e : j + 1 + (i - j - 1 + 1) = i + 1 := by omega
+    rw [e]
+    exact hrep'.symm
+
+/-- **The finite flip wall, unnamed-column form.** Every finite magma
+    with two *distinct* left absorbers leaves some column named by no
+    row: the finite counterpart of `d_leaves_a_column_unnamed`, with
+    the dichotomy hypothesis deleted. (The canonical N=8 artifact
+    leaves all eight of its columns unnamed —
+    `scripts/canonicality/probe_flip_absorbers.py`.) -/
+theorem finite_leaves_a_column_unnamed {A : Type*} [Finite A]
+    (dot : A → A → A) (z₁ z₂ : A) (hz : z₁ ≠ z₂)
+    (hz₁ : ∀ x : A, dot z₁ x = z₁) (hz₂ : ∀ x : A, dot z₂ x = z₂) :
+    ∃ a : A, ¬ ∃ m : A, ∀ x : A, dot m x = dot x a := by
+  by_contra h
+  push_neg at h
+  exact hz (flip_collapse_of_finite dot z₁ z₂ hz₁ hz₂ h)
 
 /-- The two walls, packaged for the finite setting: on `Fin n` with
     `n ≥ 2`, the completeness hypothesis of `sk_blocks_dichotomy` is

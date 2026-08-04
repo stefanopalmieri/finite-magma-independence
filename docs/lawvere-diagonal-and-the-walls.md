@@ -5,12 +5,14 @@ instance of Lawvere's fixed-point theorem (the categorical skeleton of
 Cantor/Gödel/Tarski/Turing diagonal arguments), or only a family
 resemblance? Verdict: neither — the precise relationship is a
 **complementarity**, and pinning it down produced a new elementary
-theorem (the finite flip wall, §6) with a hand proof and machine
-evidence, not yet formalized.*
+theorem (the finite flip wall, §6) — since certified:
+`flip_orbit_collapse` / `flip_collapse_of_finite` /
+`finite_leaves_a_column_unnamed` in `Magma/CompletenessWall.lean`
+(2026-08-03, same day; zero sorry; footprint matches the file's
+existing theorems, and the descent engine is choice-free).*
 
 Status tags: **[lean]** = certified in this repo; **[probe]** =
-`scripts/canonicality/probe_flip_absorbers.py`; **[hand]** = elementary
-proof written out below, Lean formalization pending; **[lit-check]** =
+`scripts/canonicality/probe_flip_absorbers.py`; **[lit-check]** =
 novelty claim pending a literature search.
 
 ---
@@ -45,7 +47,7 @@ novelty claim pending a literature search.
    total behavioral classifier. Each level takes one horn; the tape
    discipline is the wall between them.
 
-4. **New result — the finite flip wall** (§6) **[hand] [probe]**: *no
+4. **New result — the finite flip wall** (§6) **[lean] [probe]**: *no
    finite magma with two distinct left absorbers internalizes all of
    its columns.* At finite scale the dichotomy D is not needed — two
    halt channels alone kill the flip hypothesis. The proof engine is,
@@ -132,9 +134,25 @@ under a strictly weaker internalization hypothesis (thrush, not full
 completeness). Within Yanofsky's taxonomy this appears to be a
 **different species of the same genus**: an internalization obstruction
 whose engine is transposition rather than diagonalization.
-**[lit-check]** before claiming novelty in print; candidate
-neighborhoods: translation hulls / bitranslations in semigroup theory,
-where left/right regular representations are compared.
+
+**Literature check (2026-08-03, web pass — [lit-check] partially
+resolved).** The strongest known weakening of Lawvere is Roberts,
+*Substructural fixed-point theorems and the diagonal argument: theme
+and variations* (arXiv:2110.00239, 2021): Lawvere with the categorical
+product relaxed to a magmoidal product — but every variation still
+requires "sufficient diagonal arrows." That is, the modern program
+weakens the *setting* of the diagonal, not the diagonal itself; a
+transposition-engine obstruction is outside its scope, which supports
+the species claim. On the semigroup side, the translation literature
+(Tamura, *On translations of a semigroup*, 1950s; Petrich's
+translational-hull papers; the translational hull λ/ρ apparatus) is the
+right vocabulary neighborhood — inner left/right translations and
+their containments are its objects — but no statement of the finite
+flip wall ("finite + two distinct left zeros ⟹ some inner right
+translation is no inner left translation") surfaced. Not yet
+conclusive: a proper pass through Tamura's paper and Petrich's *The
+Translational Hull in Semigroups and Rings* is still owed before any
+novelty claim in print.
 
 (K-infinity **[lean]** is a third species again: its engine is an
 injection missing a point on a finite carrier — pigeonhole, no
@@ -226,7 +244,7 @@ second for the first time.
 
 ---
 
-## 6. New result: the finite flip wall [hand] [probe]
+## 6. New result: the finite flip wall [lean] [probe]
 
 **Theorem (finite flip wall).** Let `(A, ·)` be a **finite** magma with
 two distinct left absorbers `z₁ ≠ z₂` (`z·x = z` for all `x`). Then
@@ -283,9 +301,13 @@ Remarks:
 - **The artifact's refusal is total [probe]**: none of the eight
   columns of the N=8 table equals any row — `d_leaves_a_column_unnamed`
   promises one unnamed column; the artifact leaves all eight unnamed.
-- **Formalization**: elementary and Lean-friendly (finite orbit +
-  induction on the descent); a natural companion to
-  `CompletenessWall.lean`. Not yet done.
+- **Formalization: done** (same day) — `flip_orbit_collapse` (the
+  descent engine; no finiteness, choice-free: `[propext, Quot.sound]`),
+  `flip_collapse_of_finite` (collapse form, mirroring
+  `k_collapse_of_finite`), `finite_leaves_a_column_unnamed` (the
+  dichotomy-free finite counterpart of `d_leaves_a_column_unnamed`),
+  all in `Magma/CompletenessWall.lean` as Wall 3. Axiom footprint
+  matches the file's existing theorems.
 - **Novelty**: **[lit-check]** — the statement "in a finite magma with
   two distinct left zeros, some right translation is no left
   translation" should be searched against the semigroup-theoretic

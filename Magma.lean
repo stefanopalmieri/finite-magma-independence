@@ -1,7 +1,7 @@
 -- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 34 paper files (379 theorems) + 2 supplementary (6 theorems), zero sorry.
+-- 34 paper files (382 theorems) + 2 supplementary (6 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
