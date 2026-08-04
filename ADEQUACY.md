@@ -66,6 +66,20 @@ no `eqv?` (`AdequacyTags.lean` certifies the trees). A META v2 using
 be a new image and a re-run of rungs 3–7, not a change of
 architecture.
 
+**[decision] The v1 domain is the eqv-free fragment.** Discovered at
+rung 2, from the definitions rather than a failed proof: `quoteD`
+sub-tags `eqv` as 7 under the data tag, and META's `mdata` tree —
+written before the eqv rung existed — reads sub-tag 7 as `ite`. So
+META v1 correctly interprets exactly the 13-form fragment. Rather
+than patch META now (a new image, a re-freeze), the v1 theorem
+quantifies over `EqvFree` programs — and `AdequacyRep.lean` proves
+`eqvFree_iff_embed`: the domain is precisely the range of the
+certified embedding from the data rung, i.e. the image of the
+conservativity ladder, not an ad-hoc predicate. META v2 adds an eqv
+arm to `mdata` later and extends the domain; that is a re-run of
+rungs 1 and 3–7 over a new frozen image, not a change of
+architecture.
+
 **[decision] Lean-first fix loop.** The universal theorem will
 almost certainly flush out corner cases the 17-program corpus never
 sampled (error-arm mismatches are the likeliest — §5, risk 3). The
@@ -148,7 +162,7 @@ divergence transfer together.
 |---|---|---|
 | 0 | Tag discrimination trees certified at table level (`AdequacyTags.lean`, 11 thms: matrix, partition of unity, four-probes-suffice, honesty lemma) | **[lean]** |
 | 1 | Frozen image `MetaImage.lean` (~700 nodes) + Rust emitter/pin (`kamea-scheme/tests/meta_image.rs`, golden-tested, closedness-checked) + Lean-side pin (`meta_image_pinned`: total `toTokens` printer reproduces the golden token string, `native_decide`) | **[lean]** |
-| 2 | `rep`, `IsTag` invariant, store alignment `α`, decode bridge to `decode_quote` | [open] |
+| 2 | `AdequacyRep.lean` (21 thms): `RepV`/`RepEnv` (mutual, parameterized by `K₀` and an abstract continuation relation `KR`, monotone in `KR` for rung 6's step-indexing); `AlignedStore` (knot prefix + canonical `i ↦ K₀+i`, read/write/alloc/fresh-loc lemmas); `chainNth` env lookup (META's error default *represents* the machine's error default); `IsTag` soundness on all represented values; decode bridge; `EqvFree` domain = range of certified `embed` | **[lean]** |
 | 3 | Adequacy, pure fragment: atoms, `mnth` de Bruijn walk (connects to `quote_var_succ`), β through `mapply`/`tagclo`; fuel transformer machinery; bridge table-level trees → running trees | [open] |
 | 4 | + data forms (`mdata`: cons/car/cdr/pairp/ite arms) | [open] |
 | 5 | + store forms (`mstore`; alignment invariant finished) | [open] |
@@ -176,6 +190,10 @@ else.
 ## 8. File pointers
 
 - `Magma/AdequacyTags.lean` — rung 0 **[lean]**
+- `Magma/AdequacyRep.lean` — rung 2 **[lean]** (deferred from it, to
+  when first needed: determinism of `RepV` given functional `KR` —
+  the Fin-literal index gymnastics are not worth paying before a
+  consumer exists)
 - `Magma/MetaImage.lean` — rung 1 **[lean]** (generated; regenerate
   via `BLESS_META_IMAGE=1 cargo test -p kamea-scheme --test
   meta_image`, then copy the goldens)

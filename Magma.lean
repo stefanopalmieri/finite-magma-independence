@@ -1,7 +1,7 @@
 -- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 34 paper files (382 theorems) + 4 supplementary (18 theorems), zero sorry.
+-- 34 paper files (382 theorems) + 5 supplementary (39 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
@@ -95,3 +95,6 @@ import Magma.AdequacyTags
 
 -- Adequacy campaign, rung 1: the frozen core image of META, difftest-pinned
 import Magma.MetaImage
+
+-- Adequacy campaign, rung 2: the representation relation + store alignment
+import Magma.AdequacyRep
