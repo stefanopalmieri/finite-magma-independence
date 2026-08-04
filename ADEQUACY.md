@@ -147,7 +147,7 @@ divergence transfer together.
 | rung | contents | status |
 |---|---|---|
 | 0 | Tag discrimination trees certified at table level (`AdequacyTags.lean`, 11 thms: matrix, partition of unity, four-probes-suffice, honesty lemma) | **[lean]** |
-| 1 | Frozen image `MetaImage.lean` + Rust emitter + difftest pin | [open] |
+| 1 | Frozen image `MetaImage.lean` (~700 nodes) + Rust emitter/pin (`kamea-scheme/tests/meta_image.rs`, golden-tested, closedness-checked) + Lean-side pin (`meta_image_pinned`: total `toTokens` printer reproduces the golden token string, `native_decide`) | **[lean]** |
 | 2 | `rep`, `IsTag` invariant, store alignment `α`, decode bridge to `decode_quote` | [open] |
 | 3 | Adequacy, pure fragment: atoms, `mnth` de Bruijn walk (connects to `quote_var_succ`), β through `mapply`/`tagclo`; fuel transformer machinery; bridge table-level trees → running trees | [open] |
 | 4 | + data forms (`mdata`: cons/car/cdr/pairp/ite arms) | [open] |
@@ -176,7 +176,11 @@ else.
 ## 8. File pointers
 
 - `Magma/AdequacyTags.lean` — rung 0 **[lean]**
-- `Magma/MetaImage.lean` — rung 1 [open]
+- `Magma/MetaImage.lean` — rung 1 **[lean]** (generated; regenerate
+  via `BLESS_META_IMAGE=1 cargo test -p kamea-scheme --test
+  meta_image`, then copy the goldens)
+- `kamea-machine/crates/kamea-scheme/tests/meta_image.rs` — the
+  Rust half of the pin (+ closedness check)
 - `kamea-machine/crates/kamea-scheme/src/lib.rs` — `META_CLOSED`,
   the adequacy corpus, the tower test
 - `MACHINE.md` §9–10 — the ladder this campaign stands on

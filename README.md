@@ -56,7 +56,8 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | SelfSimulation | 5 | Algebraic | Partial application injectivity (supplementary) |
 | KameaRef | 1 | Algebraic | Reference oracle for the Rust host: store-observing loop agrees with the certified loop (supplementary) |
 | **AdequacyTags** | 11 | decide | **Adequacy campaign rung 0: META's extensional tag-discrimination trees — matrix, partition of unity, four probes suffice, honesty lemma (ADEQUACY.md)** |
-| **Total** | **449** | | |
+| **MetaImage** | 1 | native | **Adequacy campaign rung 1: the frozen core image of META (~700 nodes), cross-pinned to the Rust compiler through the shared token grammar** |
+| **Total** | **450** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 
