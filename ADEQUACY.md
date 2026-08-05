@@ -164,7 +164,8 @@ divergence transfer together.
 | 1 | Frozen image `MetaImage.lean` (~700 nodes) + Rust emitter/pin (`kamea-scheme/tests/meta_image.rs`, golden-tested, closedness-checked) + Lean-side pin (`meta_image_pinned`: total `toTokens` printer reproduces the golden token string, `native_decide`) | **[lean]** |
 | 2 | `AdequacyRep.lean` (21 thms): `RepV`/`RepEnv` (mutual, parameterized by `K₀` and an abstract continuation relation `KR`, monotone in `KR` for rung 6's step-indexing); `AlignedStore` (knot prefix + canonical `i ↦ K₀+i`, read/write/alloc/fresh-loc lemmas); `chainNth` env lookup (META's error default *represents* the machine's error default); `IsTag` soundness on all represented values; decode bridge; `EqvFree` domain = range of certified `embed` | **[lean]** |
 | 3a | `AdequacyInstances.lean` (35 thms): 16 executable end-to-end instances — the frozen image runs natively *inside the proofs* (`native_decide`) and every result stands in the rung-2 relation to the direct run, by constructor. Observed ahead of the universal proof: error defaults correspond, store offset works, host `callcc` absorption works, the closure clause is exact. Includes the structural comparator `beqV` (+ reflexivity) since `Val`/`Kont` admit no derived `DecidableEq` (mutual + nested `List` defeats the handler). Regression armor for all later rungs. | **[lean]** |
-| 3b | The universal pure fragment: startup lemma (running the knot yields the concrete prefix `P`, `K₀ = 14`), symbolic simulation for atoms/vars/β, bridge table-level trees → running trees, fuel transformer machinery | [open] |
+| 3b(i) | `AdequacyStartup.lean` (7 thms): **the startup lemma** — `stepIter`/`loop` fuel-transfer machinery; then 1275 symbolic machine steps of knot setup verified by *kernel reduction* (`rfl`, ~14 s at `maxRecDepth 400000`), universally in `ρ` and `κ`. Key discovery, caught by `rfl` refuting the naive statement: **the knot closures capture the initial environment inside themselves**, so the post-startup artifacts (`knotStoreF`, `metaEnvF`) are ρ-parametric *self-computing definitions* — extracted by running the machine inside the definition; store/env *spines* stay concrete, so `knot_length ρ : (knotStoreF ρ).length = 14` holds symbolically — `K₀ = 14` is now a theorem, not a count. `meval_entry`: every adequacy run reaches the canonical meval-entry state in exactly `startupSteps + 4` steps; later rungs start there and never re-cross the knot. | **[lean]** |
+| 3b(ii) | The universal pure fragment proper: symbolic simulation for atoms/vars/β from `mevalEntry`, bridge table-level trees → running trees, per-form fuel transformers | [open] |
 | 4 | + data forms (`mdata`: cons/car/cdr/pairp/ite arms) | [open] |
 | 5 | + store forms (`mstore`; alignment invariant finished) | [open] |
 | 6 | + `callcc` absorption (the continuation relation) | [open] |
@@ -198,6 +199,11 @@ else.
 - `Magma/AdequacyInstances.lean` — rung 3a **[lean]** (also deferred:
   soundness of `beqV` — the Bool run-checks suffice for regression
   armor, and the universal theorem will not pass through `beqV`)
+- `Magma/AdequacyStartup.lean` — rung 3b(i) **[lean]** (technique of
+  record: symbolic kernel-`rfl` through concrete step counts works at
+  ~1275 steps/14 s; ρ-parametric self-computing extraction beats
+  pasted terms — and `rfl` itself catches wrong statements, as it did
+  the env-capture)
 - `Magma/MetaImage.lean` — rung 1 **[lean]** (generated; regenerate
   via `BLESS_META_IMAGE=1 cargo test -p kamea-scheme --test
   meta_image`, then copy the goldens)
