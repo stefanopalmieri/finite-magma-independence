@@ -58,7 +58,8 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **AdequacyTags** | 11 | decide | **Adequacy campaign rung 0: META's extensional tag-discrimination trees — matrix, partition of unity, four probes suffice, honesty lemma (ADEQUACY.md)** |
 | **MetaImage** | 1 | native | **Adequacy campaign rung 1: the frozen core image of META (~700 nodes), cross-pinned to the Rust compiler through the shared token grammar** |
 | **AdequacyRep** | 21 | Algebraic | **Adequacy campaign rung 2: the representation relation (tagged ↔ direct, mutual with environments, monotone in the continuation relation), the one-tape store alignment (canonical `i ↦ K₀+i`), and the eqv-free domain = range of the certified embed** |
-| **Total** | **471** | | |
+| **AdequacyInstances** | 35 | native | **Adequacy campaign rung 3a: 16 end-to-end instances — the frozen image executes inside the proofs and every result stands in the rung-2 relation to the direct run (error defaults, store offset, host callcc, closure clause all observed)** |
+| **Total** | **506** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 
