@@ -1,7 +1,7 @@
 -- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 34 paper files (382 theorems) + 7 supplementary (81 theorems), zero sorry.
+-- 34 paper files (382 theorems) + 8 supplementary (86 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
@@ -104,3 +104,6 @@ import Magma.AdequacyInstances
 
 -- Adequacy campaign, rung 3b(i): the startup lemma — symbolic knot-crossing
 import Magma.AdequacyStartup
+
+-- Adequacy campaign, rung 3b(ii): the leaf forms, universally
+import Magma.AdequacyLeaf
