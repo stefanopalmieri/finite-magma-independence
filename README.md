@@ -61,7 +61,8 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **AdequacyInstances** | 35 | native | **Adequacy campaign rung 3a: 16 end-to-end instances — the frozen image executes inside the proofs and every result stands in the rung-2 relation to the direct run (error defaults, store offset, host callcc, closure clause all observed)** |
 | **AdequacyStartup** | 7 | rfl+native | **Adequacy campaign rung 3b(i): the startup lemma — 1275 symbolic machine steps of knot setup verified by kernel reduction, for every environment and continuation; K₀ = 14 becomes a theorem; the entry theorem gives every adequacy run the same canonical meval-entry state** |
 | **AdequacyLeaf** | 5 | rfl+native | **Adequacy campaign rung 3b(ii): the leaf forms universally — variables over ALL indices by one symbolic kernel reduction (the 144-step run never inspects the numeral; both worlds miss, related), atoms over all eight by fin_cases (the retraction eatom∘qatom = id, recomputed by the interpreter)** |
-| **Total** | **518** | | |
+| **AdequacyBeta** | 5 | rfl+native | **Adequacy campaign rung 3b(iii): β by families — the identity on any variable (infinite, one rfl), K on any two variables (doubly infinite), nested redexes, a closure returned through β (RepV.clos on a compound run), and β delivering all eight atoms** |
+| **Total** | **523** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 
