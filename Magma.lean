@@ -1,7 +1,7 @@
 -- Pairwise Independence of Splitting, Dichotomy, and Composition
 -- in Finite Extensional Magmas
 --
--- 34 paper files (382 theorems) + 19 supplementary (284 theorems), zero sorry.
+-- 34 paper files (382 theorems) + 20 supplementary (286 theorems), zero sorry.
 
 -- Foundation
 import Magma.Dichotomic
@@ -140,3 +140,6 @@ import Magma.AdequacyTop
 
 -- The canonicity census, certified: full rigidity + self-location uniqueness
 import Magma.CanonicityCensus
+
+-- The bridge: any hygienic self-locating reflective kernel is core-isomorphic to A8
+import Magma.CoreCanonical
