@@ -137,8 +137,11 @@ theorem artifactA8_quote_involution :
 theorem artifactA8_duality_pairing :
     dotA8 2 2 = 5 ∧ dotA8 2 3 = 6 ∧ dotA8 2 4 = 7 := by decide
 
-/-- Emergent: the free judge is `shift?` — it accepts exactly shift and
-    shift's code, and nothing else on the core. -/
+/-- The free judge is `shift?` — it accepts exactly shift and shift's
+    code, and nothing else on the core. Its recognizer content is
+    bought by judge-closure, not emergent from the tie-break: the
+    2026-08-14 ablation (`n8_enumerate_lexmin.py`) shows dropping that
+    law moves the lex-min at this row. -/
 theorem artifactA8_shift_recognizer :
     ∀ x : Fin 8, x ≠ 0 → x ≠ 1 →
       (dotA8 7 x = 1 ↔ (x = 4 ∨ x = 7)) := by decide

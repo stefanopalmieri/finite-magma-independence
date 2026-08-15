@@ -29,7 +29,13 @@ def base_solver():
     S.add(z3.Or(T[5][0] == 0, T[5][0] == 1), z3.Or(T[5][1] == 0, T[5][1] == 1))
     for y in Cblk: S.add(T[5][y] == 0)
     for y in Nblk: S.add(T[5][y] == 1)
-    # judge? = 6: the complement row on core, and the ICP law judge? = data? . quote
+    # judge? = 6: the complement row on core — this IS the ICP law
+    # (in the swap world with kappa pinned, the complement row equals
+    # data? . quote pointwise). The explicit equation below is
+    # REDUNDANT given the pinning; kept for documentation, verified
+    # empirically in n8_enumerate_lexmin.py (168 models either way;
+    # the full ICP ablation there: drop both -> 306 models, lex-min
+    # unchanged).
     for y in Cblk: S.add(T[6][y] == 1)
     for y in Nblk: S.add(T[6][y] == 0)
     for x in core:

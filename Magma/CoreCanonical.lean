@@ -37,11 +37,13 @@ the hypotheses at `z₁=0, z₂=1, s=2, r=3, γ=4`, by `decide`.
 
 Together with the census (`CanonicityCensus.lean`,
 `scripts/canonicality/`): the frame is a genus (1,272,715 orbits);
-hygiene and judge-closure narrow it to 18; and the statement "the
-classifier side is the quoted image of the operator side, judging
-quotation itself" — self-location, intrinsically — selects the
-artifact uniquely. The lex-min tie-break is retired: the canonical
-table is a theorem, not a convention.
+the quote involution narrows it to 213,872, ICP (the complementary
+introspector — A4 below, assumed here too) to 6,682, and
+judge-closure to 18; and the statement "the classifier side is the
+quoted image of the operator side, judging quotation itself" —
+self-location, intrinsically — selects the artifact uniquely. The
+lex-min tie-break is retired: the canonical table is a theorem, not
+a convention.
 -/
 
 set_option autoImplicit false

@@ -57,9 +57,21 @@ Reading: the frame is a genus, not a species — canonicity does not
 live at the frame level.  The refinement funnel quantifies exactly
 the residue StackAForced.lean's docstring names qualitatively
 ("what remains chosen: the hygiene equations, judge-closure, and the
-lex-min tie-break"): hygiene cuts 1.27M orbits to 6,682, judge-closure
-to 18 (a free G-action — 18 x 36 = 648), and the lex-min tie-break
-selects the artifact among the 18.  The artifact is fully rigid
+lex-min tie-break"), with one arrow the qualitative list left
+implicit: the quote involution (hygiene) cuts 1.27M orbits to
+213,872; the COMPLEMENTARY INTROSPECTOR — which is the ICP law, since
+in the swap world chi.s = 1 - chi for every block-swapper, so "some
+C-row = 1 - chi" is exactly "some element realizes data? . quote" —
+cuts 213,872 to 6,682; judge-closure cuts 6,682 to 18 (a free
+G-action — 18 x 36 = 648); and the lex-min tie-break selects the
+artifact among the 18.  ICP's arrow was previously folded into the
+"hygiene" label here (correction 2026-08-14).  Note the F2 stage is a
+WAYPOINT of F3, not an independent law: judge-closure at t = chi
+already forces a complement row (chi.s = 1 - chi must be a named
+judge), so F1 + judge-closure lands in F3 directly — verified UNSAT
+in n8_enumerate_lexmin.py, where the artifact-level ablation also
+shows the lex-min is unmoved without the row-6 labeling.
+The artifact is fully rigid
 (trivial stabilizer, trivial automorphism group): a distinguished,
 symmetry-free point selected from a small, fully-mapped moduli space
 by a named convention — found, and now located.

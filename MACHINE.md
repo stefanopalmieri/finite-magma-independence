@@ -52,7 +52,7 @@ hygiene + judge-closure + no-internal-dispatch; enumeration in `scripts/n8_free_
   4 [0, 0, 5, 7, 6, 2, 4, 3]   shift  (γ)  faithful hygiene operator
   5 [0, 0, 1, 1, 1, 0, 0, 0]   data?  (κ)  sort introspection
   6 [0, 0, 0, 0, 0, 1, 1, 1]   judge?      = data? ∘ quote  (the ICP)
-  7 [0, 0, 0, 0, 1, 0, 0, 1]   shift?      emergent recognizer of {shift, quote·shift}
+  7 [0, 0, 0, 0, 1, 0, 0, 1]   shift?      recognizer of {shift, quote·shift} (bought by judge-closure)
 ```
 
 Certified laws **[thm]**: retraction (eval∘quote = id on core, anchored),
@@ -83,10 +83,13 @@ automatic in both directions (`orbit_quote_closure`,
 size, the eval side, reversibility, even order, orbit closure.
 **Still chosen**: quote-commutation (the definition of hygienic),
 order = minimum (tie-break), orbit-realization + closure for judges
-outside the orbit (at N=8: the one free judge), shift's
-action-distinctness, **no-internal-dispatch** (¬W — dispatch is machine
-work, adopted 2026-08-01 when the W-probe showed lex-min was silently
-deciding it; the artifact is unchanged), and the lex-min tie-break.
+outside the orbit (at N=8: the one free judge) — note that
+orbit-realization at m = 1 **is the ICP law** `judge? = data? ∘ quote`,
+previously unlisted on either side of this ledger (see the ICP status
+note below), shift's action-distinctness, **no-internal-dispatch**
+(¬W — dispatch is machine work, adopted 2026-08-01 when the W-probe
+showed lex-min was silently deciding it; the artifact is unchanged),
+and the lex-min tie-break.
 
 Also certified: no element of any swap-world magma realizes quote²
 (block-preserving, hence expressible by no row) **[sat]** — derived actions
@@ -105,6 +108,33 @@ practice — Janota et al., *SAT-Based Techniques for Lexicographically
 Smallest Finite Models*, AAAI 2024, compute exactly this normal form
 for magmas, there as an isomorphism invariant, here as a tie-break
 over the already-pinned 168-model law-set space.)
+
+**ICP status (2026-08-14, ablation + consumption lemmas)**: the ICP
+*property* is **derived** — judge-closure at t = `data?` forces some
+judge row to equal `data? ∘ quote` (= the complement of χ) in every
+model of the law set, verified UNSAT in `n8_enumerate_lexmin.py`. What
+is chosen is only the **labeling convention** that the complement lives
+at element 6 (the row-6 pinning); dropping that grows the 168-model
+space to 306 relabelings with the lex-min bit-identical to rawA8 and
+the property intact in all of them. (The ledger entry
+"orbit-realization at m = 1" is thus subsumed by judge-closure over the
+full judge block; the genuinely chosen residue of that entry is closure
+for the judge *outside* χ's orbit.) The explicit composition equation
+in the enumeration scripts is redundant against the row-6 complement
+pinning (168 models either way). By the same ablation, **judge-closure
+is the load-bearing law for row 7**: dropping it moves the lex-min
+(shift? loses its recognizer content), so the "emergent" recognizer is
+emergent from lex-min *within* the closure law, not from the laws
+without it. Where ICP is genuinely consumed is the **metacircular
+interpreter, not the artifact derivation**: META's atom case is a
+three-probe program spending D at probe 1 (`data?`), C at probe 2
+(`judge?` — the unique row separating the code block from the
+absorbers, correct exactly because `judge? = data? ∘ quote`), and S at
+the payoff (`eval`, correct by the retraction law). Certified in
+`Magma/KernelConsumption.lean` (`meval_atom_runs_leafSpec`, with the
+witness classifications showing every ICP realization in the kernel
+*is* the homoiconicity law); ablations committed in
+`n8_enumerate_lexmin.py`.
 
 ## 3. Why the sequent-machine family (System L / λ̄μμ̃)
 
@@ -314,6 +344,9 @@ equivalence, not for I/O to work.
   position-swapping duality; 25/25 σ̂-commutation checks). Built over the
   archived N=9 substrate (`scripts/n9-archive/`); port it to `dotA8`.
 - `Magma/ArtifactN8.lean` — the canonical artifact and its 16 certified laws
+- `Magma/KernelConsumption.lean` — META's atom case spends S, D, C, one law each;
+  ICP consumed at probe 2 (the bridge from `artifactA8_icp_through_quote` to
+  `meval_atom`)
 - `Magma/Homoiconic.lean` — introspection determines the quotation law; N=6 kernel
 - `Magma/Sorting.lean` — sorting, involution theorem, four class-tables, swap balance
 - `Magma/CompletenessWall.lean` — K-infinity + completeness wall + finite flip wall (the three walls)

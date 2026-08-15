@@ -23,6 +23,30 @@ committed, uncapped derivation:
 Roles pinned WLOG (the symmetry-breaking): 0,1 halt; 2 quote; 3 eval;
 4 shift; 5 data?; 6 judge?; 7 free judge. "Lexicographically minimal"
 is relative to this role labeling and row-major cell order.
+
+ICP ablation (2026-08-14): the run below also records the selective
+status of the ICP law, in the style of the ¬W and eval-commutation
+records:
+  - the ICP *equation* (judge? = data? . quote) is empirically
+    redundant given the row-6 complement pinning: dropping it leaves
+    168 models;
+  - dropping the row-6 laws entirely (pinning + equation; row 6 then
+    constrained only by the swap world, extensionality, judge-closure
+    and ¬W) grows the space to 306 models with the lex-min artifact
+    UNCHANGED. Moreover the ICP *property* still holds in every one
+    of the 306: judge-closure at t = kappa forces some judge row to
+    equal kappa . quote = 1 - chi (verified UNSAT below). So within
+    the adopted law set ICP is a THEOREM of judge-closure + frame;
+    the row-6 laws only add the labeling convention "the complement
+    lives at element 6". The 306 vs 168 delta is bookkeeping, not
+    capability;
+  - judge-closure is the load-bearing law twice over: it implies the
+    ICP property, and dropping it grows the space to 1860 and moves
+    the lex-min at row 7 (shift? becomes [0,0,0,0,0,0,0,1] — the
+    recognizer content of the free judge is bought by judge-closure,
+    not emergent from lex-min).
+Where ICP *is* consumed is the metacircular interpreter, not the
+artifact derivation: Magma/KernelConsumption.lean.
 """
 import itertools
 import z3
@@ -43,7 +67,8 @@ RAW_A8 = [
 ]
 
 
-def law_set(eval_comm=True, no_dispatch=True):
+def law_set(eval_comm=True, no_dispatch=True, icp_pin=True, icp_eq=True,
+            closure=True):
     T = [[z3.Int(f"t{i}_{j}") for j in range(n)] for i in range(n)]
     S = z3.Solver()
     for i in range(n):
@@ -67,15 +92,23 @@ def law_set(eval_comm=True, no_dispatch=True):
         S.add(T[5][y] == 0)
     for y in Nblk:
         S.add(T[5][y] == 1)
-    # judge? = 6: complement row on the core, and the ICP law
-    # judge? = data? . quote
-    for y in Cblk:
-        S.add(T[6][y] == 1)
-    for y in Nblk:
-        S.add(T[6][y] == 0)
-    for x in core:
-        for v in core:
-            S.add(z3.Implies(T[2][x] == v, T[6][x] == T[5][v]))
+    # judge? = 6: complement row on the core (this IS the ICP law:
+    # in the swap world with kappa pinned, the complement row equals
+    # data? . quote pointwise)
+    if icp_pin:
+        for y in Cblk:
+            S.add(T[6][y] == 1)
+        for y in Nblk:
+            S.add(T[6][y] == 0)
+    # The explicit composition equation judge? = data? . quote is
+    # REDUNDANT given the pinning above (swap world + kappa pinning
+    # already force T[5][T[2][x]] to be the complement of the sort
+    # indicator); kept behind its own switch so the run below can
+    # verify the redundancy empirically (168 models either way).
+    if icp_eq:
+        for x in core:
+            for v in core:
+                S.add(z3.Implies(T[2][x] == v, T[6][x] == T[5][v]))
     # mutual anchored retraction (quote = 2, eval = 3)
     for x in core:
         for v in core:
@@ -109,15 +142,17 @@ def law_set(eval_comm=True, no_dispatch=True):
     S.add(z3.Or([T[4][x] != T[2][x] for x in core]))
     S.add(z3.Or([T[4][x] != T[3][x] for x in core]))
     # judge-closure: for every judge t, t . quote is a named judge
-    for t in Cblk:
-        opts = []
-        for t2 in Cblk:
-            conj = []
-            for x in core:
-                for v in core:
-                    conj.append(z3.Implies(T[2][x] == v, T[t2][x] == T[t][v]))
-            opts.append(z3.And(conj))
-        S.add(z3.Or(opts))
+    if closure:
+        for t in Cblk:
+            opts = []
+            for t2 in Cblk:
+                conj = []
+                for x in core:
+                    for v in core:
+                        conj.append(
+                            z3.Implies(T[2][x] == v, T[t2][x] == T[t][v]))
+                opts.append(z3.And(conj))
+            S.add(z3.Or(opts))
     if no_dispatch:
         # The no-internal-dispatch law (adopted 2026-08-01 after the
         # W-probe, scripts/canonicality/probe_dispatch.py): no core row
@@ -145,8 +180,8 @@ def law_set(eval_comm=True, no_dispatch=True):
     return S, T
 
 
-def enumerate_core_tables(eval_comm=True, no_dispatch=True):
-    S, T = law_set(eval_comm, no_dispatch)
+def enumerate_core_tables(**kw):
+    S, T = law_set(**kw)
     count = 0
     while S.check() == z3.sat:
         m = S.model()
@@ -156,8 +191,8 @@ def enumerate_core_tables(eval_comm=True, no_dispatch=True):
     return count
 
 
-def lex_min_table():
-    S, T = law_set()
+def lex_min_table(**kw):
+    S, T = law_set(**kw)
     fixed = []
     for i in range(n):
         row = []
@@ -199,3 +234,41 @@ if __name__ == "__main__":
     assert count2 == 168, (
         f"eval-commutation law is NOT redundant: {count2} != 168")
     print("REDUNDANT: eval-commutation adds no constraint, as proved")
+    # ICP ablation (2026-08-14). First: the explicit composition
+    # equation is redundant given the row-6 complement pinning.
+    count3 = enumerate_core_tables(icp_eq=False)
+    print(f"without the ICP equation (pinning kept): {count3} core tables")
+    assert count3 == 168, (
+        f"ICP equation is NOT redundant given the pinning: {count3} != 168")
+    print("REDUNDANT: the ICP equation adds no constraint over the pinning")
+    # Second: dropping ICP entirely grows the space but leaves the
+    # lex-min artifact bit-identical — ICP is chosen, and inert for
+    # the artifact (it holds emergently: artifactA8_icp_through_quote).
+    count4 = enumerate_core_tables(icp_pin=False, icp_eq=False)
+    print(f"without ICP entirely (row 6 free): {count4} core tables")
+    assert count4 == 306, f"expected 306 ICP-free core tables, got {count4}"
+    tbl4 = lex_min_table(icp_pin=False, icp_eq=False)
+    assert tbl4 == RAW_A8, "ICP-free lex-min table does not match rawA8!"
+    print("INERT: ICP-free lex-min table = rawA8 — the artifact is unmoved")
+    # ...and the ICP property survives in all 306: judge-closure at
+    # t = kappa forces a complement row. UNSAT = no counterexample.
+    S4, T4 = law_set(icp_pin=False, icp_eq=False)
+    S4.add(z3.Not(z3.Or(*[
+        z3.And(*[T4[r][x] == (0 if x in Nblk else 1) for x in core])
+        for r in (6, 7)])))
+    assert S4.check() == z3.unsat, (
+        "found a pinning-free model with NO complement row — "
+        "judge-closure does NOT imply ICP?!")
+    print("DERIVED: every pinning-free model still carries the complement "
+          "row — ICP is a consequence of judge-closure + frame")
+    # Third: judge-closure IS load-bearing for the artifact — dropping
+    # it moves the lex-min at row 7 (the free judge loses its shift?
+    # recognizer content). The 'emergent' recognizer is bought by
+    # judge-closure, not by the tie-break.
+    count5 = enumerate_core_tables(closure=False)
+    print(f"without judge-closure: {count5} core tables")
+    assert count5 == 1860, f"expected 1860 closure-free core tables, got {count5}"
+    tbl5 = lex_min_table(closure=False)
+    assert tbl5[:7] == RAW_A8[:7] and tbl5[7] == [0, 0, 0, 0, 0, 0, 0, 1], (
+        f"closure-free lex-min changed unexpectedly: {tbl5}")
+    print("LOAD-BEARING: without judge-closure the lex-min moves at row 7")

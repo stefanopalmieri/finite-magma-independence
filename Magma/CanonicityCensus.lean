@@ -14,8 +14,12 @@ census_frame_n8.py`), promoted to theorems:
   rigid.
 * **`selfloc_unique`** (with `selfloc_attained`) — **the canonicity
   theorem at the core block**: every member of the hygienic,
-  judge-closed frame family satisfying *self-location* is
-  `S₃ × S₃`-conjugate to the artifact's core block. Self-location is
+  ICP-carrying, judge-closed frame family satisfying *self-location*
+  is `S₃ × S₃`-conjugate to the artifact's core block. (ICP enters as
+  the complementary introspector: `cArr` below assigns χ's complement
+  — which in the swap world *is* `data? ∘ quote` — as one of the
+  three classifier rows. The census funnel's own arrow for it is
+  213,872 → 6,682 orbits; see `census_frame_n8.py`.) Self-location is
   the placement principle the census discovered to be the exact
   separator of the artifact's orbit among the eighteen: the judge
   row is held by the classifier member of the very cycle it judges,
