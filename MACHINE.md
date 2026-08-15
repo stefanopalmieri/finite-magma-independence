@@ -398,15 +398,22 @@ forms at any stratum; err-tag is a cell convention, so the size
 escalation criterion (§9.2) is not triggered. Three strata, cheapest
 first:
 
-1. **Host trace + strict mode** (Rust only, zero certification cost):
-   widen the funnel to `err(kind, culprit, k)` and collect an error
-   log (kind, culprit, step index) beside the store in the driver
-   loop. Value and store unchanged — difftest and every theorem
-   untouched. Buys real REPL diagnostics and a **strict mode** flag:
-   nonempty log ⇒ report reject regardless of the in-band value. This
+1. **Host trace + strict mode** (Rust only, zero certification cost)
+   — **IMPLEMENTED 2026-08-15** (kamea-machine repo): the funnel is
+   `err(kind, culprit, k, log, idx)`; `ErrKind`/`ErrEvent`/`ErrLog`
+   with `step_traced`/`loop_run_traced`/`run_traced` (untraced
+   entries kept as wrappers — callers and behavior untouched;
+   `no_std`-clean incl. riscv32imac). Value and store bit-identical —
+   difftest and every theorem untouched. The REPL prints real
+   diagnostics (`error: car of non-pair: tt (step 2) — result
+   defaulted in-band`) and `:strict [on|off]` rejects any form whose
+   run took an error transition (`rejected (strict): …`). This
    mechanizes the layered-deny fix *completely* — the host sees every
    error transition, so nothing slips through (surface wrappers
-   can't promise that).
+   can't promise that). A seventh fail-open site was found and traced
+   during implementation: driver-level `eval` of a non-code value
+   (in-band elem 0 in `evalD`) — `kamea-driver::eval_traced`,
+   `ErrKind::EvalNonCode`.
 2. **Surface condition system** (prelude + expander): a `*handler*`
    store cell holding a continuation; toplevel wrapper installs the
    root continuation as root handler; `(raise kind culprit)` captures
