@@ -138,6 +138,9 @@ import Magma.AdequacyControl
 -- Adequacy campaign, rung 7: the top theorem — the campaign closes
 import Magma.AdequacyTop
 
+-- The consumption lemmas: META's atom case spends S, D, C — one law each
+import Magma.KernelConsumption
+
 -- The canonicity census, certified: full rigidity + self-location uniqueness
 import Magma.CanonicityCensus
 
