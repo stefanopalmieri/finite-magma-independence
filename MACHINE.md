@@ -450,13 +450,33 @@ first:
    reference toplevel globals, outside META v1's closed-program
    adequacy domain (the eval-boundary abort IS verified); revisit
    with the request protocol / META v2.
-3. **Certified error requests** (optional Lean rung): the six
-   transitions terminate with the error cell itself instead of
-   `ret (elem 0) k` — errors become observable terminal requests
-   with the restart continuation in the payload. Touches every
-   error-case theorem, the difftest, and META's error paths in
-   adequacy; needed only for theorems *about* error behavior, not for
-   errors to work. Same certification boundary as I/O.
+3. **Certified error requests** (the Lean rung) — **IMPLEMENTED
+   2026-08-15** (`Magma/ErrorRequests.lean`, 17 theorems), and the
+   implementation *refined the design*: the original sketch ("the six
+   transitions terminate with the error cell instead of
+   `ret (elem 0) k`") would have mutated `step` and broken META's
+   proven error-arm agreement — the whole adequacy tower re-proved.
+   The implemented rung instead certifies the reading at zero
+   disturbance: `step` untouched, no existing theorem re-elaborated
+   (build: one new 3.4 s module). Contents: `stepE`, the request
+   semantics — verbatim `step` except the six error arms are terminal
+   `Request`s (kind, culprit, store, continuation-at-error = the
+   restart payload); **`step_factorizes`** — the certified machine IS
+   `stepE` composed with the resume-with-accept policy (`resume0`),
+   so the fail-open default is one policy choice, not the semantics
+   (`resume` at other values = stratum 2's restarts); `loopT` +
+   `loopT_fst` — the traced loop erases to the certified loop (the
+   theorem form of stratum 1's bit-identical claim); `loopE` +
+   **`strict_iff`** — the strict machine accepts a value iff the
+   certified run computes it with an empty error log (deny-on-any-
+   error sound AND complete — the untrusted-eval niche's verdict
+   theorem, closing the "error polarity unobservable" item);
+   `strict_total` — every terminating run gets a verdict;
+   `loopE_request` — a denied run's certified value is exactly the
+   run continued from resume-with-accept of the reported request;
+   six per-arm characterizations + `evalD_non_code` (the seventh
+   site). Needed only for theorems *about* error behavior — and now
+   they exist.
 
 ## 11. File pointers
 
@@ -466,6 +486,9 @@ first:
   position-swapping duality; 25/25 σ̂-commutation checks). Built over the
   archived N=9 substrate (`scripts/n9-archive/`); port it to `dotA8`.
 - `Magma/ArtifactN8.lean` — the canonical artifact and its 16 certified laws
+- `Magma/ErrorRequests.lean` — errors as requests (stratum 3 of §10): the
+  factorization theorem, erasure of the traced loop, strict-mode
+  soundness/completeness
 - `Magma/KernelConsumption.lean` — META's atom case spends S, D, C, one law each;
   ICP consumed at probe 2 (the bridge from `artifactA8_icp_through_quote` to
   `meval_atom`)

@@ -87,6 +87,9 @@ import Magma.FactorizationStore
 import Magma.FactorizationData
 import Magma.FactorizationEqv
 
+-- Errors as requests: the certified error-payload rung (stratum 3 of MACHINE.md §10)
+import Magma.ErrorRequests
+
 -- Supplementary: reference runner for differential testing against the Rust host
 import Magma.KameaRef
 
