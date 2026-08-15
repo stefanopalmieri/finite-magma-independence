@@ -121,7 +121,12 @@ the property intact in all of them. (The ledger entry
 full judge block; the genuinely chosen residue of that entry is closure
 for the judge *outside* χ's orbit.) The explicit composition equation
 in the enumeration scripts is redundant against the row-6 complement
-pinning (168 models either way). By the same ablation, **judge-closure
+pinning (168 models either way). In the **intrinsic** presentation
+(`CoreCanonical.lean`), by contrast, ICP must be postulated: it is
+axiom A4, one of exactly three irreducible recognition axioms, each
+precisely the six free bits of one classifier row — dropping any one
+opens a 2⁶ moduli space (`scripts/canonicality/probe_a4.py`). Needed
+intrinsically, derived under closure: two presentations, one law. By the same ablation, **judge-closure
 is the load-bearing law for row 7**: dropping it moves the lex-min
 (shift? loses its recognizer content), so the "emergent" recognizer is
 emergent from lex-min *within* the closure law, not from the laws

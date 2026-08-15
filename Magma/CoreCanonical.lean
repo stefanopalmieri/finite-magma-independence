@@ -44,6 +44,19 @@ quoted image of the operator side, judging quotation itself" —
 self-location, intrinsically — selects the artifact uniquely. The
 lex-min tie-break is retired: the canonical table is a theorem, not
 a convention.
+
+Axiom pricing (2026-08-14, `scripts/canonicality/probe_a4.py`): the
+three recognition axioms A1/A3/A4 are individually irreducible —
+dropping any one (keeping its two-valuedness half) opens exactly a
+`2^6` moduli space: each axiom is precisely the six free bits of its
+classifier's core row, and the remaining 30 core cells are forced by
+H1+H2+H3+A2 alone. The probe also re-derives this theorem's
+conclusion independently: under the full system the core block is
+unique and equals `dotA8`'s. So the ICP (A4) is needed *here*, as
+one of exactly three row-specification axioms — while in the
+law-set presentation it is derived (judge-closure at `t = data?`
+forces the complement row; `n8_enumerate_lexmin.py`). Two
+presentations, one law.
 -/
 
 set_option autoImplicit false
