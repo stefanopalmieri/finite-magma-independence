@@ -144,6 +144,12 @@ import Magma.KernelConsumption
 -- The parity grading: instructions are odd (level-crossing); no internal no-op
 import Magma.ParityN8
 
+-- The data walls, abstract: no internal pairing (pigeonhole), no internal recognizer
+import Magma.DataWalls
+
+-- The swap world at every even size: the N=6 witness becomes a uniform family
+import Magma.SwapWorldAllN
+
 -- The canonicity census, certified: full rigidity + self-location uniqueness
 import Magma.CanonicityCensus
 

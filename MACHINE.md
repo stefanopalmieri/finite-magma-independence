@@ -19,10 +19,14 @@ re-litigated. Everything marked **[thm]** is Lean-verified in this repository
   lives in an external driver loop over growing state ("the tape"). The table
   is the ALU; each machine step is one Cayley lookup.
 - **Data structure is tape-only.** No magma with |core| ≥ 2 has faithful
-  internal curried pairing with both projections (pairing wall, pigeonhole;
-  UNSAT-confirmed at N=8 **[sat]**), and a faithful constructor cannot have a
-  non-trivial internal recognizer of its image (recognizer wall: injective ⇒
-  surjective on a finite core **[sat]**). Hence pairs, vectors, strings,
+  internal curried pairing with both projections (pairing wall
+  **[thm]** — `Magma/DataWalls.lean` `pairing_wall`, pure pigeonhole
+  for |core| ≥ 3; the |core| = 2 edge, where counting is silent, is
+  UNSAT by exhaustion, `scripts/pairing_wall_c2.py`), and a faithful
+  constructor cannot have a non-trivial internal recognizer of its
+  image (recognizer wall **[thm]** — `recognizer_wall_trivial`:
+  injective ⇒ surjective on a finite core, so the recognizer accepts
+  everything; finiteness alone, no absorber laws needed). Hence pairs, vectors, strings,
   numbers, environments, continuations, and their type predicates (`pair?`
   etc.) are tape representations + tags. This is why `cons` can be both
   faithful and recognizable in a real Lisp: recognition inspects the heap,
@@ -307,9 +311,15 @@ winding marks, environment representation, tag encodings, GC.
    specific desired law returns UNSAT at 8 (candidate: a certified
    abort/continuation pair, if the exception path should be table-level).
    So far nothing requires it.
-3. Optional Lean debt: recognizer wall and pairing wall as abstract theorems
-   (currently SAT + hand proof); swap world at all even N (currently N=6
-   witness + evenness necessity).
+3. ~~Optional Lean debt~~ **PAID (2026-08-15)**: recognizer wall and
+   pairing wall are abstract theorems (`Magma/DataWalls.lean` —
+   finiteness-only recognizer wall; pigeonhole pairing wall for
+   |core| ≥ 3 with the |core| = 2 edge UNSAT by exhaustion,
+   `scripts/pairing_wall_c2.py`); the swap world exists at every even
+   size as a uniform S+D+C family (`Magma/SwapWorldAllN.lean`,
+   `swap_world_all_even` — swap6 is the m = 2 instance; judge m+3 =
+   χ ∘ swap gives the family its ICP, mirroring `judge? = data? ∘
+   quote`).
 
 ## 10. I/O without atoms (design note, 2026-07-24)
 

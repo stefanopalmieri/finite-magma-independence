@@ -1183,7 +1183,7 @@ Each of the four class-actions $f : \{C, N\} \to \{C, N\}$ is realized by a sort
 
 \begin{theorem}[Swap balance]
 \label{thm:swap-balance}
-In the class-swapping world, a retraction pair forces $|C| = |N|$: the section injects each class into the other, and injectivity in both directions balances the counts (\texttt{swap\_balance}; only the one-sided retraction equation is used). Under D the two classes partition the core, so the core has even size (\texttt{swap\_even\_core}). Consequently, within S+D+C the swap world can exist only at even $N \geq 6$, and \texttt{swap6} realizes its minimum; at every odd size the sorted S+D+C landscape is confined to the class-preserving world.
+In the class-swapping world, a retraction pair forces $|C| = |N|$: the section injects each class into the other, and injectivity in both directions balances the counts (\texttt{swap\_balance}; only the one-sided retraction equation is used). Under D the two classes partition the core, so the core has even size (\texttt{swap\_even\_core}). The bound is exact in both directions: a uniform family realizes the swap world with the full S+D+C stack at \emph{every} even size --- for each $m \geq 2$, a sorted class-swapping magma on $2m+2$ elements whose $m$ operators all act as the block-swap involution, with the introspector $\chi$ and its complement among the judges supplying the ICP triple ($\chi \circ \mathrm{swap}$ is the complement, exactly as $\texttt{judge?} = \texttt{data?} \circ \texttt{quote}$ in the canonical model) --- proved uniformly in $m$, no \texttt{decide} (\texttt{swap\_world\_all\_even}, \texttt{SwapWorldAllN.lean}). \texttt{swap6} is the $m\!=\!2$ instance; at every odd size the sorted S+D+C landscape is confined to the class-preserving world.
 \end{theorem}
 
 The two S-compatible worlds are then fully separated by size:
@@ -1236,11 +1236,22 @@ $\{\texttt{shift}, \texttt{quote} \dotop \texttt{shift}\}$ --- bought
 by judge-closure, not by the tie-break: the ablation record shows
 dropping that law moves this row; and quotation is an involution.
 
-Two further impossibility observations shape the model's architecture:
-a faithful constructor cannot have a non-trivial internal recognizer of
-its image (injectivity forces surjectivity on a finite core), and no
+Two further impossibility theorems shape the model's architecture,
+both uniform in the carrier size (\texttt{DataWalls.lean}): a faithful
+core-preserving constructor cannot have a non-trivial internal
+recognizer of its image --- injectivity forces surjectivity on a
+finite core, so the recognizer accepts everything
+(\texttt{recognizer\_wall\_trivial}; finiteness alone) --- and no
+magma on a 2-pointed carrier with three or more core elements has
+internal curried pairing with both projections
+(\texttt{pairing\_wall}: the pair map is injective off the absorbers,
+so $(n-2)^2 \leq n$, pure pigeonhole; the two-core-element edge,
+where counting is silent, is settled UNSAT by exhaustion,
+\texttt{scripts/pairing\_wall\_c2.py}). A third: no
 element of any swap-world magma can realize $\texttt{quote}^2$
-(block-preserving, hence expressible by no row) --- so data structure
+(block-preserving, hence expressible by no row; at $N\!=\!8$ this is
+the parity grading of \texttt{ParityN8.lean} --- there is no internal
+no-op) --- so data structure
 and derived actions necessarily live outside the algebra, in the
 external driver that K-infinity (Theorem~\ref{thm:k-infinity}) already
 requires.

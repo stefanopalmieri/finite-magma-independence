@@ -247,8 +247,9 @@ we need three of those impossibility results, stated informally:
 Together the walls force a two-level architecture --- table as
 microcode, driver as machine --- and the rest of this pearl lives at
 the driver level. Two further walls (no faithful internal pairing; no
-internal recognizer of a faithful constructor) will place pairs and
-type predicates when we reach \S\ref{sec:data}. In slogan form: Lisp
+internal recognizer of a faithful constructor --- both theorems
+uniform in the carrier size, \textsf{DataWalls.lean}) will place
+pairs and type predicates when we reach \S\ref{sec:data}. In slogan form: Lisp
 is what universality looks like from inside a system that can judge
 itself. Quotation survives the walls; $S$ and $K$ do not; and the
 ladder that follows is an account of everything that must, therefore,
@@ -491,8 +492,12 @@ The final rung adds structured data --- \textsf{cons},
 \textsf{car}, \textsf{cdr}, the recognizer \textsf{pair?}, and the
 conditional \textsf{if} --- and every piece lands where the walls
 said it must. \textsf{cons} builds heap cells (the pairing wall
-forbids faithful pairing inside the table); \textsf{pair?} reads
-heap structure, never instruction identity (the recognizer wall);
+forbids faithful pairing inside the table: the pair map would inject
+$\mathrm{core}^2$ into the carrier, \textsf{pairing\_wall});
+\textsf{pair?} reads heap structure, never instruction identity (the
+recognizer wall: an injective constructor's image on a finite core is
+the whole core, so an internal recognizer would accept everything,
+\textsf{recognizer\_wall\_trivial});
 \textsf{if} is a machine form (branching is not a table capability),
 with the reject absorber as the only false value. With this rung the
 tag space closes with pleasing exactness: the six non-absorber

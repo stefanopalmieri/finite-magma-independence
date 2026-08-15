@@ -9,7 +9,7 @@ Three algebraic properties of finite extensional 2-pointed magmas — internal s
 ## Building
 
 ```bash
-lake build          # builds all 57 files, verifies ~734 theorems, zero sorry
+lake build          # builds all 59 files, verifies ~773 theorems, zero sorry
 ```
 
 Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefile.lean`).
@@ -35,6 +35,8 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | WitnessAllN | 25 | Algebraic | S+D+C at every N ≥ 5 |
 | **IndependenceAllN** | 36 | Algebraic | **All six non-implications and all 8 cube cells at every size** |
 | **CompletenessWall** | 10 | Algebraic | **K-infinity; combinatorial completeness excludes D (any cardinality); the finite flip wall: two absorbers alone exclude column-naming finitely** |
+| **DataWalls** | 3 | Algebraic | **The data walls, abstract: the recognizer wall (a faithful core-preserving constructor is surjective on a finite core, so any internal recognizer of its image is trivial — finiteness alone) and the pairing wall (internal curried pairing with both projections forces (n−2)² ≤ n — impossible for n ≥ 5, pure pigeonhole; the c = 2 edge settled UNSAT by scripts/pairing_wall_c2.py)** |
+| **SwapWorldAllN** | 36 | Algebraic | **The swap world at every even size: a uniform S+D+C family on 2m+2 elements for every m ≥ 2 — operators = the block-swap involution, judge m+2 = χ, judge m+3 = its complement (= χ ∘ swap: the ICP triple), indicator judges after; sorted, class-swapping, anchored mutual retraction, dichotomy. swap6 becomes the m = 2 instance; with swap_even_core the size spectrum is closed** |
 | **Sorting** | 28 | Alg.+decide | **Sorted magmas (the first connecting axiom): involution, four class-tables, balance, preserving world at every N** |
 | **Homoiconic** | 14 | Alg.+decide | **Introspection fixes the quotation law; the canonical N=6 Lisp kernel** |
 | **ArtifactN8** | 16 | decide | **The canonical N=8 artifact: kernel + hygienic shift, lex-min of a 168-table space (law set incl. no-internal-dispatch)** |
@@ -75,7 +77,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **ParityN8** | 7 | decide | **The parity grading of the core actions: quote/eval share one action, the closure of the realized actions is Klein-four, and neither even element is a row — no internal no-op (the quote²-exclusion as a kernel theorem at N=8), the cycle-swap driver-side at cost exactly two; shift = quote twisted by the cycle-swap. Diagram: docs/parity-grading.png** |
 | **CanonicityCensus** | 3 | native | **The canonicity census, certified: Aut(A8) = 1 (full rigidity — MirrorRow's ≤ 2 sharpened, all 40,320 permutations decided), and the canonicity theorem at the core block: every self-locating member of the hygienic judge-closed frame family (648 configurations) is conjugate to the artifact — self-location (the judge row on the cycle it judges, γ in its own target, the introspector on the untouched cycle) is the exact separator the census discovered among the 18 orbits** |
 | **CoreCanonical** | 2 | Algebraic+decide | **The bridge, formalized — the direct canonicity theorem with no enumeration: ANY magma carrying a hygienic self-locating reflective kernel (retraction, quote involution and core-valuedness, and the intrinsic self-location axioms — the three classifiers are the quotations of the three operators: ⌜quote⌝ recognizes exactly the operators, ⌜shift⌝ recognizes exactly shift and itself, ⌜eval⌝ complements ⌜quote⌝, shift exchanges eval's cycle with its own and fixes quote's) is core-isomorphic to the artifact. All 36 core cells derived structurally; the eight elements proven pairwise distinct; sharpness by decide. The lex-min tie-break is retired: the canonical table is a theorem, not a convention** |
-| **Total** | **734** | | |
+| **Total** | **773** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 
