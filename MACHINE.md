@@ -414,22 +414,42 @@ first:
    during implementation: driver-level `eval` of a non-code value
    (in-band elem 0 in `evalD`) — `kamea-driver::eval_traced`,
    `ErrKind::EvalNonCode`.
-2. **Surface condition system** (prelude + expander): a `*handler*`
-   store cell holding a continuation; toplevel wrapper installs the
-   root continuation as root handler; `(raise kind culprit)` captures
-   its own resume continuation via callcc and throws
-   `(cons err-tag (cons (cons kind (cons culprit resume)) …))` to the
-   current handler — unhandled errors surface as the program's result
-   cell, and handlers can *restart* by invoking the carried
-   continuation. `(with-handler h body)` = save/set/restore on the
-   cell. `pair?` is core, so car/cdr get checked expansions that raise
-   before the machine default fires. Payload = ordinary data: kind
-   numerals with prelude names (`err:car`, …), culprit raw. Forgery is
-   a non-issue: building an error cell *is* raising. Honest boundary:
+2. **Surface condition system** (prelude + expander) — **IMPLEMENTED
+   2026-08-15** (kamea-machine repo), zero new core forms: a
+   `*handler*` store cell; `(raise kind culprit)` captures its own
+   resume continuation (binder-form callcc) and applies the current
+   handler to `(cons *err-tag* (cons kind (cons culprit resume)))`;
+   `(with-handler h body)` (syntax-rules, hygiene via the expander's
+   freshening) with proper condition-system discipline — the handler
+   runs with the *outer* handler current (raises inside handlers go
+   outward, no self-loop) and resuming re-arms the handler
+   (`err-rearm` rebuilds the cell wrapping its resume); restarts
+   verified (two raises in one body both resumed). Every toplevel
+   form is compiled under a root wrapper `(callcc <root> (begin
+   (set-ref! *handler* <root>) e))`, so an unhandled raise surfaces
+   as the form's result cell, which the Session reports (`unhandled
+   raise: err:car: shf`) — a define's RHS raise aborts the define.
+   Implementation findings that refined the design: (a) error kinds
+   and `*err-tag*` are **locations**, not numerals — numerals are
+   cells and cells are never `eqv?`-identical, while locations are
+   nominal tokens minted by `ref` on the store rung with `eqv?` =
+   store-index identity (dispatch: `(eqv? (err-kind e) err:car)`);
+   (b) checked projections are named forms `car!`/`cdr!`, not
+   rewrites of car/cdr — macros expand inside quote here, so an
+   expander rewrite would pollute quotations; (c) stale roots are
+   harmless: every root continuation's kont is just Halt
+   (continuations don't capture the store), so a raise in a run whose
+   root was installed by an *earlier* run — e.g. inside eval'd quoted
+   code — still aborts the current run with the cell (verified);
+   (d) the toplevel convention: any error cell reaching the driver is
+   an unhandled raise, whoever built or returned it. Forgery is a
+   non-issue: building an error cell *is* raising. Honest boundary:
    apply/deref/set-ref! misuse has no surface predicate
    (`procedure?`/`location?` don't exist) — stratum 1 covers those.
-   Expected bonus, same caveat as stratum 3 above: raises tunnel
-   through the META tower via absorbed callcc (verify with a test).
+   Tower tunneling of raise is NOT yet verified — `raise`/`car!`
+   reference toplevel globals, outside META v1's closed-program
+   adequacy domain (the eval-boundary abort IS verified); revisit
+   with the request protocol / META v2.
 3. **Certified error requests** (optional Lean rung): the six
    transitions terminate with the error cell itself instead of
    `ret (elem 0) k` — errors become observable terminal requests
