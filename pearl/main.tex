@@ -46,9 +46,11 @@ metacircular evaluator exhibits it --- but the law is always an axiom
 of the evaluator that satisfies it. We present a small Scheme
 dialect, WispyScheme, in which the metacircular law is a
 \emph{theorem}. Its quote and eval
-are underwritten by an eight-element algebra --- itself derived, by
-enumerating the models of a law set and taking the lexicographically
-minimal one --- whose certified retraction law becomes the base case
+are underwritten by an eight-element algebra --- itself a theorem:
+first extracted as the lexicographic minimum of an enumerated law
+set, and since characterized intrinsically as the unique table, up
+to relabeling, in which the classifiers are the quotations of the
+operators --- whose certified retraction law becomes the base case
 of the metacircularity proof. We then rebuild the evaluator five
 times: adding environments, closures and the fuel that
 $\beta$-reduction forces, first-class continuations, a mutable store,
@@ -62,7 +64,9 @@ and agree on every value. The development is mechanized in Lean~4
 propositional extensionality) and transliterated to a running Rust
 host that is differentially pinned to the mechanized semantics; on
 top of it, a hygienic-macro Lisp with a self-interpreting
-metacircular evaluator closes the loop the paper opens: a reflective
+metacircular evaluator --- since proved correct in Lean in the
+companion development, interpreter adequacy with the tower theorem
+at every height --- closes the loop the paper opens: a reflective
 tower whose ground is a theorem.
 \end{abstract}
 
@@ -137,7 +141,8 @@ over the last, carrying that theorem to a full CESK machine
 theorem --- every program's quotation is constructible by a program
 (\S\ref{sec:data}); and a running artifact in which the ladder's
 top is a self-interpreting Lisp whose adequacy is tested against the
-certified semantics (\S\S\ref{sec:lisp}--\ref{sec:tower}).
+certified semantics --- and, in the companion development, proved
+(\S\S\ref{sec:lisp}--\ref{sec:tower}).
 
 \section{A found object: the algebra with quote and eval inside it}
 \label{sec:table}
@@ -174,13 +179,26 @@ laws that matter for this paper, all kernel-checked in Lean, are:
 \item \emph{Introspection with forced negation}: element 5 answers in
   the halt channels and answers \emph{oppositely} on $x$ and
   $2 \cdot x$ --- the table can ask ``is this a quotation?''
+\item \emph{Composition through quotation}: $6 \cdot x = 5 \cdot
+  (2 \cdot x)$ on the six --- the second classifier is ``quote it,
+  then ask \textsf{data?},'' fused into one row: the code test as a
+  single instruction. (The metacircular evaluator of
+  \S\ref{sec:tower} spends exactly this law in its atom case.)
 \item \emph{Duality pairing}: $2 \cdot 2 = 5$, $2 \cdot 3 = 6$,
   $2 \cdot 4 = 7$ --- each operator's code is its judge.
 \end{itemize}
 
-The table is derived, not designed: the full law set admits exactly
-168 tables, of which this is the lexicographically minimal one,
-extracted by SAT enumeration and then certified in Lean. The
+The table is derived, not designed --- twice over. Historically: the
+full law set admits exactly 168 tables, of which this is the
+lexicographically minimal one, extracted by SAT enumeration and then
+certified in Lean. Since then the tie-break has been retired by a
+theorem: any table carrying a hygienic \emph{self-locating}
+reflective kernel --- the three classifiers are the quotations of
+the three operators, each recognizing what its operator's role
+demands --- is core-isomorphic to this one
+(\textsf{core\_canonical}), and the table has no symmetries at all
+(\textsf{autA8\_trivial}). What lex-min once chose, self-reference
+now characterizes; the convention survives only as a labeling. The
 companion repository holds that derivation together with the theory
 it sits in --- an independence result for the three reflective
 capabilities and a family of impossibility theorems
@@ -614,8 +632,20 @@ forwarders, and backpatching as object code --- reifying
 $\mathsf{meta}\;\ulcorner p \urcorner$ equals running $p$, as exact
 value equality on the pinned machine. This is
 $\mathsf{run}\,(E\,\ulcorner p\urcorner) = \mathsf{run}\,p$
-differentially; its theorem-shaped form (interpreter adequacy in
-Lean) is the natural sequel to this pearl, not part of it.
+differentially; its theorem-shaped form is the natural sequel to
+this pearl, and the sequel has since been carried out: interpreter
+adequacy is proved in the companion development --- a monotone fuel
+transformer under which \textsf{meta}'s run tracks the direct run,
+behavior transfer in both directions, every certified law lifting to
+interpreted code, and the tower theorem at every height. One piece
+of that proof belongs in this pearl's ledger: the evaluator's atom
+case is certified to spend exactly the three algebraic capabilities,
+one instruction each --- a \textsf{data?} probe, a \textsf{judge?}
+probe (the fused composite ``quote, then ask \textsf{data?}'' of
+\S\ref{sec:table} --- and provably the \emph{only} row that can
+separate codes from halts), and an \textsf{eval} payoff whose
+correctness is the retraction law
+(\textsf{KernelConsumption.lean}).
 
 \emph{The tower}: evaluate
 \begin{lstlisting}
@@ -665,12 +695,32 @@ core order (reversibility of renaming is free), that order is
 necessarily even in the swap world (so the involution law is the
 choice of the \emph{minimal} order --- a tie-break, not an axiom),
 and the introspector's realized quote-orbit is automatically closed
-under both quote and eval (\textsf{QuoteOrbit.lean}). What survives
-as genuine choice: that hygiene means commuting with quote (a
-definition), closure for judges outside the orbit, shift's
-distinctness, and two tie-breaks. The choices of world, of size, of
-the eval side, of reversibility, and of the order's parity were
-choices only until they were derived.
+under both quote and eval (\textsf{QuoteOrbit.lean}). Three
+additions since this section was first drafted, each a theorem where
+a choice had been standing. The composition law of \S\ref{sec:table}
+is \emph{derived}: asking closure of every judge already forces some
+row to be the complement --- ``quote, then ask \textsf{data?}''
+becomes an instruction whether or not one legislates it (the
+ablation record in the companion scripts). The canonical
+representative is \emph{characterized}: self-location --- the
+classifiers are the quotations of the operators --- picks this table
+uniquely up to relabeling (\textsf{core\_canonical}), retiring the
+lex-min tie-break to a naming convention; and in that intrinsic
+presentation the three recognition axioms are each irreducible,
+exactly the six free bits of one classifier row
+(\textsf{probe\_a4.py}). And the metacircular evaluator's base case
+is \emph{accounted}: it consumes the retraction, the introspection,
+and the composition law --- one instruction each, nothing else of
+the table (\textsf{KernelConsumption.lean}). What survives as
+genuine choice: that hygiene means commuting with quote (a
+definition), that dispatch is machine work (the
+no-internal-dispatch law, adopted when a probe showed the tie-break
+was silently deciding it), closure for judges outside the orbit
+(priced: dropping it costs the free judge its recognizer row),
+shift's distinctness, the order tie-break, and the labels. The
+choices of world, of size, of the eval side, of reversibility, of
+the order's parity, and of the representative itself were choices
+only until they were derived.
 
 \emph{Engineering, and labeled as such.} Which element tags which
 syntax class; the compound encodings and numerals; frame layouts;
@@ -763,17 +813,25 @@ companion amounts to is the Dedekind step: an intensional definition
 the practice never had. Tally the ledger of \S\ref{sec:honest} and
 what remains outside the theorems is exactly this: \emph{one wager}
 (a finite system that judges itself, carrying its own
-representations under a type discipline); \emph{three definitions}
+representations under a type discipline); \emph{four definitions}
 (what representation, quotation-observing introspection, and hygiene
-mean); \emph{two completeness demands} (the introspector's orbit is
-askable; the one judge outside it closes); and \emph{five
-conventions} for picking the canonical representative. Everything
-else --- the two-level architecture, the swap world, the size, the
-tags' necessity, the eval side, the parity of renaming, the
-metacircular law itself --- is a theorem. Scheme-nature is the class
-of models of that short list; the table of \S\ref{sec:table} is its
-least model; and the price list of every convention used to pick it
-is finite, named, and public.
+mean, and that dispatch is machine work); \emph{two completeness
+demands} (the introspector's orbit is askable; the one judge outside
+it closes --- one demand, when closure is asked of every judge
+uniformly); and \emph{the labels}. The conventions that once picked
+the canonical representative have been retired by a theorem:
+self-location --- the classifiers are the quotations of the
+operators, judging quotation itself --- characterizes the table
+uniquely up to relabeling, so what remains conventional is the
+naming and nothing else. Everything else --- the two-level
+architecture, the swap world, the size, the tags' necessity, the
+eval side, the parity of renaming, the representative, the
+metacircular law itself, and the fact that the self-interpreter's
+first act spends exactly the axioms and nothing more --- is a
+theorem. Scheme-nature is the class of models of that short list;
+the table of \S\ref{sec:table} is its model, unique up to naming;
+and the price list of what remains chosen is finite, named, public
+--- and shrinking.
 
 Two objections deserve their answers on the record. \emph{You
 distilled the axioms from Lisp, so of course Lisp came out}: the
