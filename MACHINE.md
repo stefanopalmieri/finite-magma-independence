@@ -380,6 +380,57 @@ interaction traces, oracle stream threaded like σ) is a possible
 future Lean rung, needed only for theorems about interactive
 equivalence, not for I/O to work.
 
+### Error payloads (design note, 2026-08-15)
+
+**Problem**: the machine's six error transitions (element applied to
+non-element; cell/loc applied; deref/set-ref! of non-location; car/cdr
+of non-cell) all cut to the *accept* absorber via one `err(k)` funnel
+(`kamea-machine/src/lib.rs`). Fail-open for the untrusted-eval niche,
+zero payload (`(car 'tt)` prints `tt`), and uncatchable — no surface
+program can tell error-`tt` from answer-`tt`. Unbound names are
+already fail-closed at compile time; the env/store getD defaults are
+unreachable for surface programs — the gap is exactly these six arms.
+
+**Decision**: errors join the request/resume protocol under one
+namespace — *an error is a request whose default driver policy is
+report/deny instead of perform/resume*. No new atoms, no new core
+forms at any stratum; err-tag is a cell convention, so the size
+escalation criterion (§9.2) is not triggered. Three strata, cheapest
+first:
+
+1. **Host trace + strict mode** (Rust only, zero certification cost):
+   widen the funnel to `err(kind, culprit, k)` and collect an error
+   log (kind, culprit, step index) beside the store in the driver
+   loop. Value and store unchanged — difftest and every theorem
+   untouched. Buys real REPL diagnostics and a **strict mode** flag:
+   nonempty log ⇒ report reject regardless of the in-band value. This
+   mechanizes the layered-deny fix *completely* — the host sees every
+   error transition, so nothing slips through (surface wrappers
+   can't promise that).
+2. **Surface condition system** (prelude + expander): a `*handler*`
+   store cell holding a continuation; toplevel wrapper installs the
+   root continuation as root handler; `(raise kind culprit)` captures
+   its own resume continuation via callcc and throws
+   `(cons err-tag (cons (cons kind (cons culprit resume)) …))` to the
+   current handler — unhandled errors surface as the program's result
+   cell, and handlers can *restart* by invoking the carried
+   continuation. `(with-handler h body)` = save/set/restore on the
+   cell. `pair?` is core, so car/cdr get checked expansions that raise
+   before the machine default fires. Payload = ordinary data: kind
+   numerals with prelude names (`err:car`, …), culprit raw. Forgery is
+   a non-issue: building an error cell *is* raising. Honest boundary:
+   apply/deref/set-ref! misuse has no surface predicate
+   (`procedure?`/`location?` don't exist) — stratum 1 covers those.
+   Expected bonus, same caveat as stratum 3 above: raises tunnel
+   through the META tower via absorbed callcc (verify with a test).
+3. **Certified error requests** (optional Lean rung): the six
+   transitions terminate with the error cell itself instead of
+   `ret (elem 0) k` — errors become observable terminal requests
+   with the restart continuation in the payload. Touches every
+   error-case theorem, the difftest, and META's error paths in
+   adequacy; needed only for theorems *about* error behavior, not for
+   errors to work. Same certification boundary as I/O.
+
 ## 11. File pointers
 
 - `scripts/psi_lambda_mu_n9.py`, `psi_lambda_mu_n9_v2.py`, `n9_church_2a.py`,
