@@ -1353,9 +1353,22 @@ no-internal-dispatch (dispatch is machine work; adopted when a probe
 showed the tie-break was silently deciding it), and the lexicographic
 tie-break itself --- though the tie-break is retired in
 Section~\ref{sec:canonicity}: canonicity is a theorem, and lex-min
-survives only as a naming of the isomorphism class. The residue of
-arbitrariness is finite, named, and public; everything that shrank is
-now labeled theorem rather than choice. (Axiom footprint: unlike the \texttt{decide}-checked
+survives only as a naming of the isomorphism class. An ablation sweep
+prices each chosen law with committed asserts
+(\texttt{scripts/ablate\_ledger.py}): quote-commutation is
+\emph{implied} by the remaining laws at every probed margin, and
+faithfulness by the involution; the involution and
+action-distinctness are real constraints ($264$ and $216$ models
+against $168$) that the tie-break never feels; quote involution,
+never a law, holds in $144$ of the $168$ models, pricing the
+order-minimum convention at $24$; and exactly two chosen laws are
+load-bearing for the artifact --- judge-closure (the free judge's
+recognizer row) and one shift-injectivity law (drop both injectivity
+sources and the lexicographic minimum degenerates the hygiene
+operator to a constant-per-block map). The residue of arbitrariness
+is finite, named, and public --- and it has compressed to two laws
+and a naming; everything that shrank is now labeled theorem rather
+than choice. (Axiom footprint: unlike the \texttt{decide}-checked
 finite witnesses, Theorems~\ref{thm:frame-forced}--\ref{thm:orbit} go
 through Mathlib's finiteness machinery and so additionally depend on
 \texttt{Classical.choice} and \texttt{Quot.sound}.)

@@ -137,7 +137,29 @@ pinning (168 models either way). In the **intrinsic** presentation
 axiom A4, one of exactly three irreducible recognition axioms, each
 precisely the six free bits of one classifier row — dropping any one
 opens a 2⁶ moduli space (`scripts/canonicality/probe_a4.py`). Needed
-intrinsically, derived under closure: two presentations, one law. By the same ablation, **judge-closure
+intrinsically, derived under closure: two presentations, one law.
+
+**The ledger, fully priced (2026-08-15, `scripts/ablate_ledger.py`)**:
+every chosen law now carries a committed drop-assert.
+Quote-commutation — "the definition of hygienic" — is **implied** by
+the remaining laws at every margin probed (adopted / involution-free /
+pre-¬W: 168 / 264 / 228 models, all unchanged by the drop); it has
+selective content only when faithfulness and involution are both
+absent. Faithfulness is subsumed by the involution (an involution is
+a bijection). The involution (264 models) and action-distinctness
+(216) are real constraints the tie-break never feels — but drop
+**both** injectivity sources and the lex-min degenerates row 4 to
+`[0,0,5,5,5,2,2,2]`: the hygiene operator collapses to a
+constant-per-block map. Quote involution, never a law, holds in
+144/168 models — the order-minimum convention prices at 24.
+**The compressed ledger**: with the frame derived (`StackAForced`),
+the eval side free (`EvalSideFree`), ICP a consequence of
+judge-closure, and ¬W inert, the artifact's chosen-and-load-bearing
+residue is exactly **two laws** — judge-closure (buys row 7, the
+`shift?` recognizer) and one shift-injectivity law (buys row 4, the
+hygiene operator) — plus naming conventions, with the representative
+itself characterized by self-location (`CoreCanonical.lean`) rather
+than by lex-min. By the same ablation, **judge-closure
 is the load-bearing law for row 7**: dropping it moves the lex-min
 (shift? loses its recognizer content), so the "emergent" recognizer is
 emergent from lex-min *within* the closure law, not from the laws

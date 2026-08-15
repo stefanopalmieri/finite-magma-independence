@@ -741,13 +741,22 @@ exactly the six free bits of one classifier row
 (\textsf{probe\_a4.py}). And the metacircular evaluator's base case
 is \emph{accounted}: it consumes the retraction, the introspection,
 and the composition law --- one instruction each, nothing else of
-the table (\textsf{KernelConsumption.lean}). What survives as
+the table (\textsf{KernelConsumption.lean}). A fourth addition prices
+everything that remained (\textsf{ablate\_ledger.py}, committed
+asserts): commuting-with-quote is enforced by the other laws ---
+dropping it changes nothing, at any probed margin --- faithfulness
+follows from the involution, the involution and distinctness are
+real constraints the tie-break never feels, and exactly two chosen
+laws are load-bearing for the table: judge-closure (the free judge's
+recognizer row) and one injectivity law for shift (drop both
+injectivity sources and the minimum degenerates the hygiene operator
+to a constant-per-block map). What survives as
 genuine choice: that hygiene means commuting with quote (a
-definition), that dispatch is machine work (the
+definition --- and, by the ablation record, one the other laws
+already enforce), that dispatch is machine work (the
 no-internal-dispatch law, adopted when a probe showed the tie-break
-was silently deciding it), closure for judges outside the orbit
-(priced: dropping it costs the free judge its recognizer row),
-shift's distinctness, the order tie-break, and the labels. The
+was silently deciding it), closure for judges outside the orbit,
+one injectivity law for shift, the order tie-break, and the labels. The
 choices of world, of size, of the eval side, of reversibility, of
 the order's parity, and of the representative itself were choices
 only until they were derived.

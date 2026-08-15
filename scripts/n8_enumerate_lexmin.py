@@ -68,7 +68,8 @@ RAW_A8 = [
 
 
 def law_set(eval_comm=True, no_dispatch=True, icp_pin=True, icp_eq=True,
-            closure=True):
+            closure=True, quote_comm=True, shift_inv=True,
+            shift_distinct=True, faithful=True):
     T = [[z3.Int(f"t{i}_{j}") for j in range(n)] for i in range(n)]
     S = z3.Solver()
     for i in range(n):
@@ -121,26 +122,30 @@ def law_set(eval_comm=True, no_dispatch=True, icp_pin=True, icp_eq=True,
     for a, b in itertools.combinations(range(n), 2):
         S.add(z3.Or([T[a][x] != T[b][x] for x in range(n)]))
     # faithful shift: gamma = 4 injective on the core
-    for x, y in itertools.combinations(core, 2):
-        S.add(T[4][x] != T[4][y])
+    if faithful:
+        for x, y in itertools.combinations(core, 2):
+            S.add(T[4][x] != T[4][y])
     # hygiene: shift commutes with quote (and, if eval_comm, with eval —
     # Magma/EvalSideFree.lean proves the eval half REDUNDANT given the
     # mutual retraction; the run below verifies that empirically)
     for x in core:
         for v in core:
             for w in core:
-                S.add(z3.Implies(z3.And(T[2][x] == v, T[4][x] == w),
-                                 T[4][v] == T[2][w]))
+                if quote_comm:
+                    S.add(z3.Implies(z3.And(T[2][x] == v, T[4][x] == w),
+                                     T[4][v] == T[2][w]))
                 if eval_comm:
                     S.add(z3.Implies(z3.And(T[3][x] == v, T[4][x] == w),
                                      T[4][v] == T[3][w]))
     # hygiene: shift is an involution on the core
-    for x in core:
-        for v in core:
-            S.add(z3.Implies(T[4][x] == v, T[4][v] == x))
+    if shift_inv:
+        for x in core:
+            for v in core:
+                S.add(z3.Implies(T[4][x] == v, T[4][v] == x))
     # shift acts differently from quote and from eval
-    S.add(z3.Or([T[4][x] != T[2][x] for x in core]))
-    S.add(z3.Or([T[4][x] != T[3][x] for x in core]))
+    if shift_distinct:
+        S.add(z3.Or([T[4][x] != T[2][x] for x in core]))
+        S.add(z3.Or([T[4][x] != T[3][x] for x in core]))
     # judge-closure: for every judge t, t . quote is a named judge
     if closure:
         for t in Cblk:
