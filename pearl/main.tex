@@ -7,11 +7,15 @@
 %% Code excerpts are lightly transliterated for typesetting
 %% (rho -> env, sigma -> sto); the mechanized sources are canonical.
 
-%% For a double-blind submission: add the `anonymous' class option
-%% (which suppresses the author block), and replace the two artifact
-%% URLs in the bibliography with anonymized mirrors --- the GitHub
-%% usernames identify the author. As distributed, this draft is
-%% de-anonymized and self-consistent about it.
+%% For a double-blind submission (ICFP 2027 target): two switches.
+%%   1. Add the `anonymous' class option to \documentclass (suppresses
+%%      the author block).
+%%   2. Flip \anonfalse to \anontrue below (switches the three
+%%      self-referencing bibliography entries to anonymized mirrors ---
+%%      the GitHub usernames identify the author; create the mirrors at
+%%      anonymous.4open.science and fill in the TODO URLs first).
+%% As distributed, this draft is de-anonymized and self-consistent
+%% about it.
 \documentclass[acmsmall,screen,review]{acmart}
 
 \usepackage{listings}
@@ -26,6 +30,11 @@
 
 \citestyle{acmauthoryear}
 \setcopyright{none}
+
+% Double-anonymous toggle (see the header comment): \anontrue switches
+% the self-referencing bibliography entries to anonymized mirrors.
+\newif\ifanon
+\anonfalse
 
 \begin{document}
 
@@ -199,11 +208,12 @@ demands --- is core-isomorphic to this one
 (\textsf{core\_canonical}), and the table has no symmetries at all
 (\textsf{autA8\_trivial}). What lex-min once chose, self-reference
 now characterizes; the convention survives only as a labeling. The
-companion repository holds that derivation together with the theory
-it sits in --- an independence result for the three reflective
-capabilities and a family of impossibility theorems
-\cite{artifact-lean}. Here we need three of those impossibility
-results, stated informally:
+companion paper~\cite{companion-paper} develops that derivation
+together with the theory it sits in --- an independence result for
+the three reflective capabilities, the canonicity theorem, and a
+family of impossibility theorems; the Lean
+development~\cite{artifact-lean} certifies both papers' claims. Here
+we need three of those impossibility results, stated informally:
 
 \begin{description}
 \item[The completeness wall.] In \emph{every} applicative structure
@@ -962,15 +972,43 @@ Rowan Davies and Frank Pfenning.
 \newblock A modal analysis of staged computation.
 \newblock \emph{Journal of the ACM} 48(3), 2001.
 
-\bibitem[Palmieri(2026a)]{artifact-lean}
+\ifanon
+\bibitem[Anonymous(2026a)]{companion-paper}
+Anonymous author(s).
+\newblock Splitting, dichotomy, and composition in finite extensional
+  magmas: independence, canonicity, and the kernel of metacircular
+  evaluation.
+\newblock Companion paper, under submission; anonymized preprint
+  bundled with the artifact mirror.
+
+\bibitem[Anonymous(2026b)]{artifact-lean}
+Anonymous author(s).
+\newblock finite-magma-independence: Lean formalization.
+\newblock \url{https://anonymous.4open.science/r/TODO-lean}.
+
+\bibitem[Anonymous(2026c)]{artifact-rust}
+Anonymous author(s).
+\newblock kamea-machine: the certified core's Rust host.
+\newblock \url{https://anonymous.4open.science/r/TODO-rust}.
+\else
+\bibitem[Palmieri(2026a)]{companion-paper}
+Stefano Palmieri.
+\newblock Splitting, dichotomy, and composition in finite extensional
+  magmas: independence, canonicity, and the kernel of metacircular
+  evaluation.
+\newblock Companion paper, in preparation for submission to
+  \emph{Logical Methods in Computer Science}.
+
+\bibitem[Palmieri(2026b)]{artifact-lean}
 Stefano Palmieri.
 \newblock finite-magma-independence: Lean formalization.
 \newblock \url{https://github.com/stefanopalmieri/finite-magma-independence}.
 
-\bibitem[Palmieri(2026b)]{artifact-rust}
+\bibitem[Palmieri(2026c)]{artifact-rust}
 Stefano Palmieri.
 \newblock kamea-machine: the certified core's Rust host.
 \newblock \url{https://github.com/stefanopalmieri/kamea-machine}.
+\fi
 
 \end{thebibliography}
 

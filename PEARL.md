@@ -25,6 +25,32 @@ a footnote at the machine's first mention. Title is now "WispyScheme:
 Metacircularity as a Theorem". Remaining: one polish pass, venue
 formatting (currently `acmsmall,review`).
 
+**Venues decided (2026-08-14, two-paper plan)**:
+- **Pearl → ICFP 2027, Functional Pearl track** (PACMPL). CFP not
+  yet out; deadline expected late Feb / early Mar 2027 (ICFP 2026
+  runs Aug 24–29, 2026, Indianapolis). Double-anonymous: the draft
+  now carries an `\ifanon` toggle — flip `\anontrue` + add the
+  `anonymous` class option; before submission create anonymized
+  mirrors (anonymous.4open.science) for both repos and fill the two
+  TODO URLs in the bibliography. Fallback on rejection: JFP
+  Functional Pearl (rolling, no anonymization, jfp.cls at
+  submission).
+- **Main paper (the prequel) → LMCS** (rolling, open access, no page
+  limit). Reorged metacircularity-first 2026-08-14: program-first
+  abstract/intro, "This paper and its sequel" contract, new
+  §canonicity (census funnel, self-location, core_canonical, Aut=1,
+  A4 pricing, consumption theorem), ledger updated (¬W, lex-min →
+  labeling), subtitle now "Independence, Canonicity, and the Kernel
+  of Metacircular Evaluation". Mechanical TODO at submission time:
+  convert acmart → lmcs.cls (single column, cc-by), move
+  \thanks-material appropriately.
+- **Sequencing**: post both to arXiv when PDFs are rebuilt (no TeX
+  on this machine); the pearl cites the prequel as
+  \cite{companion-paper} (third person under anonymity), the prequel
+  cites the pearl as \cite{companion-pearl}.
+- Scheme Workshop 2027 (talk, non-archival) optional for community
+  feedback before the ICFP deadline.
+
 Original proposal below, kept for the planning record. Companion
 docs: `MACHINE.md` (architecture, why each rung exists), `CLONES.md`
 (the algebra-side calling card — different audience, do not merge
