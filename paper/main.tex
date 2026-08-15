@@ -1465,7 +1465,14 @@ $t = \kappa$ forces the complement row) and \emph{postulated} in the
 intrinsic axiomatization, where it is one of exactly three
 irreducible recognition axioms, on the same footing as
 ``$\ulcorner s \urcorner$ recognizes the operators.'' Two
-presentations, one law.
+presentations, one law. (Axiom footprint: the census theorems of
+Theorem~\ref{thm:census-canonicity} are discharged by
+\texttt{native\_decide} and so additionally trust Lean's compiled
+evaluator --- a strictly larger base than the kernel-only
+\texttt{decide} used for the finite witnesses elsewhere;
+Theorem~\ref{thm:core-canonical} is a structural hand proof with
+sharpness by \texttt{decide}, and the pricing runs are Z3 scripts
+with committed asserts.)
 
 \paragraph{The consumption theorem.} The capability reading of S, D,
 and C is grounded downstream, in the sequel's certified metacircular
@@ -1566,7 +1573,7 @@ Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorb
 \begin{enumerate}
   \item \emph{Cross-formalism universality}: Does the three-capability separation appear in the $\lambda$-calculus, typed settings, or infinite algebras? The no-associativity obstruction (Theorem~\ref{thm:no-assoc}) constrains the target setting.
   \item \emph{Categorical characterization of C}: The ICP is the weakest non-degenerate factorization property of the left-regular representation (weakening either pairwise-distinctness or non-triviality makes it vacuous) --- and in the models where its witnesses have been classified, every witness is a code-recognition law: one sort classifier factoring through the complementary classifier along a block-swapping operator (\texttt{kernel6\_icp\_witnesses}, \texttt{artifactA8\_icp\_witnesses}, \texttt{KernelConsumption.lean}). Is ICP equivalent to a standard universal property? The factorization phrasing suggests a partial internal hom; the witness classification suggests the better-posed question may be the universal property of \emph{code recognition} --- the internal recognizer of the image of an internal quotation. Consistent with this reading, in the intrinsic axiomatization of the canonical model's core (\texttt{CoreCanonical.lean}) the ICP appears as one of exactly three irreducible recognition axioms, each precisely the six free bits of one classifier row (\texttt{scripts/canonicality/probe\_a4.py}), while in the closure-based law set it is derived (judge-closure forces the complement row).
-  \item \emph{Categorical characterization of D}: D is the unique coarsest non-trivial isomorphism-invariant partition of core (Corollary~\ref{cor:canonicity}), isolating the two-valued aspect of a subobject classifier without the universality aspect. The left-multiplication maps lack composition closure, precluding standard categorical formulations. Does D correspond to a known concept in non-associative categorical algebra, or does it constitute a new structural property?
+  \item \emph{Categorical characterization of D}: D is the unique coarsest non-trivial isomorphism-invariant partition of core (Corollary~\ref{cor:canonicity}), isolating the two-valued aspect of a subobject classifier~\cite{johnstone02} without the universality aspect. The left-multiplication maps lack composition closure, precluding standard categorical formulations. Does D correspond to a known concept in non-associative categorical algebra, or does it constitute a new structural property?
   \item \emph{Rigidity propagation beyond $N\!=\!5$}: Theorem~\ref{thm:N5-structure} establishes a rigid role assignment at $N\!=\!5$ (and in particular rules out strong S), but rigidity fails at $N\!=\!6, 7, 8$ under strong S (Proposition~\ref{prop:N6-nonrigid}). Several natural single-axiom strengthenings (classifier-nontriviality on core, asymmetric anchoring of the section, anchor monotonicity, strict anchor asymmetry) were each tested and each Z3-satisfiable alongside a non-trivial automorphism at some $N \in \{6, 7, 8\}$ (scripts and witness JSONs under \texttt{scripts/}). Characterizing the minimum axiom system that uniformly forces role-rigidity at $N \geq 5$ --- and whether it admits a bounded finite specification --- is open.
   \item \emph{Universal property of the canonical model}: the canonicity theorem (Section~\ref{sec:canonicity}) characterizes the eight-element model up to relabeling within its own frame family. Is it initial, terminal, or otherwise universal among reflective extensional worlds in a category-theoretic sense --- and does self-location have a diagram-level formulation? A positive answer would subsume the intrinsic axiomatization; the census's placement-pattern invariant suggests where to look.
 \end{enumerate}

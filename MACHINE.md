@@ -92,8 +92,15 @@ showed lex-min was silently deciding it; the artifact is unchanged),
 and the lex-min tie-break.
 
 Also certified: no element of any swap-world magma realizes quote²
-(block-preserving, hence expressible by no row) **[sat]** — derived actions
-necessarily live driver-side. **Correction (2026-08-01, W-probe)**: internal
+(block-preserving, hence expressible by no row) **[sat]**; at N=8 this
+is now a kernel theorem with a group-theoretic sharpening
+(`Magma/ParityN8.lean` **[thm]**, 2026-08-15): the core actions of the
+operator rows close into a Klein four-group graded by block parity —
+instructions are exactly the odd (level-crossing) elements, neither
+even element (the identity, the cycle-swap) is any row (**no internal
+no-op**), and every even element costs exactly two lookups
+(`eval ∘ quote = id` is the tariff's rung-0 receipt). Derived actions
+necessarily live driver-side. Diagram: `docs/parity-grading.png`. **Correction (2026-08-01, W-probe)**: internal
 dispatch (W — a generic row glued from two handler rows along a core test;
 `scripts/canonicality/probe_dispatch.py`) is *not* excluded by the law set:
 60 of the 228 models satisfy it (`w_over_228.py`); the canonical artifact is

@@ -313,6 +313,21 @@ empty. The claim is not that the proof is clever; it is that its
 base case is imported rather than written --- and \S\ref{sec:honest}
 prices exactly what the import cost.
 
+There is also a grading that says what \emph{kind} of fact the base
+case is. The sorting law makes every instruction cross the
+use/mention boundary: the operator rows' core actions all exchange
+the program block with the code block, and the level-preserving maps
+--- the identity included --- are realized by no row
+(\textsf{ParityN8.lean}: \emph{there is no internal no-op}). The
+closure of what the instructions do is a Klein four-group graded by
+crossing-or-staying, instructions in the odd half, and the even half
+priced at exactly two lookups --- quote twice is the identity,
+quote-after-shift is the cycle-swap. Read against that tariff, this
+section's law is a receipt: $\mathsf{eval} \circ \mathsf{quote} =
+\mathrm{id}$ is the algebra buying back its own forbidden no-op at
+the minimum price the walls allow. Metacircularity begins at cost
+two because cost one is provably not for sale.
+
 Rung 0 is, of course, a toy. The pearl's claim is that it is a toy
 with the right skeleton: \emph{adequacy at the leaves via a certified
 table law, congruence everywhere else}. Each of the next five rungs

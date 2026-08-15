@@ -141,6 +141,9 @@ import Magma.AdequacyTop
 -- The consumption lemmas: META's atom case spends S, D, C — one law each
 import Magma.KernelConsumption
 
+-- The parity grading: instructions are odd (level-crossing); no internal no-op
+import Magma.ParityN8
+
 -- The canonicity census, certified: full rigidity + self-location uniqueness
 import Magma.CanonicityCensus
 
