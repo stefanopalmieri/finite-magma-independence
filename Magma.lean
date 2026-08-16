@@ -90,6 +90,9 @@ import Magma.FactorizationEqv
 -- Errors as requests: the certified error-payload rung (stratum 3 of MACHINE.md §10)
 import Magma.ErrorRequests
 
+-- Strict eval meets adequacy: the verdict at the decode boundary transfers to META
+import Magma.StrictEval
+
 -- Supplementary: reference runner for differential testing against the Rust host
 import Magma.KameaRef
 

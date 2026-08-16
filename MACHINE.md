@@ -478,6 +478,46 @@ first:
    site). Needed only for theorems *about* error behavior — and now
    they exist.
 
+**The boundary architecture (2026-08-16) — the closing move.** A REPL
+probe settled it: `(car tt)` run directly is observed and denied;
+`(minterp '(car tt))` returns `tt` silently *and strict mode accepts
+it* — META implements the fail-open defaults in-band (its dispatch is
+total; no machine error transition ever fires during interpretation),
+so no observation mechanism can see through interpretation, even in
+principle. That blindness is not a gap: it is adequacy being right.
+The coherent consequence, now implemented on both sides: **the
+verdict is semantics, delivered at the decode boundary; observation
+is diagnostics.**
+
+- *Host*: `step_e`/`loop_run_e`/`run_e` mirror `stepE`/`loopE` —
+  and `step_traced` is now **defined through** `step_e` plus the
+  resume-with-accept policy, so the Rust host is `step_factorizes` as
+  code. Strict mode runs the strict machine instead of inspecting a
+  log (same verdict by `strict_iff`; stops at the first error instead
+  of running past it — `(cons (car 'tt) Ω)` is denied where the
+  fail-open run exhausts its fuel). The log survives as what it is:
+  diagnostics for the non-strict path. `resume(w, r)` exposes the
+  restart.
+- *Boundary*: strict eval = decode + the strict machine
+  (`kamea-driver::eval_strict`; Lean `evalE`). Non-code is denied as
+  an `evalNonCode` request at the halt continuation, and resuming it
+  with the accept absorber recovers `eval`'s in-band default — the
+  seventh site factorizes too (`evalE_non_code_factorizes`).
+  `strict_evalD`: what strict eval accepts, certified `evalD`
+  computes, same value.
+- *Tower*: `Magma/StrictEval.lean`, **`strict_eval_meta`** — strict
+  acceptance of `⌜p⌝` transfers through `interpreter_adequacy` to
+  META: the interpretation converges to a `RepVc`-representative of
+  the accepted value. Judge the direct run at the boundary; the tower
+  inherits the verdict. Nothing needed to probe through META, and now
+  that is a theorem, not a policy footnote.
+- *Unification*: the host driver loop now has the request/resume
+  shape for errors — run; outcome ∈ {value, request(kind, culprit,
+  k)}; policy decides; resuming is continuing k. The §10 I/O strata
+  ride the same loop shape with perform/resume policy: "an error is a
+  request whose default policy is report/deny" is no longer an
+  analogy but the literal control flow the ESP32 path needs.
+
 ## 11. File pointers
 
 - `scripts/psi_lambda_mu_n9.py`, `psi_lambda_mu_n9_v2.py`, `n9_church_2a.py`,

@@ -9,7 +9,7 @@ Three algebraic properties of finite extensional 2-pointed magmas — internal s
 ## Building
 
 ```bash
-lake build          # builds all 60 files, verifies ~790 theorems, zero sorry
+lake build          # builds all 61 files, verifies ~793 theorems, zero sorry
 ```
 
 Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefile.lean`).
@@ -50,7 +50,8 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **FactorizationStore** | 19 | Alg.+decide | **CESK completed: store threaded vs env captured, mutation-through-β, lockstep bisimulation conservativity** |
 | **FactorizationData** | 27 | Alg.+decide | **Pairs on the tape, dispatch, certified homoiconicity: programs build their own quotations** |
 | **FactorizationEqv** | 26 | Alg.+decide | **The eqv? core form: atomic identity — element identity = observational equality (table extensionality), location identity = R7RS "same location"; null? definable; conservative again** |
-| **ErrorRequests** | 17 | Algebraic | **Errors as requests: the certified machine = request semantics + resume-with-accept policy (step_factorizes); traced loop erases to the certified loop; strict deny-on-any-error sound and complete (strict_iff)** |
+| **ErrorRequests** | 19 | Algebraic | **Errors as requests: the certified machine = request semantics + resume-with-accept policy (step_factorizes); traced loop erases to the certified loop; strict deny-on-any-error sound and complete (strict_iff); strict eval at the decode boundary (evalE, strict_evalD)** |
+| **StrictEval** | 1 | Algebraic | **Strict acceptance transfers to META (strict_eval_meta): judge the direct run at the decode boundary — adequacy carries the verdict to every interpretation** |
 | BooleanCube | 25 | decide+native | Joint irredundance: all 8 cells of (S,D,C) |
 | Rigidity | 6 | decide+native | Role rigidity of principal witnesses |
 | RigidityPartial | 1 | Algebraic | Partial rigidity maps |
@@ -78,7 +79,7 @@ Requires Lean 4.28.0 and Mathlib v4.28.0 (pinned in `lean-toolchain` and `lakefi
 | **ParityN8** | 7 | decide | **The parity grading of the core actions: quote/eval share one action, the closure of the realized actions is Klein-four, and neither even element is a row — no internal no-op (the quote²-exclusion as a kernel theorem at N=8), the cycle-swap driver-side at cost exactly two; shift = quote twisted by the cycle-swap. Diagram: docs/parity-grading.png** |
 | **CanonicityCensus** | 3 | native | **The canonicity census, certified: Aut(A8) = 1 (full rigidity — MirrorRow's ≤ 2 sharpened, all 40,320 permutations decided), and the canonicity theorem at the core block: every self-locating member of the hygienic judge-closed frame family (648 configurations) is conjugate to the artifact — self-location (the judge row on the cycle it judges, γ in its own target, the introspector on the untouched cycle) is the exact separator the census discovered among the 18 orbits** |
 | **CoreCanonical** | 2 | Algebraic+decide | **The bridge, formalized — the direct canonicity theorem with no enumeration: ANY magma carrying a hygienic self-locating reflective kernel (retraction, quote involution and core-valuedness, and the intrinsic self-location axioms — the three classifiers are the quotations of the three operators: ⌜quote⌝ recognizes exactly the operators, ⌜shift⌝ recognizes exactly shift and itself, ⌜eval⌝ complements ⌜quote⌝, shift exchanges eval's cycle with its own and fixes quote's) is core-isomorphic to the artifact. All 36 core cells derived structurally; the eight elements proven pairwise distinct; sharpness by decide. The lex-min tie-break is retired: the canonical table is a theorem, not a convention** |
-| **Total** | **790** | | |
+| **Total** | **793** | | |
 
 Proof styles: *Algebraic* = pure equational reasoning, no `decide` (universally quantified results hold for all N). *decide* = kernel computation (N ≤ 8). *native_decide* = compiled native code (N = 10).
 

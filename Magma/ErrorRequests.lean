@@ -47,9 +47,10 @@ namespace ErrorRequests
 
 open FactorizationEqv
 
-/-- One kind per error arm of `step` — the mirror of the host's
-    `ErrKind` (whose seventh, driver-level variant `EvalNonCode` is
-    covered here by `evalD_non_code`, not by a `stepE` arm). -/
+/-- One kind per error arm of `step`, plus the driver-level seventh —
+    the exact mirror of the host's `ErrKind`. `evalNonCode` is never
+    emitted by `stepE`; it is the decode-boundary denial of `evalE`
+    (its in-band default is `evalD_non_code`). -/
 inductive ErrKind where
   | applyElemNonElem
   | applyNonApplicable
@@ -57,6 +58,7 @@ inductive ErrKind where
   | setNonLoc
   | carNonPair
   | cdrNonPair
+  | evalNonCode
 deriving DecidableEq, Repr
 
 /-- A terminal error request: which arm fired, on what value, with
@@ -384,6 +386,48 @@ theorem stepE_cdr (v : Val) (σ : Store) (k : Kont)
 theorem evalD_non_code (fuel : Nat) (ρ : Env) (σ : Store) (v : Val)
     (h : decodeD v = none) : evalD fuel ρ σ v = some (.elem 0) := by
   unfold evalD; rw [h]
+
+/-! ## Strict eval: the verdict at the decode boundary
+
+Untrusted code enters the system as a quotation handed to `eval`.
+That boundary — not a probe through the interpreter, which adequacy
+makes provably blind — is where the strict verdict belongs. -/
+
+/-- Strict user-level eval: decode + the strict machine. A non-code
+    value is denied as an `evalNonCode` request at the halt
+    continuation. Host mirror: `kamea-driver::eval_strict`. -/
+def evalE (fuel : Nat) (ρ : Env) (σ : Store) (v : Val) :
+    Option (Val ⊕ Request) :=
+  match decodeD v with
+  | some p => loopE fuel (.eval p ρ σ .halt)
+  | none => some (.inr ⟨.evalNonCode, v, σ, .halt⟩)
+
+/-- **Strict eval is conservative**: what it accepts, the certified
+    user-level eval computes — with the same value. -/
+theorem strict_evalD (fuel : Nat) (ρ : Env) (σ : Store) (v w : Val)
+    (h : evalE fuel ρ σ v = some (.inl w)) : evalD fuel ρ σ v = some w := by
+  unfold evalE at h
+  unfold evalD
+  cases hd : decodeD v with
+  | none => rw [hd] at h; simp at h
+  | some p =>
+    rw [hd] at h
+    have hT := (strict_iff fuel (.eval p ρ σ .halt) w).mp h
+    have hrun := loopT_fst fuel (.eval p ρ σ .halt) []
+    rw [hT] at hrun
+    exact hrun.symm
+
+/-- The seventh site factorizes too: denying eval-of-non-code and
+    resuming with the accept absorber is exactly `evalD`'s in-band
+    default. -/
+theorem evalE_non_code_factorizes (fuel : Nat) (ρ : Env) (σ : Store)
+    (v : Val) (h : decodeD v = none) :
+    evalE fuel ρ σ v = some (.inr ⟨.evalNonCode, v, σ, .halt⟩) ∧
+    ∀ f, loop (f + 1) (resume0 ⟨.evalNonCode, v, σ, .halt⟩) =
+      evalD fuel ρ σ v := by
+  refine ⟨by unfold evalE; rw [h], fun f => ?_⟩
+  rw [evalD_non_code fuel ρ σ v h]
+  rfl
 
 end ErrorRequests
 end Dichotomic
