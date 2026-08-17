@@ -174,6 +174,35 @@ witness classifications showing every ICP realization in the kernel
 *is* the homoiconicity law); ablations committed in
 `n8_enumerate_lexmin.py`.
 
+**Closure retired (2026-08-17, `scripts/selfloc_closure.py`)**: the
+ICP move, one level up — and it lands, with both halves priced.
+Over the closure-free law set (1,860 models), self-location *content*
+alone (`CoreCanonical`'s A1/A3/A4: the classifiers are the quotations
+of the operators, with their certified answer-sets) does **not**
+force judge-closure: 5 models remain, and the two counterexamples are
+exactly the two quote **6-cycles** — the operators self-locate
+correctly, but quotation that doesn't un-quote makes the recognizer's
+composite (`shift? ∘ quote`) a judgment no judge names. Add the
+package's *form* half — H2, quote involution — and closure is forced
+(**UNSAT**, 3 models remain, lex-min unchanged). Form alone doesn't
+do it either (1,116 involutive-quote models, closure open). So
+**judge-closure is a theorem of the self-location package, and both
+halves are necessary** — SAT certificates each way, UNSAT for the
+pair. Two consequences for the ledger: (1) the quote involution,
+priced by the ablation as 24 models of tie-break trivia, is in fact
+the *form half of self-description* — quotation that un-quotes is
+what lets the system's judgment of its own hygiene operator be one of
+its own judges; (2) the compressed residue re-compresses to **one
+definitional law** (a shift-injectivity source: hygiene means
+renaming) **plus one self-description principle** (self-location,
+involution included) plus naming — judge-closure derived. Stated
+honestly: the swap is a re-axiomatization, not a conservative rewrite
+(SL holds in only 3/168 adopted models; neither law implies the
+other); its warrant is the certified canonicity theorem
+(`CoreCanonical.lean`) and the lex-min unchanged in every space
+probed. This is the universal-property conjecture (paper OP5) in
+executable form, answered for the closure axiom.
+
 ## 3. Why the sequent-machine family (System L / λ̄μμ̃)
 
 "CEK or Krivine?" is really "which polarity of Curien–Herbelin's λ̄μμ̃?":

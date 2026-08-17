@@ -1368,7 +1368,26 @@ sources and the lexicographic minimum degenerates the hygiene
 operator to a constant-per-block map). The residue of arbitrariness
 is finite, named, and public --- and it has compressed to two laws
 and a naming; everything that shrank is now labeled theorem rather
-than choice. (Axiom footprint: unlike the \texttt{decide}-checked
+than choice. A fifth probe closes the loop on the larger of the two
+(\texttt{scripts/selfloc\_closure.py}): judge-closure is itself a
+\emph{theorem} of the self-location package --- the classifiers are
+the quotations of the operators (content, the A-axioms of
+Section~\ref{sec:canonicity}) \emph{and} quote is an involution
+(form) --- with both halves necessary. Content alone admits exactly
+two counterexamples, the two quote six-cycles, in which the
+recognizer's composite with quote is a judgment no judge names; form
+alone leaves $1{,}116$ closure-free models; together they force
+closure (UNSAT) with the lexicographic minimum unchanged. The
+involution thereby changes status --- not $24$ models of tie-break
+but the form half of self-description: quotation that un-quotes is
+what lets the system's judgment of its own hygiene operator be one
+of its own judges. The residue re-compresses accordingly: one
+definitional law (shift-injectivity --- hygiene means renaming), one
+self-description principle (self-location, involution included), and
+the naming. Stated honestly, the swap is a re-axiomatization rather
+than a conservative rewrite (self-location holds in only $3$ of the
+$168$ models; neither law implies the other); its warrant is the
+canonicity theorem of Section~\ref{sec:canonicity}. (Axiom footprint: unlike the \texttt{decide}-checked
 finite witnesses, Theorems~\ref{thm:frame-forced}--\ref{thm:orbit} go
 through Mathlib's finiteness machinery and so additionally depend on
 \texttt{Classical.choice} and \texttt{Quot.sound}.)
@@ -1596,7 +1615,7 @@ Four obstructions --- K-infinity, no-associativity, asymmetry, and single-absorb
 \paragraph{Open problems.}
 \begin{enumerate}
   \item \emph{Cross-formalism universality}: Does the three-capability separation appear in the $\lambda$-calculus, typed settings, or infinite algebras? The no-associativity obstruction (Theorem~\ref{thm:no-assoc}) constrains the target setting.
-  \item \emph{Categorical characterization of C}: The ICP is the weakest non-degenerate factorization property of the left-regular representation (weakening either pairwise-distinctness or non-triviality makes it vacuous) --- and in the models where its witnesses have been classified, every witness is a code-recognition law: one sort classifier factoring through the complementary classifier along a block-swapping operator (\texttt{kernel6\_icp\_witnesses}, \texttt{artifactA8\_icp\_witnesses}, \texttt{KernelConsumption.lean}). Is ICP equivalent to a standard universal property? The factorization phrasing suggests a partial internal hom; the witness classification suggests the better-posed question may be the universal property of \emph{code recognition} --- the internal recognizer of the image of an internal quotation. Consistent with this reading, in the intrinsic axiomatization of the canonical model's core (\texttt{CoreCanonical.lean}) the ICP appears as one of exactly three irreducible recognition axioms, each precisely the six free bits of one classifier row (\texttt{scripts/canonicality/probe\_a4.py}), while in the closure-based law set it is derived (judge-closure forces the complement row).
+  \item \emph{Categorical characterization of C}: The ICP is the weakest non-degenerate factorization property of the left-regular representation (weakening either pairwise-distinctness or non-triviality makes it vacuous) --- and in the models where its witnesses have been classified, every witness is a code-recognition law: one sort classifier factoring through the complementary classifier along a block-swapping operator (\texttt{kernel6\_icp\_witnesses}, \texttt{artifactA8\_icp\_witnesses}, \texttt{KernelConsumption.lean}). Is ICP equivalent to a standard universal property? The factorization phrasing suggests a partial internal hom; the witness classification suggests the better-posed question may be the universal property of \emph{code recognition} --- the internal recognizer of the image of an internal quotation. Consistent with this reading, in the intrinsic axiomatization of the canonical model's core (\texttt{CoreCanonical.lean}) the ICP appears as one of exactly three irreducible recognition axioms, each precisely the six free bits of one classifier row (\texttt{scripts/canonicality/probe\_a4.py}), while in the closure-based law set it is derived (judge-closure forces the complement row). The closure half of the question now has an executable answer (\texttt{scripts/selfloc\_closure.py}): over the closure-free law set, judge-closure is a theorem of self-location together with the quote involution, and both halves are necessary --- so the categorical question sharpens to naming \emph{that} package: an involutive internal quotation whose classifier side is its own image.
   \item \emph{Categorical characterization of D}: D is the unique coarsest non-trivial isomorphism-invariant partition of core (Corollary~\ref{cor:canonicity}), isolating the two-valued aspect of a subobject classifier~\cite{johnstone02} without the universality aspect. The left-multiplication maps lack composition closure, precluding standard categorical formulations. Does D correspond to a known concept in non-associative categorical algebra, or does it constitute a new structural property?
   \item \emph{Rigidity propagation beyond $N\!=\!5$}: Theorem~\ref{thm:N5-structure} establishes a rigid role assignment at $N\!=\!5$ (and in particular rules out strong S), but rigidity fails at $N\!=\!6, 7, 8$ under strong S (Proposition~\ref{prop:N6-nonrigid}). Several natural single-axiom strengthenings (classifier-nontriviality on core, asymmetric anchoring of the section, anchor monotonicity, strict anchor asymmetry) were each tested and each Z3-satisfiable alongside a non-trivial automorphism at some $N \in \{6, 7, 8\}$ (scripts and witness JSONs under \texttt{scripts/}). Characterizing the minimum axiom system that uniformly forces role-rigidity at $N \geq 5$ --- and whether it admits a bounded finite specification --- is open.
   \item \emph{Universal property of the canonical model}: the canonicity theorem (Section~\ref{sec:canonicity}) characterizes the eight-element model up to relabeling within its own frame family. Is it initial, terminal, or otherwise universal among reflective extensional worlds in a category-theoretic sense --- and does self-location have a diagram-level formulation? A positive answer would subsume the intrinsic axiomatization; the census's placement-pattern invariant suggests where to look.
